@@ -11,9 +11,11 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
     
+    const { password, ...userData } = createUserDto;
+    
     const user = await this.database.user.create({
       data: {
-        ...createUserDto,
+        ...userData,
         passwordHash: hashedPassword,
         dateOfBirth: createUserDto.dateOfBirth ? new Date(createUserDto.dateOfBirth) : null,
       },
@@ -38,6 +40,20 @@ export class UsersService {
   async findByEmail(email: string) {
     return this.database.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        height: true,
+        weight: true,
+        dateOfBirth: true,
+        activityLevel: true,
+        goals: true,
+        role: true,
+        passwordHash: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   }
 

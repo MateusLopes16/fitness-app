@@ -18,33 +18,6 @@ services:
     networks:
       - fitness_network
 
-  # Redis for Caching (Optional)
-  redis:
-    image: redis:7-alpine
-    container_name: fitness_app_redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - fitness_network
-
-  # pgAdmin for Database Management (Optional)
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: fitness_app_pgadmin
-    restart: unless-stopped
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@fitness.local
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "8080:80"
-    depends_on:
-      - postgres
-    networks:
-      - fitness_network
-
 volumes:
   postgres_data:
   redis_data:

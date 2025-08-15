@@ -1,0 +1,138 @@
+<div class="auth-card">
+  <h2>Create Your Account</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    
+    <!-- Two Column Layout -->
+    <div class="form-columns">
+      
+      <!-- General Information Column -->
+      <div class="form-column general-info">
+        <div class="column-header">
+          <h3>General Information</h3>
+          <p class="column-description">Required to create your account</p>
+        </div>
+        
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-input"
+            [class.error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+            placeholder="Enter your full name"
+          />
+          <div class="error-message" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+            Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-input"
+            [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+            placeholder="Enter your email"
+          />
+          <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-input"
+            [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+            placeholder="Enter your password"
+          />
+          <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+            Password must be at least 6 characters long
+          </div>
+        </div>
+      </div>
+
+      <!-- Optional Information Column -->
+      <div class="form-column optional-info">
+        <div class="column-header">
+          <h3>Optional Information</h3>
+          <p class="column-description">Help us personalize your fitness experience</p>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="height">Height (cm)</label>
+            <input
+              type="number"
+              id="height"
+              formControlName="height"
+              class="form-input"
+              placeholder="170"
+              min="100"
+              max="250"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="weight">Weight (kg)</label>
+            <input
+              type="number"
+              id="weight"
+              formControlName="weight"
+              class="form-input"
+              placeholder="70"
+              min="30"
+              max="300"
+              step="0.1"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input
+            type="date"
+            id="dateOfBirth"
+            formControlName="dateOfBirth"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="activityLevel">Activity Level</label>
+          <select
+            id="activityLevel"
+            formControlName="activityLevel"
+            class="form-input"
+          >
+            <option value="">Select your activity level</option>
+            <option value="SEDENTARY">Sedentary (little or no exercise)</option>
+            <option value="LIGHTLY_ACTIVE">Lightly Active (light exercise 1-3 days/week)</option>
+            <option value="MODERATELY_ACTIVE">Moderately Active (moderate exercise 3-5 days/week)</option>
+            <option value="VERY_ACTIVE">Very Active (hard exercise 6-7 days/week)</option>
+            <option value="EXTREMELY_ACTIVE">Extremely Active (very hard exercise, physical job)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage()">
+      {{ errorMessage() }}
+    </div>
+
+    <button 
+      type="submit" 
+      class="submit-btn"
+      [disabled]="registerForm.invalid || isLoading()"
+    >
+      <span *ngIf="!isLoading()">Create Account</span>
+      <span *ngIf="isLoading()">Creating Account...</span>
+    </button>
+  </form>
+</div>

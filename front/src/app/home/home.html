@@ -1,0 +1,151 @@
+<div class="home-container">
+  <!-- Header/Navigation -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>💪 FitTracker</h1>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-outline" (click)="openLoginModal()">Login</button>
+        <button class="btn btn-primary" (click)="openRegisterModal()">Get Started</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Transform Your Fitness Journey
+        </h1>
+        <p class="hero-subtitle">
+          Track workouts, monitor nutrition, and achieve your fitness goals with our comprehensive health platform.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-large" (click)="openRegisterModal()">
+            Start Your Journey
+          </button>
+          <button class="btn btn-outline btn-large" (click)="openLoginModal()">
+            Sign In
+          </button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-graphic">
+          <div class="fitness-icon">🏃‍♂️</div>
+          <div class="fitness-icon">🏋️‍♀️</div>
+          <div class="fitness-icon">🥗</div>
+          <div class="fitness-icon">📊</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Everything You Need to Succeed</h2>
+      <div class="features-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon">🏋️‍♂️</div>
+          <h3>Workout Tracking</h3>
+          <p>Plan and track your workouts with detailed exercise logging and progress monitoring.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🍎</div>
+          <h3>Nutrition Management</h3>
+          <p>Monitor your daily nutrition intake and maintain a balanced diet with our food database.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Progress Analytics</h3>
+          <p>Visualize your fitness journey with comprehensive charts and progress reports.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Goal Setting</h3>
+          <p>Set personalized fitness goals and track your achievements over time.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⏰</div>
+          <h3>Workout Scheduling</h3>
+          <p>Plan your workouts and get reminders to stay consistent with your routine.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>Community Support</h3>
+          <p>Connect with other fitness enthusiasts and share your progress.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Start Your Fitness Journey?</h2>
+        <p>Join thousands of users who have transformed their lives with FitTracker.</p>
+        <button class="btn btn-primary btn-large" routerLink="/register">
+          Create Free Account
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>💪 FitTracker</h3>
+          <p>Your ultimate fitness companion</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <a href="#" routerLink="/register">Get Started</a>
+            <a href="#" routerLink="/login">Sign In</a>
+          </div>
+          <div class="footer-column">
+            <h4>Company</h4>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 FitTracker. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Overlays -->
+  <div class="modal-overlay" *ngIf="showLoginModal()" (click)="closeModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeModals()">&times;</button>
+      <app-login (loginSuccess)="closeModals()"></app-login>
+      <div class="modal-footer">
+        <p>Don't have an account? <button class="link-button" (click)="switchToRegister()">Register here</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showRegisterModal()" (click)="closeModals()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeModals()">&times;</button>
+      <app-register (registerSuccess)="closeModals()"></app-register>
+      <div class="modal-footer">
+        <p>Already have an account? <button class="link-button" (click)="switchToLogin()">Login here</button></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="auth-card">
+  <h2>Login to Your Account</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+    
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="form-input"
+        [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        placeholder="Enter your email"
+      />
+      <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        Please enter a valid email address
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        class="form-input"
+        [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        placeholder="Enter your password"
+      />
+      <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Password must be at least 6 characters long
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage()">
+      {{ errorMessage() }}
+    </div>
+
+    <button 
+      type="submit" 
+      class="submit-btn"
+      [disabled]="loginForm.invalid || isLoading()"
+    >
+      <span *ngIf="!isLoading()">Login</span>
+      <span *ngIf="isLoading()">Logging in...</span>
+    </button>
+  </form>
+</div>
