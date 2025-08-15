@@ -1,0 +1,51 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <button class="back-btn" (click)="goBack()">
+      <span>←</span> Back
+    </button>
+    <h1>Choose Your Plan</h1>
+    <p>Select the perfect plan to unlock your fitness potential</p>
+  </div>
+
+  <div class="plans-grid">
+    <div 
+      class="plan-card" 
+      [class.recommended]="plan.recommended"
+      *ngFor="let plan of plans"
+      (click)="selectPlan(plan)"
+    >
+      <div class="plan-badge" *ngIf="plan.recommended">
+        <span>RECOMMENDED</span>
+      </div>
+      
+      <div class="plan-header">
+        <h3 class="plan-name">{{ plan.name }}</h3>
+        <div class="plan-price">
+          <span class="currency">$</span>
+          <span class="amount">{{ plan.price }}</span>
+          <span class="period" *ngIf="plan.price > 0">/{{ plan.period }}</span>
+          <span class="period" *ngIf="plan.price === 0">{{ plan.period }}</span>
+        </div>
+      </div>
+
+      <div class="plan-features">
+        <ul>
+          <li *ngFor="let feature of plan.features">
+            <span class="checkmark">✓</span>
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+
+      <button class="select-btn" [style.background]="plan.color">
+        <span *ngIf="plan.price === 0">Get Started Free</span>
+        <span *ngIf="plan.price > 0">Choose {{ plan.name }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="subscription-footer">
+    <p>All plans include a 7-day free trial. Cancel anytime.</p>
+    <p class="security-note">🔒 Secure payment powered by Stripe</p>
+  </div>
+</div>

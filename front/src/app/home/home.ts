@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { LoginComponent } from '../auth/login/login';
 import { RegisterComponent } from '../auth/register/register';
+import { AuthService } from '../auth/auth';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +11,20 @@ import { RegisterComponent } from '../auth/register/register';
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   showLoginModal = signal(false);
   showRegisterModal = signal(false);
+
+  get isLoggedIn() {
+    return this.authService.isAuthenticated();
+  }
+
+  ngOnInit() {
+    // No need to subscribe to auth success as we're using signals
+  }
 
   openLoginModal() {
     this.showLoginModal.set(true);
@@ -36,5 +49,13 @@ export class HomeComponent {
   switchToLogin() {
     this.showRegisterModal.set(false);
     this.showLoginModal.set(true);
+  }
+
+  navigateToSubscriptionPlans() {
+    this.router.navigate(['/subscription-plans']);
+  }
+
+  navigateToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 }

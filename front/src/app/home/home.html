@@ -6,8 +6,15 @@
         <h1>💪 FitTracker</h1>
       </div>
       <div class="nav-actions">
-        <button class="btn btn-outline" (click)="openLoginModal()">Login</button>
-        <button class="btn btn-primary" (click)="openRegisterModal()">Get Started</button>
+        <!-- Show different buttons based on auth status -->
+        <ng-container *ngIf="!isLoggedIn">
+          <button class="btn btn-outline" (click)="openLoginModal()">Login</button>
+          <button class="btn btn-primary" (click)="openRegisterModal()">Get Started</button>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn">
+          <button class="btn btn-outline" (click)="navigateToDashboard()">Dashboard</button>
+          <button class="btn btn-primary" (click)="navigateToSubscriptionPlans()">Upgrade to Premium</button>
+        </ng-container>
       </div>
     </nav>
   </header>
@@ -23,12 +30,23 @@
           Track workouts, monitor nutrition, and achieve your fitness goals with our comprehensive health platform.
         </p>
         <div class="hero-actions">
-          <button class="btn btn-primary btn-large" (click)="openRegisterModal()">
-            Start Your Journey
-          </button>
-          <button class="btn btn-outline btn-large" (click)="openLoginModal()">
-            Sign In
-          </button>
+          <!-- Show different buttons based on auth status -->
+          <ng-container *ngIf="!isLoggedIn">
+            <button class="btn btn-primary btn-large" (click)="openRegisterModal()">
+              Start Your Journey
+            </button>
+            <button class="btn btn-outline btn-large" (click)="openLoginModal()">
+              Sign In
+            </button>
+          </ng-container>
+          <ng-container *ngIf="isLoggedIn">
+            <button class="btn btn-primary btn-large" (click)="navigateToSubscriptionPlans()">
+              Explore Premium Plans
+            </button>
+            <button class="btn btn-outline btn-large" (click)="navigateToDashboard()">
+              Go to Dashboard
+            </button>
+          </ng-container>
         </div>
       </div>
       <div class="hero-image">
@@ -92,11 +110,21 @@
   <section class="cta">
     <div class="container">
       <div class="cta-content">
-        <h2>Ready to Start Your Fitness Journey?</h2>
-        <p>Join thousands of users who have transformed their lives with FitTracker.</p>
-        <button class="btn btn-primary btn-large" routerLink="/register">
-          Create Free Account
-        </button>
+        <!-- Show different content based on auth status -->
+        <ng-container *ngIf="!isLoggedIn">
+          <h2>Ready to Start Your Fitness Journey?</h2>
+          <p>Join thousands of users who have transformed their lives with FitTracker.</p>
+          <button class="btn btn-primary btn-large" (click)="openRegisterModal()">
+            Create Free Account
+          </button>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn">
+          <h2>Unlock Your Full Potential</h2>
+          <p>Upgrade to our premium plans and access exclusive features to supercharge your fitness journey.</p>
+          <button class="btn btn-primary btn-large" (click)="navigateToSubscriptionPlans()">
+            View Premium Plans
+          </button>
+        </ng-container>
       </div>
     </div>
   </section>
@@ -112,8 +140,14 @@
         <div class="footer-links">
           <div class="footer-column">
             <h4>Product</h4>
-            <a href="#" routerLink="/register">Get Started</a>
-            <a href="#" routerLink="/login">Sign In</a>
+            <ng-container *ngIf="!isLoggedIn">
+              <a href="#" (click)="openRegisterModal()">Get Started</a>
+              <a href="#" (click)="openLoginModal()">Sign In</a>
+            </ng-container>
+            <ng-container *ngIf="isLoggedIn">
+              <a href="#" (click)="navigateToDashboard()">Dashboard</a>
+              <a href="#" (click)="navigateToSubscriptionPlans()">Premium Plans</a>
+            </ng-container>
           </div>
           <div class="footer-column">
             <h4>Company</h4>
