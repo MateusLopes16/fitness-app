@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+enum ActivityLevel {
+  SEDENTARY
+  LIGHTLY_ACTIVE
+  MODERATELY_ACTIVE
+  VERY_ACTIVE
+  EXTREMELY_ACTIVE
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+enum ExerciseCategory {
+  STRENGTH
+  CARDIO
+  FLEXIBILITY
+  BALANCE
+}
+
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  PAST_DUE
+}
+
+// USERS & AUTH
+model User {
+  id              String        @id @default(uuid())
+  email           String        @unique
+  passwordHash    String        @map("password_hash")
+  name            String
+  height          Decimal?
+  weight          Decimal?
+  dateOfBirth     DateTime?     @map("date_of_birth")
+  activityLevel   ActivityLevel @default(SEDENTARY) @map("activity_level")
+  goals           Json?         // Flexible JSON for user goals
+  role            UserRole      @default(USER)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  meals           Meal[]
+  workouts        Workout[]
+  workoutSessions WorkoutSession[]
+  subscription    Subscription?
+
+  @@map("users")
+}
+
+// FOOD SYSTEM
+model Ingredient {
+  id               String @id @default(uuid())
+  name             String
+  brand            String?
+  barcode          String?
+  caloriesPer100g  Decimal @map("calories_per_100g")
+  proteinPer100g   Decimal @map("protein_per_100g")
+  carbsPer100g     Decimal @map("carbs_per_100g")
+  fatPer100g       Decimal @map("fat_per_100g")
+  fiberPer100g     Decimal? @map("fiber_per_100g")
+  sugarPer100g     Decimal? @map("sugar_per_100g")
+  sodiumPer100g    Decimal? @map("sodium_per_100g")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  // Relations
+  mealIngredients  MealIngredient[]
+
+  @@map("ingredients")
+}
+
+model Meal {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String
+  mealType  MealType @map("meal_type")
+  date      DateTime @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredients MealIngredient[]
+
+  @@map("meals")
+}
+
+model MealIngredient {
+  id            String  @id @default(uuid())
+  mealId        String  @map("meal_id")
+  ingredientId  String  @map("ingredient_id")
+  quantityGrams Decimal @map("quantity_grams")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relations
+  meal       Meal       @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@map("meal_ingredients")
+}
+
+// WORKOUT SYSTEM
+model Exercise {
+  id              String            @id @default(uuid())
+  name            String
+  category        ExerciseCategory
+  muscleGroups    String[]          @map("muscle_groups")
+  instructions    String?
+  difficultyLevel DifficultyLevel   @map("difficulty_level")
+  equipmentNeeded String[]          @map("equipment_needed")
+  createdAt       DateTime          @default(now()) @map("created_at")
+
+  // Relations
+  workoutExercises WorkoutExercise[]
+  sessionExercises SessionExercise[]
+
+  @@map("exercises")
+}
+
+model Workout {
+  id                      String          @id @default(uuid())
+  userId                  String          @map("user_id")
+  name                    String
+  description             String?
+  estimatedDurationMinutes Int?           @map("estimated_duration_minutes")
+  difficultyLevel         DifficultyLevel @map("difficulty_level")
+  createdAt               DateTime        @default(now()) @map("created_at")
+
+  // Relations
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutExercises WorkoutExercise[]
+  workoutSessions  WorkoutSession[]
+
+  @@map("workouts")
+}
+
+model WorkoutExercise {
+  id              String  @id @default(uuid())
+  workoutId       String  @map("workout_id")
+  exerciseId      String  @map("exercise_id")
+  sets            Int?
+  reps            Int?
+  weightKg        Decimal? @map("weight_kg")
+  durationSeconds Int?    @map("duration_seconds")
+  restSeconds     Int?    @map("rest_seconds")
+  orderInWorkout  Int     @map("order_in_workout")
+  notes           String?
+
+  // Relations
+  workout  Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+
+  @@map("workout_exercises")
+}
+
+model WorkoutSession {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  workoutId       String?   @map("workout_id")
+  date            DateTime  @db.Date
+  durationMinutes Int?      @map("duration_minutes")
+  notes           String?
+  completed       Boolean   @default(false)
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout   Workout?          @relation(fields: [workoutId], references: [id])
+  exercises SessionExercise[]
+
+  @@map("workout_sessions")
+}
+
+model SessionExercise {
+  id             String    @id @default(uuid())
+  sessionId      String    @map("session_id")
+  exerciseId     String    @map("exercise_id")
+  setsCompleted  Int?      @map("sets_completed")
+  repsCompleted  Int[]     @map("reps_completed")
+  weightUsed     Decimal[] @map("weight_used")
+  notes          String?
+
+  // Relations
+  session  WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise       @relation(fields: [exerciseId], references: [id])
+
+  @@map("session_exercises")
+}
+
+// SUBSCRIPTIONS & BILLING
+model Subscription {
+  id                String             @id @default(uuid())
+  userId            String             @unique @map("user_id")
+  stripeCustomerId  String?            @map("stripe_customer_id")
+  stripeSubscriptionId String?         @map("stripe_subscription_id")
+  status            SubscriptionStatus @default(INACTIVE)
+  currentPeriodStart DateTime?         @map("current_period_start")
+  currentPeriodEnd   DateTime?         @map("current_period_end")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
