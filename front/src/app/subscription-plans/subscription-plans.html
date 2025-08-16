@@ -37,9 +37,18 @@
         </ul>
       </div>
 
-      <button class="select-btn" [style.background]="plan.color">
-        <span *ngIf="plan.price === 0">Get Started Free</span>
-        <span *ngIf="plan.price > 0">Choose {{ plan.name }}</span>
+      <button 
+        class="select-btn" 
+        [style.background]="plan.color"
+        [disabled]="processingPayment"
+        [class.loading]="selectedPlan === plan.id"
+      >
+        <span *ngIf="plan.price === 0 && selectedPlan !== plan.id">Get Started Free</span>
+        <span *ngIf="plan.price > 0 && selectedPlan !== plan.id">Choose {{ plan.name }}</span>
+        <span *ngIf="selectedPlan === plan.id && processingPayment">
+          <span class="loading-spinner"></span>
+          Processing...
+        </span>
       </button>
     </div>
   </div>

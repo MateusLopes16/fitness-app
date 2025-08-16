@@ -8,6 +8,11 @@
   </header>
 
   <div class="dashboard-content">
+    <!-- Payment Success/Error Message -->
+    <div class="payment-message" *ngIf="paymentMessage" [class.success]="paymentMessage.includes('successful')" [class.error]="paymentMessage.includes('cancelled')">
+      {{ paymentMessage }}
+    </div>
+
     <div class="welcome-card">
       <h2>🎉 Registration Successful!</h2>
       <p>Your account has been created and you're now logged in.</p>

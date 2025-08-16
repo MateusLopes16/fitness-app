@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { StripeService } from '../services/stripe.service';
 
 export interface SubscriptionPlan {
   id: string;
@@ -82,18 +83,40 @@ export class SubscriptionPlansComponent implements OnInit {
     }
   ];
 
-  constructor(private router: Router) {}
+  processingPayment = false;
+  selectedPlan: string | null = null;
+
+  constructor(
+    private router: Router,
+    private stripeService: StripeService
+  ) {}
 
   ngOnInit(): void {}
 
   selectPlan(plan: SubscriptionPlan): void {
     if (plan.id === 'free') {
-      // Handle free plan selection (maybe redirect to dashboard)
+      // Handle free plan selection (redirect to dashboard)
       this.router.navigate(['/dashboard']);
     } else {
-      // Handle premium plan selection (implement payment logic)
-      console.log('Selected plan:', plan);
-      // TODO: Integrate with payment service (Stripe, etc.)
+      // Handle premium plan selection with Stripe payment
+      this.processPayment(plan);
+    }
+  }
+
+  private async processPayment(plan: SubscriptionPlan): Promise<void> {
+    try {
+      this.processingPayment = true;
+      this.selectedPlan = plan.id;
+      
+      console.log('Processing payment for plan:', plan.name);
+      
+      await this.stripeService.redirectToCheckout(plan.id, plan.price);
+    } catch (error) {
+      console.error('Payment processing error:', error);
+      this.processingPayment = false;
+      this.selectedPlan = null;
+      // Handle error - show user-friendly message
+      alert('Payment processing failed. Please try again.');
     }
   }
 
