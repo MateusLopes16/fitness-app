@@ -44,6 +44,13 @@ enum UserRole {
   ADMIN
 }
 
+enum SubscriptionPlan {
+  FREE
+  FOOD
+  WORKOUT
+  FULL
+}
+
 enum SubscriptionStatus {
   ACTIVE
   INACTIVE
@@ -51,20 +58,28 @@ enum SubscriptionStatus {
   PAST_DUE
 }
 
+enum FitnessObjective {
+  BULK
+  LEAN
+  MAINTAIN
+}
+
 // USERS & AUTH
 model User {
-  id              String        @id @default(uuid())
-  email           String        @unique
-  passwordHash    String        @map("password_hash")
+  id              String            @id @default(uuid())
+  email           String            @unique
+  passwordHash    String            @map("password_hash")
   name            String
   height          Decimal?
   weight          Decimal?
-  dateOfBirth     DateTime?     @map("date_of_birth")
-  activityLevel   ActivityLevel @default(SEDENTARY) @map("activity_level")
-  goals           Json?         // Flexible JSON for user goals
-  role            UserRole      @default(USER)
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
+  dateOfBirth     DateTime?         @map("date_of_birth")
+  activityLevel   ActivityLevel     @default(SEDENTARY) @map("activity_level")
+  objective       FitnessObjective? @default(MAINTAIN)
+  workoutsPerWeek Int?              @default(3) @map("workouts_per_week")
+  goals           Json?             // Flexible JSON for user goals
+  role            UserRole          @default(USER)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
 
   // Relations
   meals           Meal[]
@@ -217,9 +232,10 @@ model SessionExercise {
 model Subscription {
   id                String             @id @default(uuid())
   userId            String             @unique @map("user_id")
+  plan              SubscriptionPlan   @default(FREE)
   stripeCustomerId  String?            @map("stripe_customer_id")
   stripeSubscriptionId String?         @map("stripe_subscription_id")
-  status            SubscriptionStatus @default(INACTIVE)
+  status            SubscriptionStatus @default(ACTIVE)
   currentPeriodStart DateTime?         @map("current_period_start")
   currentPeriodEnd   DateTime?         @map("current_period_end")
   createdAt         DateTime           @default(now()) @map("created_at")

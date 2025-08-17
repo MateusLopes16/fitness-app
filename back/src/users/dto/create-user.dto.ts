@@ -9,6 +9,12 @@ enum ActivityLevel {
   EXTREMELY_ACTIVE = 'EXTREMELY_ACTIVE',
 }
 
+enum FitnessObjective {
+  BULK = 'BULK',
+  LEAN = 'LEAN',
+  MAINTAIN = 'MAINTAIN',
+}
+
 export class CreateUserDto {
   @ApiProperty({ example: 'user@example.com' })
   @IsEmail()
@@ -42,6 +48,16 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(ActivityLevel)
   activityLevel?: ActivityLevel;
+
+  @ApiPropertyOptional({ enum: FitnessObjective, example: FitnessObjective.MAINTAIN })
+  @IsOptional()
+  @IsEnum(FitnessObjective)
+  objective?: FitnessObjective;
+
+  @ApiPropertyOptional({ example: 3, minimum: 0, maximum: 7 })
+  @IsOptional()
+  @IsNumber()
+  workoutsPerWeek?: number;
 
   @ApiPropertyOptional({ example: { weightLoss: true, muscleGain: false } })
   @IsOptional()

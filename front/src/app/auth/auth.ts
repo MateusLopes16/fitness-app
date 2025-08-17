@@ -79,7 +79,37 @@ export class AuthService {
   }
 
   getStoredToken(): string | null {
-    return localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
+    console.log('AuthService - Getting stored token:', token ? 'Token exists' : 'No token found');
+    
+    if (token) {
+      // Check if token is expired (basic check)
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        
+        if (payload.exp && payload.exp < currentTime) {
+          console.log('AuthService - Token is expired, removing from storage');
+          this.logout();
+          return null;
+        }
+        
+        console.log('AuthService - Token is valid, expires at:', new Date(payload.exp * 1000));
+      } catch (error) {
+        console.error('AuthService - Error parsing token:', error);
+        this.logout();
+        return null;
+      }
+    }
+    
+    return token;
+  }
+
+  updateCurrentUser(user: User): void {
+    // Update the signal
+    this.currentUserSignal.set(user);
+    // Update localStorage
+    localStorage.setItem('user_data', JSON.stringify(user));
   }
 
   private getStoredUser(): User | null {

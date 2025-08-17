@@ -11,6 +11,8 @@ export interface RegisterRequest {
   weight?: number;
   dateOfBirth?: string;
   activityLevel?: ActivityLevel;
+  objective?: FitnessObjective;
+  workoutsPerWeek?: number;
 }
 
 export interface AuthResponse {
@@ -27,6 +29,8 @@ export interface User {
   weight?: number;
   dateOfBirth?: string;
   activityLevel?: ActivityLevel;
+  objective?: FitnessObjective;
+  workoutsPerWeek?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -37,4 +41,10 @@ export enum ActivityLevel {
   MODERATELY_ACTIVE = 'MODERATELY_ACTIVE',
   VERY_ACTIVE = 'VERY_ACTIVE',
   EXTREMELY_ACTIVE = 'EXTREMELY_ACTIVE',
+}
+
+export enum FitnessObjective {
+  BULK = 'BULK',
+  LEAN = 'LEAN',
+  MAINTAIN = 'MAINTAIN',
 }
