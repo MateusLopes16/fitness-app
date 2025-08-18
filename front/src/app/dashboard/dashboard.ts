@@ -6,10 +6,12 @@ import { AuthService } from '../auth/auth';
 import { ActivityLevel, FitnessObjective } from '../auth/interfaces/auth.interface';
 import { SubscriptionService, Subscription } from '../services/subscription.service';
 import { UserService } from '../services/user.service';
+import { ConfirmationDialogComponent, ConfirmationDialogData } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { NotificationComponent, NotificationData } from '../shared/notification/notification.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ConfirmationDialogComponent, NotificationComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -29,6 +31,14 @@ export class DashboardComponent implements OnInit {
   // Subscription data from service
   subscription: Subscription | null = null;
   isLoadingSubscription = signal(true);
+
+  // Dialog and notification state
+  showConfirmDialog = signal(false);
+  confirmDialogData: ConfirmationDialogData | null = null;
+  isProcessingAction = signal(false);
+  
+  showNotification = signal(false);
+  notificationData: NotificationData | null = null;
 
   constructor() {
     this.profileForm = this.fb.group({
@@ -175,8 +185,15 @@ export class DashboardComponent implements OnInit {
           // Toggle edit mode off
           this.isEditingProfile.set(false);
           
-          // Show success message
-          alert('Profile updated successfully!');
+          // Show success notification
+          this.notificationData = {
+            title: 'Profile Updated',
+            message: 'Your profile has been updated successfully!',
+            type: 'success',
+            autoClose: true,
+            duration: 4000
+          };
+          this.showNotification.set(true);
           
           // Force refresh the view by updating the form values
           this.profileForm.patchValue({
@@ -191,7 +208,14 @@ export class DashboardComponent implements OnInit {
         },
         error: (error) => {
           console.error('Failed to update profile:', error);
-          alert('Failed to update profile. Please try again.');
+          this.notificationData = {
+            title: 'Update Failed',
+            message: 'Failed to update profile. Please try again.',
+            type: 'error',
+            autoClose: true,
+            duration: 4000
+          };
+          this.showNotification.set(true);
         }
       });
     }
@@ -300,5 +324,176 @@ export class DashboardComponent implements OnInit {
 
   getRemainingDays(): number {
     return this.subscription ? this.subscriptionService.getRemainingDays(this.subscription.currentPeriodEnd) : 0;
+  }
+
+  // Subscription management methods
+  isSubscriptionActive(): boolean {
+    return this.subscription ? this.subscriptionService.isActivePlan(this.subscription.status) : false;
+  }
+
+  isSubscriptionPaused(): boolean {
+    return this.subscription ? this.subscriptionService.isPausedPlan(this.subscription.status) : false;
+  }
+
+  isSubscriptionCancelled(): boolean {
+    return this.subscription ? this.subscriptionService.isCancelledPlan(this.subscription.status) : false;
+  }
+
+  getSubscriptionStatusDisplay(): string {
+    return this.subscription ? this.subscriptionService.getStatusDisplay(this.subscription.status) : 'Free Plan';
+  }
+
+  getSubscriptionStatusColor(): string {
+    return this.subscription ? this.subscriptionService.getStatusColor(this.subscription.status) : 'var(--text-muted)';
+  }
+
+  canPauseSubscription(): boolean {
+    return this.subscription?.plan !== 'FREE' && this.isSubscriptionActive();
+  }
+
+  canResumeSubscription(): boolean {
+    return this.subscription?.plan !== 'FREE' && this.isSubscriptionPaused();
+  }
+
+  canCancelSubscription(): boolean {
+    return this.subscription?.plan !== 'FREE' && (this.isSubscriptionActive() || this.isSubscriptionPaused());
+  }
+
+  pauseAutoRenewal(): void {
+    if (!this.canPauseSubscription()) return;
+
+    this.confirmDialogData = {
+      title: 'Pause Auto-Renewal',
+      message: 'Are you sure you want to pause auto-renewal? Your subscription will remain active until the end of the current period, but will not renew automatically.',
+      confirmText: 'Pause Auto-Renewal',
+      cancelText: 'Keep Auto-Renewal',
+      type: 'warning',
+      icon: '⏸️'
+    };
+    this.showConfirmDialog.set(true);
+  }
+
+  resumeAutoRenewal(): void {
+    if (!this.canResumeSubscription()) return;
+
+    this.confirmDialogData = {
+      title: 'Resume Auto-Renewal',
+      message: 'Are you sure you want to resume auto-renewal? Your subscription will automatically renew each month.',
+      confirmText: 'Resume Auto-Renewal',
+      cancelText: 'Keep Paused',
+      type: 'success',
+      icon: '▶️'
+    };
+    this.showConfirmDialog.set(true);
+  }
+
+  cancelSubscription(): void {
+    if (!this.canCancelSubscription()) return;
+
+    this.confirmDialogData = {
+      title: 'Cancel Subscription',
+      message: 'Are you sure you want to cancel your subscription? You will still have access until the end of your current billing period.',
+      confirmText: 'Cancel Subscription',
+      cancelText: 'Keep Subscription',
+      type: 'danger',
+      icon: '❌'
+    };
+    this.showConfirmDialog.set(true);
+  }
+
+  onConfirmAction(): void {
+    if (!this.confirmDialogData) return;
+
+    this.isProcessingAction.set(true);
+
+    const actionType = this.confirmDialogData.icon;
+    
+    switch (actionType) {
+      case '⏸️': // Pause
+        this.subscriptionService.pauseAutoRenewal().subscribe({
+          next: (response) => {
+            this.subscription = response.data;
+            this.handleActionSuccess(
+              'Auto-Renewal Paused',
+              `Auto-renewal has been paused. Your subscription will remain active until ${new Date(this.subscription.currentPeriodEnd).toLocaleDateString()}.`
+            );
+          },
+          error: (error) => {
+            this.handleActionError('Failed to pause auto-renewal. Please try again.');
+          }
+        });
+        break;
+
+      case '▶️': // Resume
+        this.subscriptionService.resumeAutoRenewal().subscribe({
+          next: (response) => {
+            this.subscription = response.data;
+            this.handleActionSuccess(
+              'Auto-Renewal Resumed',
+              'Auto-renewal has been resumed. Your subscription will automatically renew each month.'
+            );
+          },
+          error: (error) => {
+            this.handleActionError('Failed to resume auto-renewal. Please try again.');
+          }
+        });
+        break;
+
+      case '❌': // Cancel
+        this.subscriptionService.cancelSubscription().subscribe({
+          next: (response) => {
+            this.subscription = response.data;
+            this.handleActionSuccess(
+              'Subscription Cancelled',
+              `Your subscription has been cancelled. You will have access until ${new Date(this.subscription.currentPeriodEnd).toLocaleDateString()}.`
+            );
+          },
+          error: (error) => {
+            this.handleActionError('Failed to cancel subscription. Please try again.');
+          }
+        });
+        break;
+    }
+  }
+
+  onCancelAction(): void {
+    this.showConfirmDialog.set(false);
+    this.confirmDialogData = null;
+    this.isProcessingAction.set(false);
+  }
+
+  private handleActionSuccess(title: string, message: string): void {
+    this.isProcessingAction.set(false);
+    this.showConfirmDialog.set(false);
+    this.confirmDialogData = null;
+    
+    this.notificationData = {
+      title,
+      message,
+      type: 'success',
+      autoClose: true,
+      duration: 5000
+    };
+    this.showNotification.set(true);
+  }
+
+  private handleActionError(message: string): void {
+    this.isProcessingAction.set(false);
+    this.showConfirmDialog.set(false);
+    this.confirmDialogData = null;
+    
+    this.notificationData = {
+      title: 'Error',
+      message,
+      type: 'error',
+      autoClose: true,
+      duration: 5000
+    };
+    this.showNotification.set(true);
+  }
+
+  onNotificationClosed(): void {
+    this.showNotification.set(false);
+    this.notificationData = null;
   }
 }

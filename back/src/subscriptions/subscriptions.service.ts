@@ -129,6 +129,45 @@ export class SubscriptionsService {
     });
   }
 
+  async pauseAutoRenewal(userId: string): Promise<Subscription> {
+    const subscription = await this.getUserSubscription(userId);
+    
+    if (!subscription) {
+      throw new NotFoundException('Subscription not found');
+    }
+
+    // Set status to PAUSED instead of CANCELLED to distinguish between cancellation and pause
+    return this.prisma.subscription.update({
+      where: { userId },
+      data: {
+        status: 'PAUSED' as any, // We'll need to add this to the enum
+        updatedAt: new Date(),
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
+
+  async resumeAutoRenewal(userId: string): Promise<Subscription> {
+    const subscription = await this.getUserSubscription(userId);
+    
+    if (!subscription) {
+      throw new NotFoundException('Subscription not found');
+    }
+
+    return this.prisma.subscription.update({
+      where: { userId },
+      data: {
+        status: SubscriptionStatus.ACTIVE,
+        updatedAt: new Date(),
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
+
   formatPlanName(plan: string): string {
     switch (plan) {
       case SubscriptionPlan.FREE:

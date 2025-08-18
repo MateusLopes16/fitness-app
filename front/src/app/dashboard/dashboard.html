@@ -150,8 +150,8 @@
             <div class="plan-name" [style.color]="getSubscriptionPlanColor()">
               {{ getSubscriptionPlanIcon() }} {{ getSubscriptionPlanDisplay() }}
             </div>
-            <div class="plan-status" [class.active]="getSubscriptionStatus() === 'ACTIVE'">
-              {{ getSubscriptionStatus() }}
+            <div class="plan-status" [style.color]="getSubscriptionStatusColor()">
+              {{ getSubscriptionStatusDisplay() }}
             </div>
           </div>
           <div class="subscription-meta">
@@ -160,14 +160,62 @@
               <span class="date-value">{{ getSubscriptionStartDate() | date:'MMM dd, yyyy' }}</span>
             </div>
             <div class="subscription-date" *ngIf="subscription?.currentPeriodEnd">
-              <span class="date-label">Renews:</span>
+              <span class="date-label">{{ isSubscriptionActive() ? 'Renews:' : 'Expires:' }}</span>
               <span class="date-value">{{ subscription?.currentPeriodEnd | date:'MMM dd, yyyy' }}</span>
               <span class="days-remaining">({{ getRemainingDays() }} days left)</span>
             </div>
-            <div class="subscription-actions" *ngIf="subscription?.plan === 'FREE'">
-              <button class="upgrade-btn" routerLink="/subscription-plans">
+            
+            <!-- Subscription Management Actions -->
+            <div class="subscription-actions">
+              <!-- Free Plan Upgrade -->
+              <button class="upgrade-btn" *ngIf="subscription?.plan === 'FREE'" routerLink="/subscription-plans">
+                <span class="btn-icon">⬆️</span>
                 Upgrade Plan
               </button>
+              
+              <!-- Premium Plan Management -->
+              <div class="premium-actions" *ngIf="subscription?.plan !== 'FREE'">
+                <!-- Auto-renewal Controls -->
+                <div class="renewal-controls">
+                  <button 
+                    class="pause-btn" 
+                    *ngIf="canPauseSubscription()" 
+                    (click)="pauseAutoRenewal()"
+                    title="Pause auto-renewal">
+                    <span class="btn-icon">⏸️</span>
+                    Pause Auto-Renewal
+                  </button>
+                  
+                  <button 
+                    class="resume-btn" 
+                    *ngIf="canResumeSubscription()" 
+                    (click)="resumeAutoRenewal()"
+                    title="Resume auto-renewal">
+                    <span class="btn-icon">▶️</span>
+                    Resume Auto-Renewal
+                  </button>
+                </div>
+                
+                <!-- Plan Actions -->
+                <div class="plan-actions">
+                  <button 
+                    class="change-plan-btn" 
+                    routerLink="/subscription-plans"
+                    title="Change to a different plan">
+                    <span class="btn-icon">🔄</span>
+                    Change Plan
+                  </button>
+                  
+                  <button 
+                    class="cancel-btn" 
+                    *ngIf="canCancelSubscription()" 
+                    (click)="cancelSubscription()"
+                    title="Cancel subscription">
+                    <span class="btn-icon">❌</span>
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -201,7 +249,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">�</div>
+          <div class="stat-icon">🥗</div>
           <div class="stat-info">
             <div class="stat-value">0</div>
             <div class="stat-label">Today's Intake</div>
@@ -212,4 +260,20 @@
       <!-- Feature Cards -->
     </div>
   </div>
+
+  <!-- Confirmation Dialog -->
+  <app-confirmation-dialog
+    [isVisible]="showConfirmDialog()"
+    [dialogData]="confirmDialogData"
+    [isProcessing]="isProcessingAction()"
+    (confirm)="onConfirmAction()"
+    (cancel)="onCancelAction()">
+  </app-confirmation-dialog>
+
+  <!-- Success/Error Notifications -->
+  <app-notification
+    [isVisible]="showNotification()"
+    [data]="notificationData"
+    (closed)="onNotificationClosed()">
+  </app-notification>
 </div>

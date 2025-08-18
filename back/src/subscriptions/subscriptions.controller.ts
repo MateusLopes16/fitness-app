@@ -10,9 +10,11 @@ import {
   UseGuards,
   HttpStatus,
   HttpException,
+  Inject,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SubscriptionsService } from './subscriptions.service';
+import { SubscriptionRenewalService } from './subscription-renewal.service';
 
 interface CreateSubscriptionDto {
   plan: string;
@@ -27,7 +29,10 @@ interface UpdatePlanDto {
 @Controller('subscriptions')
 @UseGuards(JwtAuthGuard)
 export class SubscriptionsController {
-  constructor(private readonly subscriptionsService: SubscriptionsService) {}
+  constructor(
+    private readonly subscriptionsService: SubscriptionsService,
+    private readonly renewalService: SubscriptionRenewalService,
+  ) {}
 
   @Post()
   async createSubscription(
@@ -127,6 +132,52 @@ export class SubscriptionsController {
     }
   }
 
+  @Put('pause')
+  async pauseAutoRenewal(@Request() req: any) {
+    try {
+      const subscription = await this.subscriptionsService.pauseAutoRenewal(
+        req.user.sub,
+      );
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Auto-renewal paused successfully',
+        data: subscription,
+      };
+    } catch (error) {
+      if (error.message === 'Subscription not found') {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        'Failed to pause auto-renewal',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Put('resume')
+  async resumeAutoRenewal(@Request() req: any) {
+    try {
+      const subscription = await this.subscriptionsService.resumeAutoRenewal(
+        req.user.sub,
+      );
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Auto-renewal resumed successfully',
+        data: subscription,
+      };
+    } catch (error) {
+      if (error.message === 'Subscription not found') {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(
+        'Failed to resume auto-renewal',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get('format-plan/:plan')
   formatPlan(@Param('plan') plan: string) {
     const formattedPlan = this.subscriptionsService.formatPlanName(plan);
@@ -138,5 +189,24 @@ export class SubscriptionsController {
         formatted: formattedPlan,
       },
     };
+  }
+
+  @Post('test-renewal')
+  async testRenewal(@Request() req: any) {
+    // This is a test endpoint to manually trigger renewal logic
+    // In production, you might want to secure this with admin-only access
+    
+    try {
+      await this.renewalService.checkAndRenewExpiredSubscriptions();
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Manual renewal check completed successfully',
+      };
+    } catch (error) {
+      throw new HttpException(
+        'Failed to run manual renewal check',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -55,6 +55,7 @@ enum SubscriptionStatus {
   ACTIVE
   INACTIVE
   CANCELLED
+  PAUSED
   PAST_DUE
 }
 

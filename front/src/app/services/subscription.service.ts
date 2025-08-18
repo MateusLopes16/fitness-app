@@ -79,6 +79,26 @@ export class SubscriptionService {
     );
   }
 
+  pauseAutoRenewal(): Observable<ApiResponse<Subscription>> {
+    return this.http.put<ApiResponse<Subscription>>(`${this.apiUrl}/pause`, {}).pipe(
+      tap(response => {
+        if (response.data) {
+          this.subscriptionSubject.next(response.data);
+        }
+      })
+    );
+  }
+
+  resumeAutoRenewal(): Observable<ApiResponse<Subscription>> {
+    return this.http.put<ApiResponse<Subscription>>(`${this.apiUrl}/resume`, {}).pipe(
+      tap(response => {
+        if (response.data) {
+          this.subscriptionSubject.next(response.data);
+        }
+      })
+    );
+  }
+
   formatPlanName(plan: string): Observable<ApiResponse<{original: string, formatted: string}>> {
     return this.http.get<ApiResponse<{original: string, formatted: string}>>(`${this.apiUrl}/format-plan/${plan}`);
   }
@@ -131,6 +151,48 @@ export class SubscriptionService {
 
   isActivePlan(status: string): boolean {
     return status?.toUpperCase() === 'ACTIVE';
+  }
+
+  isPausedPlan(status: string): boolean {
+    return status?.toUpperCase() === 'PAUSED';
+  }
+
+  isCancelledPlan(status: string): boolean {
+    return status?.toUpperCase() === 'CANCELLED';
+  }
+
+  getStatusDisplay(status: string): string {
+    switch (status?.toUpperCase()) {
+      case 'ACTIVE':
+        return 'Active (Auto-renewing)';
+      case 'PAUSED':
+        return 'Active (Auto-renewal paused)';
+      case 'CANCELLED':
+        return 'Cancelled';
+      case 'INACTIVE':
+        return 'Inactive';
+      case 'PAST_DUE':
+        return 'Past Due';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  getStatusColor(status: string): string {
+    switch (status?.toUpperCase()) {
+      case 'ACTIVE':
+        return 'var(--success-color)';
+      case 'PAUSED':
+        return 'var(--warning-color)';
+      case 'CANCELLED':
+        return 'var(--error-color)';
+      case 'INACTIVE':
+        return 'var(--text-muted)';
+      case 'PAST_DUE':
+        return 'var(--error-color)';
+      default:
+        return 'var(--text-muted)';
+    }
   }
 
   getRemainingDays(endDate: Date | string): number {

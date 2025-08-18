@@ -279,3 +279,5 @@ front/playwright/.cache/
 
 # Yarn Integrity file
 .yarn-integrity
+
+.env
