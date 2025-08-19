@@ -1,0 +1,154 @@
+import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Meal, MealType } from '../../interfaces/meal.interface';
+
+@Component({
+  selector: 'app-meal-detail',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="meal-detail-overlay" (click)="close.emit()">
+      <div class="meal-detail-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <div class="title-section">
+            <h1>{{ meal()?.name }}</h1>
+            <div class="meal-meta">
+              <span class="meal-type" *ngIf="meal()?.mealType">
+                {{ getMealTypeIcon(meal()!.mealType!) }} {{ meal()?.mealType }}
+              </span>
+              <span class="meal-date" *ngIf="meal()?.date">
+                📅 {{ formatDate(meal()!.date!) }}
+              </span>
+              <span class="servings">
+                👥 {{ meal()?.servings }} serving{{ meal()!.servings! > 1 ? 's' : '' }}
+              </span>
+              <span class="badge admin" *ngIf="meal()?.createdByType === 'admin'">Admin Recipe</span>
+            </div>
+          </div>
+          <button class="close-btn" (click)="close.emit()">
+            ✕
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <!-- Description -->
+          <div class="section" *ngIf="meal()?.description">
+            <h3>📝 Description</h3>
+            <p class="description">{{ meal()?.description }}</p>
+          </div>
+
+          <!-- Nutrition Summary -->
+          <div class="section">
+            <h3>📊 Nutrition Facts (Total)</h3>
+            <div class="nutrition-grid">
+              <div class="nutrition-card primary">
+                <div class="nutrition-value">{{ meal()?.totalCalories?.toFixed(0) || '0' }}</div>
+                <div class="nutrition-label">Calories</div>
+              </div>
+              <div class="nutrition-card">
+                <div class="nutrition-value">{{ meal()?.totalProtein?.toFixed(1) || '0' }}g</div>
+                <div class="nutrition-label">Protein</div>
+              </div>
+              <div class="nutrition-card">
+                <div class="nutrition-value">{{ meal()?.totalCarbs?.toFixed(1) || '0' }}g</div>
+                <div class="nutrition-label">Carbs</div>
+              </div>
+              <div class="nutrition-card">
+                <div class="nutrition-value">{{ meal()?.totalFat?.toFixed(1) || '0' }}g</div>
+                <div class="nutrition-label">Fat</div>
+              </div>
+              <div class="nutrition-card" *ngIf="meal()?.totalFiber && meal()!.totalFiber! > 0">
+                <div class="nutrition-value">{{ meal()?.totalFiber?.toFixed(1) }}g</div>
+                <div class="nutrition-label">Fiber</div>
+              </div>
+              <div class="nutrition-card" *ngIf="meal()?.totalSugar && meal()!.totalSugar! > 0">
+                <div class="nutrition-value">{{ meal()?.totalSugar?.toFixed(1) }}g</div>
+                <div class="nutrition-label">Sugar</div>
+              </div>
+              <div class="nutrition-card" *ngIf="meal()?.totalSodium && meal()!.totalSodium! > 0">
+                <div class="nutrition-value">{{ meal()?.totalSodium?.toFixed(0) }}mg</div>
+                <div class="nutrition-label">Sodium</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ingredients -->
+          <div class="section">
+            <h3>🥕 Ingredients ({{ meal()?.ingredients?.length || 0 }})</h3>
+            <div class="ingredients-list">
+              <div *ngFor="let ingredient of meal()?.ingredients" class="ingredient-item">
+                <div class="ingredient-info">
+                  <div class="ingredient-name">
+                    {{ ingredient.ingredient.name }}
+                    <span class="brand" *ngIf="ingredient.ingredient.brand">
+                      ({{ ingredient.ingredient.brand }})
+                    </span>
+                  </div>
+                  <div class="ingredient-quantity">
+                    {{ ingredient.quantityGrams }}g
+                  </div>
+                </div>
+                <div class="ingredient-nutrition">
+                  <span class="cal">{{ (ingredient.ingredient.caloriesPer100g * ingredient.quantityGrams / 100).toFixed(0) }} cal</span>
+                  <span class="protein">P: {{ (ingredient.ingredient.proteinPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+                  <span class="carbs">C: {{ (ingredient.ingredient.carbsPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+                  <span class="fat">F: {{ (ingredient.ingredient.fatPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe -->
+          <div class="section" *ngIf="meal()?.recipe">
+            <h3>👨‍🍳 Recipe Instructions</h3>
+            <div class="recipe-content">
+              <p *ngFor="let step of getRecipeSteps(meal()!.recipe!)" class="recipe-step">
+                {{ step }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-secondary" (click)="close.emit()">
+            Close
+          </button>
+          <button class="btn-primary" (click)="duplicate.emit(meal()!)">
+            📋 Duplicate Meal
+          </button>
+          <button class="btn-primary" 
+                  (click)="edit.emit(meal()!)"
+                  *ngIf="meal()?.createdByType === 'user'">
+            ✏️ Edit Meal
+          </button>
+        </div>
+      </div>
+    </div>
+  `,
+  styleUrls: ['./meal-detail.scss']
+})
+export class MealDetailComponent {
+  meal = input<Meal | null>(null);
+  
+  close = output<void>();
+  edit = output<Meal>();
+  duplicate = output<Meal>();
+
+  getMealTypeIcon(mealType: MealType): string {
+    switch (mealType) {
+      case MealType.BREAKFAST: return '🌅';
+      case MealType.LUNCH: return '☀️';
+      case MealType.DINNER: return '🌙';
+      case MealType.SNACK: return '🍪';
+      default: return '🍽️';
+    }
+  }
+
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
+  }
+
+  getRecipeSteps(recipe: string): string[] {
+    return recipe.split('\n').filter(step => step.trim().length > 0);
+  }
+}

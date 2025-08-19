@@ -11,8 +11,12 @@ export class IngredientService {
 
   constructor(private http: HttpClient) {}
 
-  getIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(this.apiUrl);
+  getIngredients(search?: string): Observable<Ingredient[]> {
+    let params: any = {};
+    if (search) {
+      params.search = search;
+    }
+    return this.http.get<Ingredient[]>(this.apiUrl, { params });
   }
 
   getIngredient(id: string): Observable<Ingredient> {

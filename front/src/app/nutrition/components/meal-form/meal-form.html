@@ -1,0 +1,222 @@
+<!-- Meal Form Modal -->
+<div class="meal-form-overlay" (click)="close.emit()">
+  <div class="meal-form-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ editingMeal() ? 'Edit Meal' : 'Create New Meal' }}</h2>
+      <button class="close-btn" (click)="close.emit()">✕</button>
+    </div>
+
+    <div class="modal-content">
+      <form #mealForm="ngForm">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>📝 Basic Information</h3>
+          <div class="form-group">
+            <label for="name">Meal Name *</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="formData.name"
+              required
+              placeholder="Enter meal name..."
+              class="form-input"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              [(ngModel)]="formData.description"
+              placeholder="Brief description of the meal..."
+              class="form-textarea"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="mealType">Meal Type</label>
+              <select
+                id="mealType"
+                name="mealType"
+                [(ngModel)]="formData.mealType"
+                class="form-select"
+              >
+                <option value="">Select meal type</option>
+                <option value="BREAKFAST">🌅 Breakfast</option>
+                <option value="LUNCH">☀️ Lunch</option>
+                <option value="DINNER">🌙 Dinner</option>
+                <option value="SNACK">🍪 Snack</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="servings">Servings *</label>
+              <input
+                type="number"
+                id="servings"
+                name="servings"
+                [(ngModel)]="formData.servings"
+                min="1"
+                required
+                class="form-input"
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                [(ngModel)]="formData.date"
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>🥕 Ingredients ({{ formData.ingredients.length }})</h3>
+            <button type="button" class="btn-add" (click)="showIngredientSelector = !showIngredientSelector">
+              {{ showIngredientSelector ? 'Cancel' : 'Add Ingredient' }}
+            </button>
+          </div>
+
+          <!-- Add Ingredient Selector -->
+          <div class="ingredient-selector" *ngIf="showIngredientSelector">
+            <div class="ingredient-search">
+              <input
+                type="text"
+                placeholder="Search ingredients..."
+                [(ngModel)]="ingredientSearch"
+                (input)="filterIngredients()"
+                name="ingredientSearch"
+                class="form-input"
+              >
+            </div>
+            <div class="ingredient-results" *ngIf="filteredIngredients().length > 0">
+              <div
+                *ngFor="let ingredient of filteredIngredients().slice(0, 8)"
+                class="ingredient-result"
+                (click)="selectIngredient(ingredient)"
+              >
+                <div class="ingredient-info">
+                  <span class="name">{{ ingredient.name }}</span>
+                  <span class="brand" *ngIf="ingredient.brand">({{ ingredient.brand }})</span>
+                </div>
+                <div class="ingredient-macros">
+                  {{ ingredient.caloriesPer100g }} cal/100g
+                </div>
+              </div>
+            </div>
+            <div class="no-results" *ngIf="filteredIngredients().length === 0 && ingredientSearch.length > 0">
+              <p>No ingredients found. Try a different search term.</p>
+            </div>
+          </div>
+
+          <!-- Selected Ingredients -->
+          <div class="ingredients-list" *ngIf="formData.ingredients.length > 0">
+            <div
+              *ngFor="let ingredient of formData.ingredients; let i = index"
+              class="ingredient-item"
+            >
+              <div class="ingredient-details">
+                <div class="ingredient-name">
+                  {{ getIngredientName(ingredient.ingredientId) }}
+                </div>
+                <div class="ingredient-quantity">
+                  <input
+                    type="number"
+                    [(ngModel)]="ingredient.quantityGrams"
+                    name="quantity_{{i}}"
+                    min="1"
+                    step="0.1"
+                    placeholder="Grams"
+                    class="quantity-input"
+                  >
+                  <span class="unit">g</span>
+                </div>
+              </div>
+              <div class="ingredient-nutrition">
+                <span class="calories">{{ calculateIngredientCalories(ingredient) }} cal</span>
+              </div>
+              <button
+                type="button"
+                class="remove-btn"
+                (click)="removeIngredient(i)"
+              >
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="no-ingredients" *ngIf="formData.ingredients.length === 0">
+            <p>No ingredients added yet. Click "Add Ingredient" to get started.</p>
+          </div>
+
+          <!-- Total Nutrition Preview -->
+          <div class="nutrition-preview" *ngIf="formData.ingredients.length > 0">
+            <h4>📊 Estimated Total Nutrition</h4>
+            <div class="nutrition-grid">
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalCalories().toFixed(0) }}</span>
+                <span class="label">kcal</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalProtein().toFixed(1) }}g</span>
+                <span class="label">Protein</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalCarbs().toFixed(1) }}g</span>
+                <span class="label">Carbs</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalFat().toFixed(1) }}g</span>
+                <span class="label">Fat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe -->
+        <div class="form-section">
+          <h3>👨‍🍳 Recipe Instructions (Optional)</h3>
+          <textarea
+            id="recipe"
+            name="recipe"
+            [(ngModel)]="formData.recipe"
+            placeholder="Enter cooking instructions, one step per line..."
+            class="form-textarea recipe-textarea"
+            rows="8"
+          ></textarea>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" (click)="close.emit()">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="onSubmit()"
+        [disabled]="!mealForm.form.valid || loading() || formData.ingredients.length === 0"
+      >
+        <span *ngIf="loading()" class="spinner"></span>
+        {{ editingMeal() ? 'Update Meal' : 'Create Meal' }}
+      </button>
+    </div>
+  </div>
+</div>

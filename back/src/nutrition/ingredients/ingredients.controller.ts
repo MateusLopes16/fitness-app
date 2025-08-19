@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { IngredientsService } from './ingredients.service';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
@@ -30,8 +31,11 @@ export class IngredientsController {
   }
 
   @Get()
-  async findAll(@CurrentUser() user: any): Promise<IngredientDto[]> {
-    return this.ingredientsService.findAll(user.sub);
+  async findAll(
+    @CurrentUser() user: any,
+    @Query('search') search?: string,
+  ): Promise<IngredientDto[]> {
+    return this.ingredientsService.findAll(user.sub, search);
   }
 
   @Get(':id')

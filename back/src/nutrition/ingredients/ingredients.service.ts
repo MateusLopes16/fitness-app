@@ -19,15 +19,38 @@ export class IngredientsService {
     return this.mapToDto(ingredient);
   }
 
-  async findAll(userId: string): Promise<IngredientDto[]> {
+  async findAll(userId: string, search?: string): Promise<IngredientDto[]> {
     // Get ingredients created by admin (createdBy is null) or by the current user
-    const ingredients = await this.database.ingredient.findMany({
-      where: {
+    const whereCondition: any = {
+      OR: [
+        { createdBy: null }, // Admin ingredients
+        { createdBy: userId }, // User's own ingredients
+      ],
+    };
+
+    // Add search condition if provided
+    if (search) {
+      whereCondition.AND = [
+        whereCondition,
+        {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' } },
+            { brand: { contains: search, mode: 'insensitive' } },
+          ],
+        },
+      ];
+      // Remove the original OR condition since it's now in AND
+      delete whereCondition.OR;
+      whereCondition.AND[0] = {
         OR: [
           { createdBy: null }, // Admin ingredients
           { createdBy: userId }, // User's own ingredients
         ],
-      },
+      };
+    }
+
+    const ingredients = await this.database.ingredient.findMany({
+      where: whereCondition,
       orderBy: {
         name: 'asc',
       },

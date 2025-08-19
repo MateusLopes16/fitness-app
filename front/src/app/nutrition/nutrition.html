@@ -1,7 +1,21 @@
 <div class="nutrition-container">
   <div class="nutrition-header">
     <h1>🥗 Nutrition Management</h1>
-    <p>Manage your ingredients database with nutritional information</p>
+    <p>Manage your meals, ingredients, and track your daily nutrition</p>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <div class="nutrition-tabs">
+    <button class="tab-button" 
+            [class.active]="activeTab() === 'meals'"
+            (click)="activeTab.set('meals')">
+      🍽️ My Meals
+    </button>
+    <button class="tab-button" 
+            [class.active]="activeTab() === 'ingredients'"
+            (click)="activeTab.set('ingredients')">
+      🥕 Ingredients
+    </button>
   </div>
 
   <!-- Error Message -->
@@ -11,15 +25,66 @@
     <button class="close-error" (click)="error.set('')">×</button>
   </div>
 
-  <!-- Ingredients List Component -->
-  <app-ingredients-list
-    [ingredients]="ingredients()"
+  <!-- Meals Tab -->
+  <div *ngIf="activeTab() === 'meals'" class="tab-content">
+    <app-meals-list
+      [meals]="meals()"
+      [loading]="loading()"
+      (addNewMeal)="onAddMeal()"
+      (viewMeal)="onViewMeal($event)"
+      (editMeal)="onEditMeal($event)"
+      (duplicateMeal)="onDuplicateMeal($event)"
+      (deleteMeal)="onDeleteMeal($event)"
+    ></app-meals-list>
+  </div>
+
+  <!-- Ingredients Tab -->
+  <div *ngIf="activeTab() === 'ingredients'" class="tab-content">
+    <app-ingredients-list
+      [ingredients]="ingredients()"
+      [loading]="loading()"
+      (addNewIngredient)="onAddIngredient()"
+      (editIngredient)="onEditIngredient($event)"
+      (deleteIngredient)="onDeleteIngredient($event)"
+      (refreshIngredients)="loadIngredients()"
+    ></app-ingredients-list>
+  </div>
+
+  <!-- Meal Detail Modal -->
+  <app-meal-detail
+    *ngIf="showMealDetail()"
+    [meal]="selectedMeal()"
+    (close)="closeMealDetail()"
+    (edit)="onEditMeal($event)"
+    (duplicate)="onDuplicateMeal($event)"
+  ></app-meal-detail>
+
+  <!-- Meal Form Modal -->
+  <app-meal-form
+    *ngIf="showMealForm()"
+    [editingMeal]="editingMeal()"
     [loading]="loading()"
-    (addNewIngredient)="onAddIngredient()"
-    (editIngredient)="onEditIngredient($event)"
-    (deleteIngredient)="onDeleteIngredient($event)"
-    (refreshIngredients)="loadIngredients()"
-  ></app-ingredients-list>
+    (close)="closeMealForm()"
+    (save)="onSaveMeal($event)"
+  ></app-meal-form>
+
+  <!-- Duplicate Meal Modal -->
+  <app-duplicate-meal-popup
+    *ngIf="showDuplicateForm()"
+    [meal]="duplicatingMeal()"
+    [loading]="loading()"
+    (close)="closeDuplicateForm()"
+    (duplicate)="onConfirmDuplicate($event)"
+  ></app-duplicate-meal-popup>
+
+  <!-- Delete Meal Modal -->
+  <app-delete-meal-popup
+    *ngIf="showDeleteMealForm()"
+    [meal]="deletingMeal()"
+    [loading]="loading()"
+    (close)="closeDeleteMealForm()"
+    (confirm)="onConfirmDeleteMeal()"
+  ></app-delete-meal-popup>
 
   <!-- Add/Edit Ingredient Popup -->
   <app-add-ingredient-popup

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, MealType } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -155,6 +155,86 @@ const adminIngredients = [
   },
 ];
 
+const adminMeals = [
+  {
+    name: 'High Protein Breakfast Bowl',
+    description: 'A nutritious breakfast bowl packed with protein and healthy fats',
+    recipe: '1. Cook oats with water or milk until creamy\n2. Top with Greek yogurt\n3. Add sliced banana and almonds\n4. Drizzle with a small amount of honey if desired\n5. Serve immediately',
+    mealType: MealType.BREAKFAST,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Oats (Rolled, Dry)', quantityGrams: 50 },
+      { ingredientName: 'Greek Yogurt (Plain, Non-Fat)', quantityGrams: 150 },
+      { ingredientName: 'Banana', quantityGrams: 100 },
+      { ingredientName: 'Almonds (Raw)', quantityGrams: 20 },
+    ],
+  },
+  {
+    name: 'Mediterranean Grilled Chicken Salad',
+    description: 'Fresh and light salad with grilled chicken breast',
+    recipe: '1. Season chicken breast with herbs and grill until cooked through\n2. Let chicken rest and slice\n3. Mix spinach and other greens in a bowl\n4. Add sliced chicken on top\n5. Drizzle with olive oil and lemon\n6. Season with salt and pepper to taste',
+    mealType: MealType.LUNCH,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Chicken Breast (Skinless)', quantityGrams: 150 },
+      { ingredientName: 'Spinach (Raw)', quantityGrams: 100 },
+      { ingredientName: 'Olive Oil (Extra Virgin)', quantityGrams: 10 },
+    ],
+  },
+  {
+    name: 'Salmon and Sweet Potato Dinner',
+    description: 'Nutritious dinner with omega-3 rich salmon and complex carbs',
+    recipe: '1. Preheat oven to 200°C\n2. Season salmon with herbs and bake for 15-18 minutes\n3. Roast sweet potato until tender\n4. Steam broccoli until bright green\n5. Serve salmon with sweet potato and broccoli\n6. Drizzle with olive oil if desired',
+    mealType: MealType.DINNER,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Salmon (Atlantic, Farmed)', quantityGrams: 150 },
+      { ingredientName: 'Sweet Potato (Baked)', quantityGrams: 200 },
+      { ingredientName: 'Broccoli (Raw)', quantityGrams: 100 },
+      { ingredientName: 'Olive Oil (Extra Virgin)', quantityGrams: 5 },
+    ],
+  },
+  {
+    name: 'Protein Power Smoothie',
+    description: 'Quick and easy protein-packed smoothie for post-workout',
+    recipe: '1. Add Greek yogurt to blender\n2. Add banana and berries\n3. Pour in small amount of milk if needed\n4. Add almonds for healthy fats\n5. Blend until smooth\n6. Serve immediately',
+    mealType: MealType.SNACK,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Greek Yogurt (Plain, Non-Fat)', quantityGrams: 200 },
+      { ingredientName: 'Banana', quantityGrams: 80 },
+      { ingredientName: 'Almonds (Raw)', quantityGrams: 15 },
+    ],
+  },
+  {
+    name: 'Quinoa Power Bowl',
+    description: 'Complete protein bowl with quinoa and vegetables',
+    recipe: '1. Cook quinoa according to package instructions\n2. Grill or bake chicken breast\n3. Steam broccoli until tender\n4. Slice avocado\n5. Combine all ingredients in a bowl\n6. Drizzle with olive oil and season to taste',
+    mealType: MealType.LUNCH,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Quinoa (Cooked)', quantityGrams: 100 },
+      { ingredientName: 'Chicken Breast (Skinless)', quantityGrams: 100 },
+      { ingredientName: 'Broccoli (Raw)', quantityGrams: 80 },
+      { ingredientName: 'Avocado', quantityGrams: 60 },
+      { ingredientName: 'Olive Oil (Extra Virgin)', quantityGrams: 8 },
+    ],
+  },
+  {
+    name: 'Hearty Beef and Rice Bowl',
+    description: 'Protein-rich bowl with lean ground beef and brown rice',
+    recipe: '1. Cook brown rice until tender\n2. Brown lean ground beef with herbs and spices\n3. Steam spinach until wilted\n4. Combine rice, beef, and spinach in a bowl\n5. Season to taste and serve hot',
+    mealType: MealType.DINNER,
+    servings: 1,
+    ingredients: [
+      { ingredientName: 'Brown Rice (Cooked)', quantityGrams: 120 },
+      { ingredientName: 'Lean Ground Beef (93/7)', quantityGrams: 120 },
+      { ingredientName: 'Spinach (Raw)', quantityGrams: 80 },
+      { ingredientName: 'Olive Oil (Extra Virgin)', quantityGrams: 5 },
+    ],
+  },
+];
+
 async function seedIngredients() {
   console.log('🌱 Seeding admin ingredients...');
 
@@ -204,14 +284,112 @@ async function seedIngredients() {
   } catch (error) {
     console.error('❌ Error seeding ingredients:', error);
     throw error;
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
+async function seedMeals() {
+  console.log('\n🍽️ Seeding admin meals...');
+
+  try {
+    // Delete existing admin meals (where userId is null)
+    const existingMeals = await prisma.meal.findMany({
+      where: {
+        userId: undefined,
+      },
+    });
+    
+    if (existingMeals.length > 0) {
+      await prisma.meal.deleteMany({
+        where: {
+          id: {
+            in: existingMeals.map(meal => meal.id),
+          },
+        },
+      });
+    }
+
+    console.log('🗑️ Cleared existing admin meals');
+
+    // Get all admin ingredients to map names to IDs
+    const ingredients = await prisma.ingredient.findMany({
+      where: {
+        createdBy: null,
+      },
+    });
+
+    const ingredientMap = new Map(
+      ingredients.map(ingredient => [ingredient.name, ingredient.id])
+    );
+
+    // Create admin meals
+    for (const mealData of adminMeals) {
+      try {
+        const meal = await prisma.meal.create({
+          data: {
+            name: mealData.name,
+            description: mealData.description,
+            recipe: mealData.recipe,
+            mealType: mealData.mealType,
+            servings: mealData.servings,
+          } as any,
+        });
+
+        // Create meal ingredients
+        const mealIngredients = mealData.ingredients.map(ingredient => {
+          const ingredientId = ingredientMap.get(ingredient.ingredientName);
+          if (!ingredientId) {
+            console.warn(`⚠️ Ingredient not found: ${ingredient.ingredientName}`);
+            return null;
+          }
+          return {
+            mealId: meal.id,
+            ingredientId,
+            quantityGrams: ingredient.quantityGrams,
+          };
+        }).filter(Boolean);
+
+        if (mealIngredients.length > 0) {
+          await prisma.mealIngredient.createMany({
+            data: mealIngredients as any,
+          });
+        }
+
+        console.log(`✅ Created meal: ${meal.name}`);
+      } catch (error) {
+        console.error(`❌ Error creating meal ${mealData.name}:`, error);
+      }
+    }
+
+    // Display the created meals
+    const allMeals = await prisma.meal.findMany({
+      orderBy: {
+        mealType: 'asc',
+      },
+    });
+
+    console.log('\n📋 Admin meals in database:');
+    allMeals.forEach((meal, index) => {
+      console.log(`${index + 1}. ${meal.name} (${meal.mealType})`);
+    });
+
+    console.log('\n🎉 Meal seeding completed successfully!');
+  } catch (error) {
+    console.error('❌ Error seeding meals:', error);
+    throw error;
+  }
+}
+
+async function main() {
+  await seedIngredients();
+  await seedMeals();
+}
+
 // Run the seeding function
-seedIngredients()
+main()
   .catch((error) => {
     console.error(error);
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });
