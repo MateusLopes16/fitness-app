@@ -1,0 +1,41 @@
+<div class="nutrition-container">
+  <div class="nutrition-header">
+    <h1>🥗 Nutrition Management</h1>
+    <p>Manage your ingredients database with nutritional information</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error()">
+    <span class="error-icon">⚠️</span>
+    {{ error() }}
+    <button class="close-error" (click)="error.set('')">×</button>
+  </div>
+
+  <!-- Ingredients List Component -->
+  <app-ingredients-list
+    [ingredients]="ingredients()"
+    [loading]="loading()"
+    (addNewIngredient)="onAddIngredient()"
+    (editIngredient)="onEditIngredient($event)"
+    (deleteIngredient)="onDeleteIngredient($event)"
+    (refreshIngredients)="loadIngredients()"
+  ></app-ingredients-list>
+
+  <!-- Add/Edit Ingredient Popup -->
+  <app-add-ingredient-popup
+    [show]="showAddForm()"
+    [editingIngredient]="editingIngredient()"
+    [loading]="loading()"
+    (close)="closePopup()"
+    (save)="onSaveIngredient($event)"
+  ></app-add-ingredient-popup>
+
+  <!-- Delete Ingredient Popup -->
+  <app-delete-ingredient-popup
+    [show]="showDeleteForm()"
+    [ingredient]="deletingIngredient()"
+    [loading]="loading()"
+    (close)="onCloseDeleteForm()"
+    (confirm)="onConfirmDelete()"
+  ></app-delete-ingredient-popup>
+</div>

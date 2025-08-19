@@ -1,0 +1,335 @@
+.ingredients-list-container {
+  width: 100%;
+  font-family: inherit;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: var(--border-light);
+
+  h3 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+
+  .add-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+  }
+
+  p {
+    color: var(--dark-text-secondary);
+    font-size: 1rem;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.ingredients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.ingredient-item {
+  background: var(--dark-surface);
+  border: var(--border-light);
+  border-radius: var(--border-radius-large);
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
+  gap: 15px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: var(--border-radius-large) 0 0 var(--border-radius-large);
+    transition: all 0.2s ease;
+  }
+
+  &.admin-ingredient::before {
+    background: linear-gradient(180deg, #FFD700, #FFA500);
+  }
+
+  &.user-ingredient::before {
+    background: var(--gradient-primary);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.02);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .col-name {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px;
+
+    .ingredient-name {
+      font-weight: 600;
+      color: var(--dark-text);
+      font-size: 1rem;
+    }
+
+    .creator-badge {
+      font-size: 0.8rem;
+      opacity: 0.7;
+
+      &.admin {
+        color: #FFD700;
+      }
+
+      &.user {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .col-brand {
+    color: var(--dark-text-secondary);
+    font-style: italic;
+    font-size: 0.85rem;
+
+    .no-data {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .col-calories,
+  .col-protein,
+  .col-carbs,
+  .col-fat,
+  .col-fiber {
+    font-weight: 500;
+    font-size: 0.85rem;
+
+    .value {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+
+    .no-data {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .col-calories .value {
+    color: #FF6B9D;
+  }
+
+  .col-protein .value {
+    color: #4ECDC4;
+  }
+
+  .col-carbs .value {
+    color: #45B7D1;
+  }
+
+  .col-fat .value {
+    color: #FFA726;
+  }
+
+  .col-fiber .value {
+    color: #66BB6A;
+  }
+
+  .col-actions {
+    justify-content: flex-end;
+    gap: 8px;
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        padding: 6px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+
+        &.edit-btn:hover {
+          background: rgba(100, 255, 218, 0.1);
+        }
+
+        &.delete-btn:hover {
+          background: rgba(255, 107, 157, 0.1);
+        }
+      }
+    }
+
+    .admin-only {
+      font-size: 0.75rem;
+      color: var(--dark-text-secondary);
+      font-style: italic;
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--dark-text-secondary);
+
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  h3 {
+    color: var(--dark-text);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin-bottom: 30px;
+    font-size: 1rem;
+  }
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-icon {
+    font-size: 1rem;
+  }
+
+  &.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--dark-bg);
+    box-shadow: 0 4px 15px rgba(100, 255, 218, 0.2);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .ingredient-item {
+    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 1.2fr;
+  }
+
+  .col-brand {
+    display: none;
+  }
+}
+
+@media (max-width: 968px) {
+  .ingredient-item {
+    grid-template-columns: 2.5fr 1fr 1fr 1fr 1.2fr;
+  }
+
+  .col-fiber {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .list-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+
+    .add-btn {
+      align-self: stretch;
+    }
+  }
+
+  .ingredient-item {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 12px 15px;
+  }
+
+  .col-fat {
+    display: none;
+  }
+
+  .ingredient-item {
+    font-size: 0.85rem;
+
+    .col-name .ingredient-name {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .ingredient-item {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .col-carbs {
+    display: none;
+  }
+}

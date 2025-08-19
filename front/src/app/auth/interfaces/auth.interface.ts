@@ -10,6 +10,7 @@ export interface RegisterRequest {
   height?: number;
   weight?: number;
   dateOfBirth?: string;
+  gender?: Gender;
   activityLevel?: ActivityLevel;
   objective?: FitnessObjective;
   workoutsPerWeek?: number;
@@ -28,6 +29,7 @@ export interface User {
   height?: number;
   weight?: number;
   dateOfBirth?: string;
+  gender?: Gender;
   activityLevel?: ActivityLevel;
   objective?: FitnessObjective;
   workoutsPerWeek?: number;
@@ -47,4 +49,9 @@ export enum FitnessObjective {
   BULK = 'BULK',
   LEAN = 'LEAN',
   MAINTAIN = 'MAINTAIN',
+}
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }

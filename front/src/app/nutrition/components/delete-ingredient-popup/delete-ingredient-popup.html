@@ -1,0 +1,39 @@
+<div class="popup-overlay" *ngIf="show" (click)="onOverlayClick($event)">
+  <div class="popup-container">
+    <div class="popup-header">
+      <h3>Delete Ingredient</h3>
+      <button class="close-btn" (click)="onClose()">×</button>
+    </div>
+
+    <div class="popup-content">
+      <div class="warning-icon">⚠️</div>
+      <p class="confirmation-text">
+        Are you sure you want to delete 
+        <strong>"{{ ingredient?.name }}"</strong>?
+      </p>
+      <p class="warning-text">
+        This action cannot be undone.
+      </p>
+    </div>
+
+    <div class="popup-actions">
+      <button 
+        type="button" 
+        class="btn btn-danger"
+        (click)="onConfirm()"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Deleting...' : 'Delete' }}
+      </button>
+      
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        (click)="onClose()"
+        [disabled]="loading"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

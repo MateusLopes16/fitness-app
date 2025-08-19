@@ -65,6 +65,11 @@ enum FitnessObjective {
   MAINTAIN
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
 // USERS & AUTH
 model User {
   id              String            @id @default(uuid())
@@ -74,6 +79,7 @@ model User {
   height          Decimal?
   weight          Decimal?
   dateOfBirth     DateTime?         @map("date_of_birth")
+  gender          Gender?
   activityLevel   ActivityLevel     @default(SEDENTARY) @map("activity_level")
   objective       FitnessObjective? @default(MAINTAIN)
   workoutsPerWeek Int?              @default(3) @map("workouts_per_week")
@@ -87,6 +93,7 @@ model User {
   workouts        Workout[]
   workoutSessions WorkoutSession[]
   subscription    Subscription?
+  ingredients     Ingredient[]
 
   @@map("users")
 }
@@ -104,10 +111,12 @@ model Ingredient {
   fiberPer100g     Decimal? @map("fiber_per_100g")
   sugarPer100g     Decimal? @map("sugar_per_100g")
   sodiumPer100g    Decimal? @map("sodium_per_100g")
+  createdBy        String? @map("created_by") // "admin" for admin-created, userId for user-created
   createdAt        DateTime @default(now()) @map("created_at")
 
   // Relations
   mealIngredients  MealIngredient[]
+  creator         User? @relation(fields: [createdBy], references: [id])
 
   @@map("ingredients")
 }

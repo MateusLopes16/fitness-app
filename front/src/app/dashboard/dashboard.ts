@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth/auth';
-import { ActivityLevel, FitnessObjective } from '../auth/interfaces/auth.interface';
+import { ActivityLevel, FitnessObjective, Gender } from '../auth/interfaces/auth.interface';
 import { SubscriptionService, Subscription } from '../services/subscription.service';
 import { UserService } from '../services/user.service';
 import { ConfirmationDialogComponent, ConfirmationDialogData } from '../shared/confirmation-dialog/confirmation-dialog.component';
@@ -46,6 +46,7 @@ export class DashboardComponent implements OnInit {
       email: [this.currentUser()?.email || '', [Validators.required, Validators.email]],
       height: [this.currentUser()?.height || '', [Validators.min(50), Validators.max(300)]],
       weight: [this.currentUser()?.weight || '', [Validators.min(20), Validators.max(500)]],
+      gender: [this.currentUser()?.gender || ''],
       activityLevel: [this.currentUser()?.activityLevel || ''],
       objective: [this.currentUser()?.objective || FitnessObjective.MAINTAIN],
       workoutsPerWeek: [this.currentUser()?.workoutsPerWeek || 3, [Validators.min(0), Validators.max(7)]]
@@ -91,6 +92,7 @@ export class DashboardComponent implements OnInit {
           email: user.email,
           height: user.height,
           weight: user.weight,
+          gender: user.gender,
           activityLevel: user.activityLevel,
           objective: user.objective,
           workoutsPerWeek: user.workoutsPerWeek
@@ -128,7 +130,6 @@ export class DashboardComponent implements OnInit {
   }
 
   formatObjective(objective?: FitnessObjective): string {
-    console.log('Formatting objective:', objective);
     if (!objective) return 'Not set';
     
     switch (objective) {
@@ -152,6 +153,7 @@ export class DashboardComponent implements OnInit {
         email: this.currentUser()?.email || '',
         height: this.currentUser()?.height || '',
         weight: this.currentUser()?.weight || '',
+        gender: this.currentUser()?.gender || '',
         activityLevel: this.currentUser()?.activityLevel || '',
         objective: this.currentUser()?.objective || FitnessObjective.MAINTAIN,
         workoutsPerWeek: this.currentUser()?.workoutsPerWeek || 3
@@ -170,6 +172,7 @@ export class DashboardComponent implements OnInit {
         email: formValue.email,
         height: formValue.height ? Number(formValue.height) : undefined,
         weight: formValue.weight ? Number(formValue.weight) : undefined,
+        gender: formValue.gender,
         activityLevel: formValue.activityLevel,
         objective: formValue.objective,
         workoutsPerWeek: formValue.workoutsPerWeek ? Number(formValue.workoutsPerWeek) : undefined
@@ -201,6 +204,7 @@ export class DashboardComponent implements OnInit {
             email: updatedUser.email,
             height: updatedUser.height,
             weight: updatedUser.weight,
+            gender: updatedUser.gender,
             activityLevel: updatedUser.activityLevel,
             objective: updatedUser.objective,
             workoutsPerWeek: updatedUser.workoutsPerWeek
@@ -235,14 +239,19 @@ export class DashboardComponent implements OnInit {
     const user = this.currentUser();
     if (!user?.height || !user?.weight) return 0;
 
-    // Assuming male for simplicity - in a real app, you'd have gender field
-    // BMR for men: 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
-    // For now, using age 30 as default since we don't have birthdate calculation
-    const age = 30; // Default age
+    // Using Harris-Benedict equation
+    const age = 30; // Default age since we don't have birthdate calculation
     const weight = Number(user.weight);
     const height = Number(user.height);
+    const gender = user.gender || Gender.MALE; // Default to male if not specified
     
-    return Math.round(88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age));
+    if (gender === Gender.MALE) {
+      // BMR for men: 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
+      return Math.round(88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age));
+    } else {
+      // BMR for women: 447.593 + (9.247 × weight in kg) + (3.098 × height in cm) - (4.330 × age in years)
+      return Math.round(447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age));
+    }
   }
 
   // Calculate Total Daily Energy Expenditure (TDEE)
@@ -279,6 +288,28 @@ export class DashboardComponent implements OnInit {
       case FitnessObjective.MAINTAIN:
       default:
         return tdee;
+    }
+  }
+
+  // Calculate protein objective (1.8g per kg of body weight)
+  calculateProteinObjective(): number {
+    const user = this.currentUser();
+    if (!user?.weight) return 0;
+    
+    const weight = Number(user.weight);
+    return Math.round(weight * 1.8);
+  }
+
+  formatGender(gender?: Gender): string {
+    if (!gender) return 'Not set';
+    
+    switch (gender) {
+      case Gender.MALE:
+        return 'Male';
+      case Gender.FEMALE:
+        return 'Female';
+      default:
+        return gender;
     }
   }
 

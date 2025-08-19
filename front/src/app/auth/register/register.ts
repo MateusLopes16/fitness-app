@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth';
-import { RegisterRequest, ActivityLevel } from '../interfaces/auth.interface';
+import { RegisterRequest, ActivityLevel, Gender } from '../interfaces/auth.interface';
 
 @Component({
   selector: 'app-register',
@@ -31,6 +31,7 @@ export class RegisterComponent {
       height: [''],
       weight: [''],
       dateOfBirth: [''],
+      gender: [''],
       activityLevel: ['']
     });
   }
@@ -48,6 +49,7 @@ export class RegisterComponent {
         ...(formValue.height && { height: parseFloat(formValue.height) }),
         ...(formValue.weight && { weight: parseFloat(formValue.weight) }),
         ...(formValue.dateOfBirth && { dateOfBirth: formValue.dateOfBirth }),
+        ...(formValue.gender && { gender: formValue.gender as Gender }),
         ...(formValue.activityLevel && { activityLevel: formValue.activityLevel as ActivityLevel })
       };
 

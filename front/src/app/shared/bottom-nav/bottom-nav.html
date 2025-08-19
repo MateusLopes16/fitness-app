@@ -10,7 +10,12 @@
       <span class="nav-label">Home</span>
     </div>
 
-    <div class="nav-item disabled">
+    <div 
+      class="nav-item" 
+      [class.active]="currentRoute() === 'nutrition'"
+      (click)="navigateTo('/nutrition')"
+      style="cursor: pointer;"
+    >
       <div class="nav-icon">🥗</div>
       <span class="nav-label">Nutrition</span>
     </div>

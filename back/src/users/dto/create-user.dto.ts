@@ -1,7 +1,7 @@
 import { IsEmail, IsString, MinLength, IsOptional, IsEnum, IsDateString, IsNumber } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-enum ActivityLevel {
+export enum ActivityLevel {
   SEDENTARY = 'SEDENTARY',
   LIGHTLY_ACTIVE = 'LIGHTLY_ACTIVE',
   MODERATELY_ACTIVE = 'MODERATELY_ACTIVE',
@@ -9,10 +9,15 @@ enum ActivityLevel {
   EXTREMELY_ACTIVE = 'EXTREMELY_ACTIVE',
 }
 
-enum FitnessObjective {
+export enum FitnessObjective {
   BULK = 'BULK',
   LEAN = 'LEAN',
   MAINTAIN = 'MAINTAIN',
+}
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export class CreateUserDto {
@@ -43,6 +48,11 @@ export class CreateUserDto {
   @IsOptional()
   @IsDateString()
   dateOfBirth?: string;
+
+  @ApiPropertyOptional({ enum: Gender, example: Gender.MALE })
+  @IsOptional()
+  @IsEnum(Gender)
+  gender?: Gender;
 
   @ApiPropertyOptional({ enum: ActivityLevel, example: ActivityLevel.MODERATELY_ACTIVE })
   @IsOptional()
