@@ -10,8 +10,8 @@
     
     /* Background Colors */
     --dark-bg: #121212;
-    --dark-surface: #1e1e1e;
-    --dark-surface-light: #2d2d2d;
+    --dark-surface: rgba(26, 26, 46, 0.8);
+    --dark-surface-light: rgba(40, 40, 70, 0.8);
     
     /* Text Colors */
     --dark-text: #ffffff;
@@ -46,20 +46,21 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+    min-height: 100vh;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: var(--gradient-bg);
     color: var(--dark-text);
-    min-height: 100vh;
+    min-height: 100%;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding-bottom: 80px; /* Space for bottom navigation */
 }
 
-html {
-    scroll-behavior: smooth;
-}
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {

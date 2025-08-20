@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 
   showLoginModal = signal(false);
   showRegisterModal = signal(false);
+  private modalInteracted = signal(false);
 
   get isLoggedIn() {
     return this.authService.isAuthenticated();
@@ -29,23 +30,40 @@ export class HomeComponent implements OnInit {
   openLoginModal() {
     this.showLoginModal.set(true);
     this.showRegisterModal.set(false);
+    this.modalInteracted.set(false);
   }
 
   openRegisterModal() {
     this.showRegisterModal.set(true);
     this.showLoginModal.set(false);
+    this.modalInteracted.set(false);
   }
 
   closeModals() {
     this.showLoginModal.set(false);
     this.showRegisterModal.set(false);
+    this.modalInteracted.set(false);
   }
 
   onOverlayClick(event: Event) {
     // Only close if the clicked element is the overlay itself, not a child
-    if (event.target === event.currentTarget) {
+    const target = event.target as HTMLElement;
+    const overlay = event.currentTarget as HTMLElement;
+    
+    // Only close on direct overlay clicks and only if no recent interaction
+    if (target === overlay && !this.modalInteracted()) {
       this.closeModals();
     }
+    
+    // Reset interaction flag after a delay to allow intentional overlay clicks
+    setTimeout(() => {
+      this.modalInteracted.set(false);
+    }, 300);
+  }
+
+  onModalContentInteraction() {
+    // Track that user has interacted with modal content
+    this.modalInteracted.set(true);
   }
 
   switchToRegister() {

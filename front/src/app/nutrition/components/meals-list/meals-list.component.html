@@ -2,24 +2,8 @@
       <div class="meals-header">
         <div class="title-section">
           <h2>🍽️ Your Meals</h2>
-          <p>Your personal meals and daily nutrition</p>
         </div>
         <div class="action-buttons">
-          <button class="btn-filter" 
-                  [class.active]="filterType() === 'all'"
-                  (click)="filterType.set('all')">
-            All
-          </button>
-          <button class="btn-filter" 
-                  [class.active]="filterType() === 'admin'"
-                  (click)="filterType.set('admin')">
-            Admin
-          </button>
-          <button class="btn-filter" 
-                  [class.active]="filterType() === 'user'"
-                  (click)="filterType.set('user')">
-            Personal
-          </button>
           <button class="btn-primary" (click)="addNewMeal.emit()">
             <span class="icon">➕</span>
             Add Meal

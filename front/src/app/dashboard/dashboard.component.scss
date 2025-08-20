@@ -159,7 +159,8 @@
       }
     }
 
-    .edit-btn {
+    .edit-btn,
+    .logout-btn {
       background: var(--dark-surface-light);
       border: var(--border-light);
       color: var(--dark-text);
@@ -174,6 +175,11 @@
         background: var(--dark-surface);
         transform: scale(1.1);
       }
+
+    }
+
+    .logout-btn {
+      background: rgba(255, 107, 107, 0.2);
     }
   }
 
@@ -311,7 +317,7 @@
     text-align: center;
     padding: 2rem;
     color: var(--dark-text-secondary);
-    
+
     p {
       margin: 0;
       font-style: italic;
@@ -335,7 +341,7 @@
 
       .plan-status {
         padding: 0.25rem 0.75rem;
-        border-radius: 10px; 
+        border-radius: 10px;
         font-size: 0.8rem;
         font-weight: 500;
         background: rgba(255, 193, 7, 0.2);
@@ -376,7 +382,7 @@
 
       .subscription-actions {
         margin-top: 1rem;
-        
+
         .upgrade-btn {
           width: 100%;
           background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
@@ -408,7 +414,8 @@
             flex-direction: column;
             gap: 0.5rem;
 
-            .pause-btn, .resume-btn {
+            .pause-btn,
+            .resume-btn {
               width: 100%;
               padding: 0.75rem;
               border-radius: var(--border-radius);
@@ -453,7 +460,8 @@
             display: flex;
             gap: 0.5rem;
 
-            .change-plan-btn, .cancel-btn {
+            .change-plan-btn,
+            .cancel-btn {
               flex: 1;
               padding: 0.75rem;
               border-radius: var(--border-radius);

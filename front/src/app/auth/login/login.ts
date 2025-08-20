@@ -18,6 +18,7 @@ export class LoginComponent {
   
   // Output event to close modal
   loginSuccess = output<void>();
+  userInteracted = output<void>();
   
   loginForm: FormGroup;
   isLoading = signal(false);
@@ -32,6 +33,7 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      this.userInteracted.emit(); // Track interaction
       this.isLoading.set(true);
       this.errorMessage.set('');
 

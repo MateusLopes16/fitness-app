@@ -1,18 +1,4 @@
 <div class="dashboard-container">
-  <!-- Header Section -->
-  <header class="dashboard-header">
-    <div class="header-content">
-      <div class="welcome-section">
-        <h1>Welcome back, <span class="user-name">{{ currentUser()?.name }}</span>!</h1>
-      </div>
-      <div class="header-actions">
-        <button (click)="logout()" class="logout-btn">
-          <span class="logout-icon">🚪</span>
-          Logout
-        </button>
-      </div>
-    </div>
-  </header>
 
   <!-- Payment Success/Error Message -->
   <div class="payment-message" *ngIf="paymentMessage" [class.success]="paymentMessage.includes('successful')"
@@ -39,6 +25,9 @@
           <button class="edit-btn" (click)="toggleEditProfile()">
             <span *ngIf="!isEditingProfile()">✏️</span>
             <span *ngIf="isEditingProfile()">❌</span>
+          </button>
+          <button (click)="logout()" class="logout-btn">
+            <span>🚪</span>
           </button>
         </div>
 
@@ -85,7 +74,7 @@
               <option value="EXTREMELY_ACTIVE">Extremely Active</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label>Fitness Objective</label>
             <select formControlName="objective" class="form-select">
@@ -94,7 +83,7 @@
               <option value="LEAN">Lean (Fat Loss)</option>
             </select>
           </div>
-          
+
           <div class="form-group">
             <label>Workouts per Week</label>
             <select formControlName="workoutsPerWeek" class="form-select">
@@ -151,12 +140,12 @@
         <div class="subscription-header">
           <h3>🎯 Current Plan</h3>
         </div>
-        
+
         <!-- Loading State -->
         <div *ngIf="isLoadingSubscription()" class="subscription-loading">
           <p>Loading subscription...</p>
         </div>
-        
+
         <!-- Subscription Details -->
         <div *ngIf="!isLoadingSubscription()" class="subscription-details">
           <div class="plan-info">
@@ -177,7 +166,7 @@
               <span class="date-value">{{ subscription?.currentPeriodEnd | date:'MMM dd, yyyy' }}</span>
               <span class="days-remaining">({{ getRemainingDays() }} days left)</span>
             </div>
-            
+
             <!-- Subscription Management Actions -->
             <div class="subscription-actions">
               <!-- Free Plan Upgrade -->
@@ -185,44 +174,32 @@
                 <span class="btn-icon">⬆️</span>
                 Upgrade Plan
               </button>
-              
+
               <!-- Premium Plan Management -->
               <div class="premium-actions" *ngIf="subscription?.plan !== 'FREE'">
                 <!-- Auto-renewal Controls -->
                 <div class="renewal-controls">
-                  <button 
-                    class="pause-btn" 
-                    *ngIf="canPauseSubscription()" 
-                    (click)="pauseAutoRenewal()"
+                  <button class="pause-btn" *ngIf="canPauseSubscription()" (click)="pauseAutoRenewal()"
                     title="Pause auto-renewal">
                     <span class="btn-icon">⏸️</span>
                     Pause Auto-Renewal
                   </button>
-                  
-                  <button 
-                    class="resume-btn" 
-                    *ngIf="canResumeSubscription()" 
-                    (click)="resumeAutoRenewal()"
+
+                  <button class="resume-btn" *ngIf="canResumeSubscription()" (click)="resumeAutoRenewal()"
                     title="Resume auto-renewal">
                     <span class="btn-icon">▶️</span>
                     Resume Auto-Renewal
                   </button>
                 </div>
-                
+
                 <!-- Plan Actions -->
                 <div class="plan-actions">
-                  <button 
-                    class="change-plan-btn" 
-                    routerLink="/subscription-plans"
-                    title="Change to a different plan">
+                  <button class="change-plan-btn" routerLink="/subscription-plans" title="Change to a different plan">
                     <span class="btn-icon">🔄</span>
                     Change Plan
                   </button>
-                  
-                  <button 
-                    class="cancel-btn" 
-                    *ngIf="canCancelSubscription()" 
-                    (click)="cancelSubscription()"
+
+                  <button class="cancel-btn" *ngIf="canCancelSubscription()" (click)="cancelSubscription()"
                     title="Cancel subscription">
                     <span class="btn-icon">❌</span>
                     Cancel
@@ -268,18 +245,11 @@
   </div>
 
   <!-- Confirmation Dialog -->
-  <app-confirmation-dialog
-    [isVisible]="showConfirmDialog()"
-    [dialogData]="confirmDialogData"
-    [isProcessing]="isProcessingAction()"
-    (confirm)="onConfirmAction()"
-    (cancel)="onCancelAction()">
+  <app-confirmation-dialog [isVisible]="showConfirmDialog()" [dialogData]="confirmDialogData"
+    [isProcessing]="isProcessingAction()" (confirm)="onConfirmAction()" (cancel)="onCancelAction()">
   </app-confirmation-dialog>
 
   <!-- Success/Error Notifications -->
-  <app-notification
-    [isVisible]="showNotification()"
-    [data]="notificationData"
-    (closed)="onNotificationClosed()">
+  <app-notification [isVisible]="showNotification()" [data]="notificationData" (closed)="onNotificationClosed()">
   </app-notification>
 </div>

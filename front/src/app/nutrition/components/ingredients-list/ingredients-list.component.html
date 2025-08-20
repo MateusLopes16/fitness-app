@@ -1,9 +1,9 @@
 <div class="ingredients-list-container">
   <!-- Header -->
   <div class="list-header">
-    <h3>Your Ingredients ({{ ingredients.length }})</h3>
+    <h2>Your Ingredients ({{ ingredients.length }})</h2>
     <button 
-      class="btn btn-primary add-btn" 
+      class="btn-primary" 
       (click)="addNewIngredient.emit()"
       [disabled]="loading"
     >

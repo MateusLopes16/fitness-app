@@ -1,6 +1,6 @@
-<div class="auth-card">
+<div class="auth-card" (click)="$event.stopPropagation()">
   <h2>Login to Your Account</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" (click)="$event.stopPropagation()">
     
     <div class="form-group">
       <label for="email">Email</label>
@@ -11,6 +11,7 @@
         class="form-input"
         [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
         placeholder="Enter your email"
+        (focus)="userInteracted.emit()"
       />
       <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
         Please enter a valid email address
@@ -26,6 +27,7 @@
         class="form-input"
         [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
         placeholder="Enter your password"
+        (focus)="userInteracted.emit()"
       />
       <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
         Password must be at least 6 characters long

@@ -18,6 +18,7 @@ export class RegisterComponent {
   
   // Output event to close modal
   registerSuccess = output<void>();
+  userInteracted = output<void>();
   
   registerForm: FormGroup;
   isLoading = signal(false);
@@ -76,5 +77,12 @@ export class RegisterComponent {
         }
       });
     }
+  }
+
+  onSelectChange(event: Event) {
+    // Prevent event propagation to avoid closing modal
+    event.stopPropagation();
+    // Emit interaction event
+    this.userInteracted.emit();
   }
 }

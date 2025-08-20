@@ -466,12 +466,13 @@ p {
     justify-content: center;
     z-index: 2000;
     animation: fadeIn 0.3s ease;
+    width: 100%;
 }
 
 .modal-content {
     position: relative;
-    max-width: 950px; // Increased for register form
-    width: 95%;
+    max-width: 900px; 
+    width: 75%;
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease;
@@ -483,17 +484,6 @@ p {
         box-shadow: var(--shadow-modal);
         position: relative;
         z-index: 1;
-    }
-
-    // Ensure all child elements don't propagate clicks
-    * {
-        pointer-events: auto;
-    }
-
-    // Special handling for select elements
-    select {
-        position: relative;
-        z-index: 10;
     }
 
     // Special handling for register modal to be wider
@@ -509,25 +499,33 @@ p {
 
 .modal-close {
     position: absolute;
-    top: 1rem;
-    right: 4rem;
-    background: none;
-    border: none;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: var(--dark-surface);
+    border: 2px solid var(--border-primary);
     color: var(--dark-text-secondary);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     cursor: pointer;
-    z-index: 10;
-    width: 2rem;
-    height: 2rem;
+    z-index: 100;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--border-radius-round);
+    border-radius: 50%;
     transition: all 0.2s ease;
+    line-height: 1;
+    box-shadow: var(--shadow-default);
 
     &:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--dark-text);
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
     }
 }
 
@@ -583,5 +581,13 @@ p {
         width: 98%;
         max-width: 100% !important; // Override both login and register max-widths on mobile
         max-height: 95vh;
+    }
+
+    .modal-close {
+        top: -0.25rem;
+        right: -0.25rem;
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
     }
 }

@@ -1,6 +1,6 @@
-<div class="auth-card">
+<div class="auth-card" (click)="$event.stopPropagation()">
   <h2>Create Your Account</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" (click)="$event.stopPropagation()">
     
     <!-- Two Column Layout -->
     <div class="form-columns">
@@ -9,7 +9,6 @@
       <div class="form-column general-info">
         <div class="column-header">
           <h3>General Information</h3>
-          <p class="column-description">Required to create your account</p>
         </div>
         
         <div class="form-group">
@@ -21,6 +20,7 @@
             class="form-input"
             [class.error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
             placeholder="Enter your full name"
+            (focus)="userInteracted.emit()"
           />
           <div class="error-message" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
             Name is required
@@ -36,6 +36,7 @@
             class="form-input"
             [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
             placeholder="Enter your email"
+            (focus)="userInteracted.emit()"
           />
           <div class="error-message" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
             Please enter a valid email address
@@ -51,6 +52,7 @@
             class="form-input"
             [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
             placeholder="Enter your password"
+            (focus)="userInteracted.emit()"
           />
           <div class="error-message" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
             Password must be at least 6 characters long
@@ -62,7 +64,6 @@
       <div class="form-column optional-info">
         <div class="column-header">
           <h3>Optional Information</h3>
-          <p class="column-description">Help us personalize your fitness experience</p>
         </div>
         
         <div class="form-row">
@@ -110,6 +111,8 @@
             id="gender"
             formControlName="gender"
             class="form-input"
+            (click)="onSelectChange($event)"
+            (change)="onSelectChange($event)"
           >
             <option value="">Select your gender</option>
             <option value="MALE">Male</option>
@@ -123,6 +126,8 @@
             id="activityLevel"
             formControlName="activityLevel"
             class="form-input"
+            (click)="onSelectChange($event)"
+            (change)="onSelectChange($event)"
           >
             <option value="">Select your activity level</option>
             <option value="SEDENTARY">Sedentary (little or no exercise)</option>
