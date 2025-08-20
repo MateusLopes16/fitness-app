@@ -9,8 +9,8 @@ import { IngredientService } from '../../services/ingredient.service';
   selector: 'app-meal-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './meal-form.html',
-  styleUrls: ['./meal-form.scss']
+  templateUrl: './meal-form.component.html',
+  styleUrls: ['./meal-form.component.scss']
 })
 export class MealFormComponent implements OnInit {
   editingMeal = input<Meal | null>(null);

@@ -4,14 +4,14 @@ import { IngredientService } from './services/ingredient.service';
 import { MealService } from './services/meal.service';
 import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interface';
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
-import { IngredientsListComponent } from './components/ingredients-list/ingredients-list';
-import { AddIngredientPopupComponent } from './components/add-ingredient-popup/add-ingredient-popup';
-import { DeleteIngredientPopupComponent } from './components/delete-ingredient-popup/delete-ingredient-popup';
-import { MealsListComponent } from './components/meals-list/meals-list';
-import { MealDetailComponent } from './components/meal-detail/meal-detail';
-import { MealFormComponent } from './components/meal-form/meal-form';
-import { DuplicateMealPopupComponent } from './components/duplicate-meal-popup/duplicate-meal-popup';
-import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-meal-popup';
+import { IngredientsListComponent } from './components/ingredients-list/ingredients-list.component';
+import { AddIngredientPopupComponent } from './components/add-ingredient-popup/add-ingredient-popup.component';
+import { DeleteIngredientPopupComponent } from './components/delete-ingredient-popup/delete-ingredient-popup.component';
+import { MealsListComponent } from './components/meals-list/meals-list.component';
+import { MealDetailComponent } from './components/meal-detail/meal-detail.component';
+import { MealFormComponent } from './components/meal-form/meal-form.component';
+import { DuplicateMealPopupComponent } from './components/duplicate-meal-popup/duplicate-meal-popup.component';
+import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-meal-popup.component';
 
 @Component({
   selector: 'app-nutrition',
@@ -27,8 +27,8 @@ import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-
     DuplicateMealPopupComponent,
     DeleteMealPopupComponent
   ],
-  templateUrl: './nutrition.html',
-  styleUrls: ['./nutrition.scss']
+  templateUrl: './nutrition.component.html',
+  styleUrls: ['./nutrition.component.scss']
 })
 export class NutritionComponent implements OnInit {
   // Tab management

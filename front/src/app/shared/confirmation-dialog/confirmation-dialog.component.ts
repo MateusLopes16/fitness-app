@@ -14,42 +14,7 @@ export interface ConfirmationDialogData {
   selector: 'app-confirmation-dialog',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="confirmation-overlay" *ngIf="isVisible" (click)="onOverlayClick($event)">
-      <div class="confirmation-dialog" [class]="dialogData?.type || 'info'">
-        <div class="dialog-header">
-          <div class="dialog-icon">
-            {{ dialogData?.icon || getDefaultIcon() }}
-          </div>
-          <h3 class="dialog-title">{{ dialogData?.title }}</h3>
-        </div>
-        
-        <div class="dialog-content">
-          <p class="dialog-message">{{ dialogData?.message }}</p>
-        </div>
-        
-        <div class="dialog-actions">
-          <button 
-            class="cancel-btn" 
-            (click)="onCancel()"
-            [disabled]="isProcessing">
-            {{ dialogData?.cancelText || 'Cancel' }}
-          </button>
-          <button 
-            class="confirm-btn" 
-            [class]="dialogData?.type || 'info'"
-            (click)="onConfirm()"
-            [disabled]="isProcessing">
-            <span *ngIf="!isProcessing">{{ dialogData?.confirmText || 'Confirm' }}</span>
-            <span *ngIf="isProcessing" class="loading-content">
-              <span class="loading-spinner"></span>
-              Processing...
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  `,
+  templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {

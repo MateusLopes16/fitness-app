@@ -163,20 +163,20 @@
   </footer>
 
   <!-- Modal Overlays -->
-  <div class="modal-overlay" *ngIf="showLoginModal()" (click)="closeModals()">
+  <div class="modal-overlay" *ngIf="showLoginModal()" (click)="onOverlayClick($event)">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="modal-close" (click)="closeModals()">&times;</button>
-      <app-login (loginSuccess)="closeModals()"></app-login>
+      <app-login (loginSuccess)="closeModals()" (click)="$event.stopPropagation()"></app-login>
       <div class="modal-footer">
         <p>Don't have an account? <button class="link-button" (click)="switchToRegister()">Register here</button></p>
       </div>
     </div>
   </div>
 
-  <div class="modal-overlay" *ngIf="showRegisterModal()" (click)="closeModals()">
+  <div class="modal-overlay" *ngIf="showRegisterModal()" (click)="onOverlayClick($event)">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="modal-close" (click)="closeModals()">&times;</button>
-      <app-register (registerSuccess)="closeModals()"></app-register>
+      <app-register (registerSuccess)="closeModals()" (click)="$event.stopPropagation()"></app-register>
       <div class="modal-footer">
         <p>Already have an account? <button class="link-button" (click)="switchToLogin()">Login here</button></p>
       </div>

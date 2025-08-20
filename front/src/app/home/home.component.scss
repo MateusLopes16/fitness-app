@@ -475,11 +475,25 @@ p {
     max-height: 90vh;
     overflow-y: auto;
     animation: slideUp 0.3s ease;
+    isolation: isolate; // Creates a new stacking context
 
     .auth-card {
         margin: 0;
         border: var(--border-primary);
         box-shadow: var(--shadow-modal);
+        position: relative;
+        z-index: 1;
+    }
+
+    // Ensure all child elements don't propagate clicks
+    * {
+        pointer-events: auto;
+    }
+
+    // Special handling for select elements
+    select {
+        position: relative;
+        z-index: 10;
     }
 
     // Special handling for register modal to be wider

@@ -6,8 +6,8 @@ import { filter, Subscription } from 'rxjs';
 @Component({
   selector: 'app-bottom-nav',
   imports: [CommonModule],
-  templateUrl: './bottom-nav.html',
-  styleUrl: './bottom-nav.scss'
+  templateUrl: './bottom-nav.component.html',
+  styleUrl: './bottom-nav.component.scss'
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
   private router = inject(Router);

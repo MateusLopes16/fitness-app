@@ -6,8 +6,8 @@ import { Ingredient } from '../../interfaces/ingredient.interface';
   selector: 'app-delete-ingredient-popup',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './delete-ingredient-popup.html',
-  styleUrl: './delete-ingredient-popup.scss'
+  templateUrl: './delete-ingredient-popup.component.html',
+  styleUrl: './delete-ingredient-popup.component.scss'
 })
 export class DeleteIngredientPopupComponent {
   @Input() show = false;

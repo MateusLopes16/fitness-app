@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home';
-import { DashboardComponent } from './dashboard/dashboard';
-import { SubscriptionPlansComponent } from './subscription-plans/subscription-plans';
-import { NutritionComponent } from './nutrition/nutrition';
+import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SubscriptionPlansComponent } from './subscription-plans/subscription-plans.component';
+import { NutritionComponent } from './nutrition/nutrition.component';
 import { authGuard } from './auth/auth-guard';
 
 export const routes: Routes = [

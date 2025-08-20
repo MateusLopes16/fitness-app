@@ -143,11 +143,29 @@
 
 select.form-input {
     cursor: pointer;
+    position: relative;
+    z-index: 10;
+
+    // Ensure dropdown stays within modal bounds
+    &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.15);
+    }
 
     option {
         background: var(--dark-surface);
         color: var(--dark-text);
         padding: 8px;
+        
+        &:hover, &:focus {
+            background: var(--dark-surface-light);
+        }
+        
+        &:checked {
+            background: var(--primary-color);
+            color: var(--dark-surface);
+        }
     }
 }
 

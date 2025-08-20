@@ -8,8 +8,8 @@ import { AuthService } from '../auth/auth';
 @Component({
   selector: 'app-home',
   imports: [CommonModule, LoginComponent, RegisterComponent],
-  templateUrl: './home.html',
-  styleUrl: './home.scss'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
@@ -39,6 +39,13 @@ export class HomeComponent implements OnInit {
   closeModals() {
     this.showLoginModal.set(false);
     this.showRegisterModal.set(false);
+  }
+
+  onOverlayClick(event: Event) {
+    // Only close if the clicked element is the overlay itself, not a child
+    if (event.target === event.currentTarget) {
+      this.closeModals();
+    }
   }
 
   switchToRegister() {

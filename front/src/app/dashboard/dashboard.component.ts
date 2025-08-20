@@ -12,8 +12,8 @@ import { NotificationComponent, NotificationData } from '../shared/notification/
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, ReactiveFormsModule, ConfirmationDialogComponent, NotificationComponent],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
   private authService = inject(AuthService);

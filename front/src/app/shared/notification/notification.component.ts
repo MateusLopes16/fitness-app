@@ -14,25 +14,7 @@ export interface NotificationData {
   selector: 'app-notification',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="notification-overlay" *ngIf="isVisible">
-      <div class="notification" [class]="data?.type || 'info'">
-        <div class="notification-content">
-          <div class="notification-icon">
-            {{ data?.icon || getDefaultIcon() }}
-          </div>
-          <div class="notification-text">
-            <h4 class="notification-title">{{ data?.title }}</h4>
-            <p class="notification-message">{{ data?.message }}</p>
-          </div>
-          <button class="close-btn" (click)="close()">
-            ✕
-          </button>
-        </div>
-        <div class="progress-bar" *ngIf="data?.autoClose" [style.width.%]="progressWidth"></div>
-      </div>
-    </div>
-  `,
+  templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
