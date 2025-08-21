@@ -16,6 +16,11 @@
             (click)="activeTab.set('ingredients')">
       🥕 Ingredients
     </button>
+    <button class="tab-button" 
+            [class.active]="activeTab() === 'scheduling'"
+            (click)="activeTab.set('scheduling')">
+      📅 Meal Scheduling
+    </button>
   </div>
 
   <!-- Error Message -->
@@ -43,6 +48,11 @@
       [loading]="loading()"
       (deleteIngredient)="onDeleteIngredient($event)"
     ></app-ingredients-list>
+  </div>
+
+  <!-- Meal Scheduling Tab -->
+  <div *ngIf="activeTab() === 'scheduling'" class="tab-content">
+    <app-meal-scheduling></app-meal-scheduling>
   </div>
 
   <!-- Meal Detail Modal -->

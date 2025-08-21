@@ -95,6 +95,7 @@ model User {
   workoutSessions WorkoutSession[]
   subscription    Subscription?
   ingredients     Ingredient[]
+  mealSchedules   MealSchedule[]
 
   @@map("users")
 }
@@ -139,6 +140,7 @@ model Meal {
   user        User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
   creator     User?             @relation("MealCreator", fields: [createdBy], references: [id])
   ingredients MealIngredient[]
+  schedules   MealSchedule[]
 
   @@map("meals")
 }
@@ -155,6 +157,26 @@ model MealIngredient {
   ingredient Ingredient @relation(fields: [ingredientId], references: [id])
 
   @@map("meal_ingredients")
+}
+
+// MEAL SCHEDULING SYSTEM
+model MealSchedule {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  mealId   String   @map("meal_id")
+  date     DateTime @db.Date
+  mealType MealType @map("meal_type")
+  completed Boolean  @default(false)
+  notes    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meal Meal @relation(fields: [mealId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, mealType])
+  @@map("meal_schedules")
 }
 
 // WORKOUT SYSTEM

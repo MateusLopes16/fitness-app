@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { IngredientsModule } from './nutrition/ingredients/ingredients.module';
 import { MealsModule } from './nutrition/meals/meals.module';
+import { MealScheduleModule } from './meal-schedule/meal-schedule.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MealsModule } from './nutrition/meals/meals.module';
     SubscriptionsModule,
     IngredientsModule,
     MealsModule,
+    MealScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

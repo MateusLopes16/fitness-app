@@ -1,0 +1,311 @@
+<div class="meal-scheduling-container">
+  <!-- Header -->
+  <div class="scheduling-header">
+    <h2>📅 Meal Scheduling</h2>
+    <p>Plan and track your daily meals</p>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error()">
+    <span class="error-icon">⚠️</span>
+    {{ error() }}
+    <button class="close-error" (click)="error.set('')">×</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="scheduling-content">
+    <!-- Left Panel - Calendar & Meal List -->
+    <div class="left-panel">
+      <!-- Date Selector -->
+      <div class="date-selector">
+        <label for="date">Select Date:</label>
+        <input
+          type="date"
+          id="date"
+          [value]="selectedDate()"
+          (change)="onDateChange(($any($event.target)).value)"
+          class="date-input"
+        >
+      </div>
+
+      <!-- Daily Nutrition Summary -->
+      <div class="daily-summary" *ngIf="mealSchedules().length > 0">
+        <h3>📊 Daily Summary</h3>
+        <div class="summary-stats">
+          <div class="stat-item">
+            <span class="stat-value">{{ getTotalCalories().toFixed(0) }}</span>
+            <span class="stat-label">Total kcal</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">{{ getCompletedMealsCount() }}/{{ mealSchedules().length }}</span>
+            <span class="stat-label">Meals Done</span>
+          </div>
+        </div>
+        <div class="nutrition-breakdown">
+          <div class="macro-item">
+            <span class="macro-label">Protein:</span>
+            <span class="macro-value">{{ getTotalProtein().toFixed(1) }}g</span>
+          </div>
+          <div class="macro-item">
+            <span class="macro-label">Carbs:</span>
+            <span class="macro-value">{{ getTotalCarbs().toFixed(1) }}g</span>
+          </div>
+          <div class="macro-item">
+            <span class="macro-label">Fat:</span>
+            <span class="macro-value">{{ getTotalFat().toFixed(1) }}g</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meal Schedule List -->
+      <div class="meal-schedule-list">
+        <div class="list-header">
+          <h3>Today's Meals</h3>
+          <button class="btn-add" (click)="openAddMealDialog()" [disabled]="loading()">
+            ➕ Add Meal
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="loading()">
+          <div class="spinner"></div>
+          <p>Loading meals...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!loading() && mealSchedules().length === 0">
+          <div class="empty-icon">🍽️</div>
+          <h4>No meals planned</h4>
+          <p>Add your first meal to start planning your day</p>
+          <button class="btn btn-primary" (click)="openAddMealDialog()">
+            Add Meal
+          </button>
+        </div>
+
+        <!-- Meal Items -->
+        <div class="meal-items" *ngIf="!loading() && mealSchedules().length > 0">
+          <div
+            *ngFor="let schedule of mealSchedules()"
+            class="meal-item"
+            [class.selected]="selectedMealSchedule()?.id === schedule.id"
+            [class.completed]="schedule.completed"
+            (click)="selectMealSchedule(schedule)"
+          >
+            <div class="meal-header">
+              <div class="meal-type">
+                <span class="meal-icon">{{ getMealTypeIcon(schedule.mealType) }}</span>
+                <span class="meal-type-label">{{ getMealTypeLabel(schedule.mealType) }}</span>
+              </div>
+              <div class="meal-actions">
+                <button
+                  class="action-btn complete-btn"
+                  [class.completed]="schedule.completed"
+                  (click)="toggleMealCompleted(schedule); $event.stopPropagation()"
+                  title="{{ schedule.completed ? 'Mark as not completed' : 'Mark as completed' }}"
+                >
+                  {{ schedule.completed ? '✅' : '⭕' }}
+                </button>
+                <button
+                  class="action-btn delete-btn"
+                  (click)="deleteMealFromSchedule(schedule); $event.stopPropagation()"
+                  title="Remove from schedule"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+            
+            <div class="meal-content">
+              <h4 class="meal-name">{{ schedule.meal.name }}</h4>
+              <div class="meal-nutrition">
+                <span class="calories">{{ schedule.meal.totalCalories.toFixed(0) }} kcal</span>
+                <span class="ingredients">{{ schedule.meal.ingredients.length }} ingredients</span>
+              </div>
+              <div class="meal-notes" *ngIf="schedule.notes">
+                <span class="notes-label">📝</span>
+                <span class="notes-text">{{ schedule.notes }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Meal Details -->
+    <div class="right-panel">
+      <!-- No Selection State -->
+      <div class="no-selection" *ngIf="!selectedMealSchedule()">
+        <div class="no-selection-icon">🍽️</div>
+        <h3>Select a meal</h3>
+        <p>Choose a meal from the list to view its details</p>
+      </div>
+
+      <!-- Meal Details -->
+      <div class="meal-details" *ngIf="selectedMealSchedule()">
+        <div class="details-header">
+          <div class="meal-title">
+            <h2>{{ selectedMealSchedule()!.meal.name }}</h2>
+            <span class="meal-type-badge" [class]="selectedMealSchedule()!.mealType.toLowerCase()">
+              {{ getMealTypeIcon(selectedMealSchedule()!.mealType) }} 
+              {{ getMealTypeLabel(selectedMealSchedule()!.mealType) }}
+            </span>
+          </div>
+          <div class="completion-status">
+            <button
+              class="completion-toggle"
+              [class.completed]="selectedMealSchedule()!.completed"
+              (click)="toggleMealCompleted(selectedMealSchedule()!)"
+            >
+              {{ selectedMealSchedule()!.completed ? '✅ Completed' : '⭕ Mark Complete' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Meal Description -->
+        <div class="meal-description" *ngIf="selectedMealSchedule()!.meal.description">
+          <h4>📝 Description</h4>
+          <p>{{ selectedMealSchedule()!.meal.description }}</p>
+        </div>
+
+        <!-- Notes -->
+        <div class="meal-notes-section" *ngIf="selectedMealSchedule()!.notes">
+          <h4>📋 Notes</h4>
+          <p>{{ selectedMealSchedule()!.notes }}</p>
+        </div>
+
+        <!-- Nutrition Facts -->
+        <div class="nutrition-facts">
+          <h4>📊 Nutrition Facts</h4>
+          <div class="nutrition-grid">
+            <div class="nutrition-card primary">
+              <div class="nutrition-value">{{ selectedMealSchedule()!.meal.totalCalories.toFixed(0) }}</div>
+              <div class="nutrition-label">Calories</div>
+            </div>
+            <div class="nutrition-card">
+              <div class="nutrition-value">{{ selectedMealSchedule()!.meal.totalProtein.toFixed(1) }}g</div>
+              <div class="nutrition-label">Protein</div>
+            </div>
+            <div class="nutrition-card">
+              <div class="nutrition-value">{{ selectedMealSchedule()!.meal.totalCarbs.toFixed(1) }}g</div>
+              <div class="nutrition-label">Carbs</div>
+            </div>
+            <div class="nutrition-card">
+              <div class="nutrition-value">{{ selectedMealSchedule()!.meal.totalFat.toFixed(1) }}g</div>
+              <div class="nutrition-label">Fat</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients List -->
+        <div class="ingredients-section">
+          <h4>🥕 Ingredients ({{ selectedMealSchedule()!.meal.ingredients.length }})</h4>
+          <div class="ingredients-list">
+            <div *ngFor="let ingredient of selectedMealSchedule()!.meal.ingredients" class="ingredient-item">
+              <div class="ingredient-info">
+                <div class="ingredient-name">
+                  {{ ingredient.ingredient.name }}
+                  <span class="brand" *ngIf="ingredient.ingredient.brand">
+                    ({{ ingredient.ingredient.brand }})
+                  </span>
+                </div>
+                <div class="ingredient-quantity">{{ ingredient.quantityGrams }}g</div>
+              </div>
+              <div class="ingredient-nutrition">
+                <span class="cal">{{ (ingredient.ingredient.caloriesPer100g * ingredient.quantityGrams / 100).toFixed(0) }} cal</span>
+                <span class="protein">P: {{ (ingredient.ingredient.proteinPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+                <span class="carbs">C: {{ (ingredient.ingredient.carbsPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+                <span class="fat">F: {{ (ingredient.ingredient.fatPer100g * ingredient.quantityGrams / 100).toFixed(1) }}g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe Instructions -->
+        <div class="recipe-section" *ngIf="selectedMealSchedule()!.meal.recipe">
+          <h4>👨‍🍳 Recipe Instructions</h4>
+          <div class="recipe-content">
+            <pre>{{ selectedMealSchedule()!.meal.recipe }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Meal Dialog -->
+  <div class="dialog-overlay" *ngIf="showAddMealDialog()" (click)="closeAddMealDialog()">
+    <div class="dialog-container" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3>Add Meal to Schedule</h3>
+        <button class="close-btn" (click)="closeAddMealDialog()">×</button>
+      </div>
+
+      <div class="dialog-content">
+        <form (ngSubmit)="addMealToSchedule()">
+          <div class="form-group">
+            <label for="mealSelect">Select Meal *</label>
+            <select
+              id="mealSelect"
+              [value]="addMealForm().mealId"
+              (change)="updateAddMealForm('mealId', ($any($event.target)).value)"
+              class="form-input"
+              required
+            >
+              <option value="">Choose a meal...</option>
+              <option *ngFor="let meal of availableMeals()" [value]="meal.id">
+                {{ meal.name }} ({{ meal.totalCalories.toFixed(0) }} kcal)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="mealTypeSelect">Meal Type *</label>
+            <select
+              id="mealTypeSelect"
+              [value]="addMealForm().mealType"
+              (change)="updateAddMealForm('mealType', ($any($event.target)).value)"
+              class="form-input"
+              required
+            >
+              <option *ngFor="let type of mealTypes" [value]="type.value">
+                {{ type.icon }} {{ type.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dateSelect">Date *</label>
+            <input
+              type="date"
+              id="dateSelect"
+              [value]="addMealForm().date"
+              (input)="updateAddMealForm('date', ($any($event.target)).value)"
+              class="form-input"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="notesInput">Notes</label>
+            <textarea
+              id="notesInput"
+              [value]="addMealForm().notes || ''"
+              (input)="updateAddMealForm('notes', ($any($event.target)).value)"
+              placeholder="Optional notes about this meal..."
+              rows="3"
+              class="form-input"
+            ></textarea>
+          </div>
+
+          <div class="dialog-actions">
+            <button type="button" class="btn btn-secondary" (click)="closeAddMealDialog()">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="loading() || !addMealForm().mealId">
+              {{ loading() ? 'Adding...' : 'Add Meal' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

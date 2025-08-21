@@ -11,6 +11,7 @@ import { MealDetailComponent } from './components/meal-detail/meal-detail.compon
 import { MealFormComponent } from './components/meal-form/meal-form.component';
 import { DuplicateMealPopupComponent } from './components/duplicate-meal-popup/duplicate-meal-popup.component';
 import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-meal-popup.component';
+import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
 
 @Component({
   selector: 'app-nutrition',
@@ -23,14 +24,15 @@ import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-
     MealDetailComponent,
     MealFormComponent,
     DuplicateMealPopupComponent,
-    DeleteMealPopupComponent
+    DeleteMealPopupComponent,
+    MealSchedulingComponent
   ],
   templateUrl: './nutrition.component.html',
   styleUrls: ['./nutrition.component.scss']
 })
 export class NutritionComponent implements OnInit {
   // Tab management
-  activeTab = signal<'meals' | 'ingredients'>('meals');
+  activeTab = signal<'meals' | 'ingredients' | 'scheduling'>('meals');
 
   // Ingredients
   ingredients = signal<Ingredient[]>([]);
