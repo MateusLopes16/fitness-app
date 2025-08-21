@@ -1,0 +1,188 @@
+<div class="add-ingredient-container">
+  <div class="page-header">
+    <h1>{{ isEditing() ? 'Edit' : 'Add' }} Ingredient</h1>
+    <button class="btn-back" (click)="onCancel()">← Back to Nutrition</button>
+  </div>
+
+  <!-- Error Display -->
+  <div class="error-message" *ngIf="error()">
+    <span class="error-icon">⚠️</span>
+    {{ error() }}
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading() && isEditing()">
+    <div class="loading-spinner"></div>
+    <p>Loading ingredient...</p>
+  </div>
+
+  <!-- Form -->
+  <div class="form-container" *ngIf="!loading() || !isEditing()">
+    <form (ngSubmit)="onSave()">
+      <div class="form-grid">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input 
+              type="text" 
+              id="name"
+              [value]="ingredient().name"
+              (input)="updateIngredient('name', ($any($event.target)).value)"
+              placeholder="e.g., Chicken Breast"
+              required
+              class="form-input"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input 
+              type="text" 
+              id="brand"
+              [value]="ingredient().brand"
+              (input)="updateIngredient('brand', ($any($event.target)).value)"
+              placeholder="e.g., Organic Valley"
+              class="form-input"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="barcode">Barcode</label>
+            <input 
+              type="text" 
+              id="barcode"
+              [value]="ingredient().barcode"
+              (input)="updateIngredient('barcode', ($any($event.target)).value)"
+              placeholder="e.g., 1234567890123"
+              class="form-input"
+            >
+          </div>
+        </div>
+
+        <!-- Nutritional Information -->
+        <div class="form-section">
+          <h3>Nutrition per 100g *</h3>
+          
+          <div class="nutrition-grid">
+            <div class="form-group">
+              <label for="calories">Calories</label>
+              <input 
+                type="number" 
+                id="calories"
+                [value]="ingredient().caloriesPer100g"
+                (input)="updateIngredient('caloriesPer100g', ($any($event.target)).value)"
+                min="0"
+                step="0.1"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="protein">Protein (g)</label>
+              <input 
+                type="number" 
+                id="protein"
+                [value]="ingredient().proteinPer100g"
+                (input)="updateIngredient('proteinPer100g', ($any($event.target)).value)"
+                min="0"
+                step="0.1"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="carbs">Carbs (g)</label>
+              <input 
+                type="number" 
+                id="carbs"
+                [value]="ingredient().carbsPer100g"
+                (input)="updateIngredient('carbsPer100g', ($any($event.target)).value)"
+                min="0"
+                step="0.1"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="fat">Fat (g)</label>
+              <input 
+                type="number" 
+                id="fat"
+                [value]="ingredient().fatPer100g"
+                (input)="updateIngredient('fatPer100g', ($any($event.target)).value)"
+                min="0"
+                step="0.1"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="fiber">Fiber (g)</label>
+              <input 
+                type="number" 
+                id="fiber"
+                [value]="ingredient().fiberPer100g || ''"
+                (input)="updateIngredient('fiberPer100g', ($any($event.target)).value || undefined)"
+                min="0"
+                step="0.1"
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="sugar">Sugar (g)</label>
+              <input 
+                type="number" 
+                id="sugar"
+                [value]="ingredient().sugarPer100g || ''"
+                (input)="updateIngredient('sugarPer100g', ($any($event.target)).value || undefined)"
+                min="0"
+                step="0.1"
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="sodium">Sodium (mg)</label>
+              <input 
+                type="number" 
+                id="sodium"
+                [value]="ingredient().sodiumPer100g || ''"
+                (input)="updateIngredient('sodiumPer100g', ($any($event.target)).value || undefined)"
+                min="0"
+                step="0.1"
+                class="form-input"
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="loading() || !isFormValid()"
+        >
+          {{ loading() ? 'Saving...' : (isEditing() ? 'Update' : 'Add') }} Ingredient
+        </button>
+        
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="onCancel()"
+          [disabled]="loading()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

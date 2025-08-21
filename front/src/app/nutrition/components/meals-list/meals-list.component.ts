@@ -1,5 +1,6 @@
 import { Component, OnInit, signal, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
 
 @Component({
@@ -13,14 +14,14 @@ export class MealsListComponent implements OnInit {
   meals = input<Meal[]>([]);
   loading = input<boolean>(false);
 
-  addNewMeal = output<void>();
   viewMeal = output<Meal>();
-  editMeal = output<Meal>();
   duplicateMeal = output<Meal>();
   deleteMeal = output<Meal>();
 
   filterType = signal<'all' | 'admin' | 'user'>('all');
   filteredMeals = signal<Meal[]>([]);
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.updateFilteredMeals();
@@ -43,6 +44,17 @@ export class MealsListComponent implements OnInit {
     }
 
     this.filteredMeals.set(filtered);
+  }
+
+  onAddNew(): void {
+    this.router.navigate(['/nutrition/add-meal']);
+  }
+
+  onEdit(meal: Meal): void {
+    if (meal.createdByType === 'admin') {
+      return;
+    }
+    this.router.navigate(['/nutrition/edit-meal', meal.id]);
   }
 
   getMealTypeIcon(mealType: MealType): string {

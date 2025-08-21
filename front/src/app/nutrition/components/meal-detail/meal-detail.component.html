@@ -111,7 +111,7 @@
             <button class="btn-primary" (click)="duplicate.emit(meal()!)">
                 📋 Duplicate Meal
             </button>
-            <button class="btn-primary" (click)="edit.emit(meal()!)" *ngIf="meal()?.createdByType === 'user'">
+            <button class="btn-primary" (click)="onEdit(meal()!)" *ngIf="meal()?.createdByType === 'user'">
                 ✏️ Edit Meal
             </button>
         </div>

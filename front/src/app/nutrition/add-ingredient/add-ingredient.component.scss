@@ -1,0 +1,232 @@
+.add-ingredient-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: var(--border-light);
+
+  h1 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .btn-back {
+    background: var(--dark-surface);
+    border: var(--border-light);
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    color: var(--dark-text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--primary-color);
+    }
+  }
+}
+
+.error-message {
+  background: rgba(255, 107, 157, 0.1);
+  border: 1px solid rgba(255, 107, 157, 0.3);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 20px;
+  color: #FF6B9D;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .error-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(100, 255, 218, 0.3);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  p {
+    color: var(--dark-text-secondary);
+    margin: 0;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.form-container {
+  background: var(--dark-surface);
+  border: var(--border-light);
+  border-radius: var(--border-radius-large);
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.form-section {
+  h3 {
+    color: var(--dark-text);
+    margin: 0 0 25px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    color: var(--dark-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-input {
+    background: var(--dark-bg);
+    border: var(--border-light);
+    border-radius: var(--border-radius);
+    padding: 12px 15px;
+    color: var(--dark-text);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.1);
+    }
+
+    &::placeholder {
+      color: var(--dark-text-secondary);
+    }
+
+    &:invalid {
+      border-color: #FF6B9D;
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: var(--border-light);
+}
+
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--dark-bg);
+    box-shadow: 0 4px 15px rgba(100, 255, 218, 0.2);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+    }
+  }
+
+  &.btn-secondary {
+    background: transparent;
+    color: var(--dark-text-secondary);
+    border: var(--border-light);
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--dark-text);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .add-ingredient-container {
+    padding: 15px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  .nutrition-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    
+    .btn {
+      justify-content: center;
+    }
+  }
+}

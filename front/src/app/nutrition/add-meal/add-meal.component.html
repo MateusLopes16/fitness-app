@@ -1,0 +1,214 @@
+<div class="add-meal-container">
+  <div class="page-header">
+    <h1>{{ isEditing() ? 'Edit' : 'Add' }} Meal</h1>
+    <button class="btn-back" (click)="onCancel()">← Back to Nutrition</button>
+  </div>
+
+  <!-- Error Display -->
+  <div class="error-message" *ngIf="error()">
+    <span class="error-icon">⚠️</span>
+    {{ error() }}
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading() && isEditing()">
+    <div class="loading-spinner"></div>
+    <p>Loading meal...</p>
+  </div>
+
+  <!-- Form -->
+  <div class="form-container" *ngIf="!loading() || !isEditing()">
+    <form (ngSubmit)="onSave()">
+      <div class="form-grid">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Meal Name *</label>
+              <input
+                type="text"
+                id="name"
+                [value]="formData().name"
+                (input)="updateFormData('name', ($any($event.target)).value)"
+                placeholder="e.g., Grilled Chicken Salad"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="mealType">Meal Type</label>
+              <select
+                id="mealType"
+                [value]="formData().mealType"
+                (change)="updateFormData('mealType', ($any($event.target)).value)"
+                class="form-input"
+              >
+                <option *ngFor="let type of mealTypes" [value]="type.value">
+                  {{ type.icon }} {{ type.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="servings">Servings</label>
+              <input
+                type="number"
+                id="servings"
+                [value]="formData().servings"
+                (input)="updateFormData('servings', +($any($event.target)).value)"
+                min="1"
+                required
+                class="form-input"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                id="date"
+                [value]="formData().date"
+                (input)="updateFormData('date', ($any($event.target)).value)"
+                class="form-input"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              [value]="formData().description || ''"
+              (input)="updateFormData('description', ($any($event.target)).value)"
+              placeholder="Optional description or notes about this meal..."
+              rows="3"
+              class="form-input"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Ingredients -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>🥕 Ingredients ({{ formData().ingredients.length }})</h3>
+            <button type="button" class="btn-add" (click)="showIngredientSelector.set(!showIngredientSelector())">
+              {{ showIngredientSelector() ? 'Cancel' : 'Add Ingredient' }}
+            </button>
+          </div>
+
+          <!-- Add Ingredient Selector -->
+          <div class="ingredient-selector" *ngIf="showIngredientSelector()">
+            <div class="ingredient-search">
+              <input
+                type="text"
+                placeholder="Search ingredients..."
+                [value]="ingredientSearch()"
+                (input)="ingredientSearch.set(($any($event.target)).value)"
+                class="search-input"
+              >
+            </div>
+            
+            <div class="ingredients-dropdown" *ngIf="filteredIngredients.length > 0">
+              <div
+                *ngFor="let ingredient of filteredIngredients"
+                class="ingredient-option"
+                (click)="selectIngredient(ingredient)"
+              >
+                <div class="ingredient-name">{{ ingredient.name }}</div>
+                <div class="ingredient-brand" *ngIf="ingredient.brand">{{ ingredient.brand }}</div>
+                <div class="ingredient-calories">{{ ingredient.caloriesPer100g }} cal/100g</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Ingredients -->
+          <div class="ingredients-list" *ngIf="formData().ingredients.length > 0">
+            <div
+              *ngFor="let ingredient of formData().ingredients; let i = index"
+              class="ingredient-item"
+            >
+              <div class="ingredient-details">
+                <div class="ingredient-name">
+                  {{ getIngredientName(ingredient.ingredientId) }}
+                </div>
+                <div class="ingredient-quantity">
+                  <input
+                    type="number"
+                    [value]="ingredient.quantityGrams"
+                    (input)="updateIngredientQuantity(i, ($any($event.target)).value)"
+                    min="1"
+                    step="0.1"
+                    placeholder="Grams"
+                    class="quantity-input"
+                  >
+                  <span class="unit">g</span>
+                </div>
+              </div>
+              <div class="ingredient-nutrition">
+                <span class="calories">{{ calculateIngredientCalories(ingredient) }} cal</span>
+              </div>
+              <button
+                type="button"
+                class="remove-btn"
+                (click)="removeIngredient(i)"
+              >
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="no-ingredients" *ngIf="formData().ingredients.length === 0">
+            <p>No ingredients added yet. Click "Add Ingredient" to get started.</p>
+          </div>
+
+          <!-- Total Nutrition Preview -->
+          <div class="nutrition-preview" *ngIf="formData().ingredients.length > 0">
+            <h4>📊 Estimated Total Nutrition</h4>
+            <div class="nutrition-grid">
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalCalories().toFixed(0) }}</span>
+                <span class="label">kcal</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalProtein().toFixed(1) }}g</span>
+                <span class="label">Protein</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalCarbs().toFixed(1) }}g</span>
+                <span class="label">Carbs</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="value">{{ getTotalFat().toFixed(1) }}g</span>
+                <span class="label">Fat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="loading() || !isFormValid()"
+        >
+          {{ loading() ? 'Saving...' : (isEditing() ? 'Update' : 'Add') }} Meal
+        </button>
+        
+        <button 
+          type="button" 
+          class="btn btn-secondary"
+          (click)="onCancel()"
+          [disabled]="loading()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

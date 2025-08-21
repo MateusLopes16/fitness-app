@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Ingredient } from '../../interfaces/ingredient.interface';
 
 @Component({
@@ -13,15 +14,15 @@ export class IngredientsListComponent {
   @Input() ingredients: Ingredient[] = [];
   @Input() loading: boolean = false;
 
-  @Output() editIngredient = new EventEmitter<Ingredient>();
   @Output() deleteIngredient = new EventEmitter<Ingredient>();
-  @Output() addNewIngredient = new EventEmitter<void>();
+
+  constructor(private router: Router) {}
 
   onEdit(ingredient: Ingredient): void {
     if (ingredient.createdByType === 'admin') {
       return;
     }
-    this.editIngredient.emit(ingredient);
+    this.router.navigate(['/nutrition/edit-ingredient', ingredient.id]);
   }
 
   onDelete(ingredient: Ingredient): void {
@@ -32,7 +33,7 @@ export class IngredientsListComponent {
   }
 
   onAddNew(): void {
-    this.addNewIngredient.emit();
+    this.router.navigate(['/nutrition/add-ingredient']);
   }
 
   trackByIngredientId(index: number, ingredient: Ingredient): string {

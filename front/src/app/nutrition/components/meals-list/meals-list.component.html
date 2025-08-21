@@ -4,7 +4,7 @@
           <h2>🍽️ Your Meals</h2>
         </div>
         <div class="action-buttons">
-          <button class="btn-primary" (click)="addNewMeal.emit()">
+          <button class="btn-primary" (click)="onAddNew()">
             <span class="icon">➕</span>
             Add Meal
           </button>
@@ -16,7 +16,7 @@
           <div class="empty-icon">🍽️</div>
           <h3>No meals found</h3>
           <p>Add your first meal to track your nutrition</p>
-          <button class="btn-primary" (click)="addNewMeal.emit()">
+          <button class="btn-primary" (click)="onAddNew()">
             Add Meal
           </button>
         </div>
@@ -101,7 +101,7 @@
             </button>
             <button class="btn-action" 
                     title="Edit"
-                    (click)="editMeal.emit(meal)"
+                    (click)="onEdit(meal)"
                     *ngIf="meal.createdByType === 'user'">
               ✏️
             </button>

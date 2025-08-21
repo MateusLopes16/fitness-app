@@ -5,7 +5,6 @@ import { MealService } from './services/meal.service';
 import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interface';
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
 import { IngredientsListComponent } from './components/ingredients-list/ingredients-list.component';
-import { AddIngredientPopupComponent } from './components/add-ingredient-popup/add-ingredient-popup.component';
 import { DeleteIngredientPopupComponent } from './components/delete-ingredient-popup/delete-ingredient-popup.component';
 import { MealsListComponent } from './components/meals-list/meals-list.component';
 import { MealDetailComponent } from './components/meal-detail/meal-detail.component';
@@ -19,7 +18,6 @@ import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-
   imports: [
     CommonModule, 
     IngredientsListComponent, 
-    AddIngredientPopupComponent, 
     DeleteIngredientPopupComponent,
     MealsListComponent,
     MealDetailComponent,
@@ -36,9 +34,7 @@ export class NutritionComponent implements OnInit {
 
   // Ingredients
   ingredients = signal<Ingredient[]>([]);
-  showAddForm = signal<boolean>(false);
   showDeleteForm = signal<boolean>(false);
-  editingIngredient = signal<Ingredient | null>(null);
   deletingIngredient = signal<Ingredient | null>(null);
 
   // Meals
@@ -84,16 +80,6 @@ export class NutritionComponent implements OnInit {
     });
   }
 
-  onAddIngredient() {
-    this.editingIngredient.set(null);
-    this.showAddForm.set(true);
-  }
-
-  onEditIngredient(ingredient: Ingredient) {
-    this.editingIngredient.set(ingredient);
-    this.showAddForm.set(true);
-  }
-
   onDeleteIngredient(ingredient: Ingredient) {
     this.deletingIngredient.set(ingredient);
     this.showDeleteForm.set(true);
@@ -127,58 +113,6 @@ export class NutritionComponent implements OnInit {
     });
   }
 
-  onSaveIngredient(ingredientData: CreateIngredientDto) {
-    this.loading.set(true);
-    this.error.set('');
-
-    const editingId = this.editingIngredient()?.id;
-    
-    if (editingId) {
-      // Update existing ingredient
-      this.ingredientService.updateIngredient(editingId, ingredientData).subscribe({
-        next: (updatedIngredient) => {
-          this.ingredients.update(ingredients => 
-            ingredients.map(i => i.id === editingId ? updatedIngredient : i)
-          );
-          this.closePopup();
-          this.loading.set(false);
-        },
-        error: (error) => {
-          console.error('Error updating ingredient:', error);
-          console.error('Error details:', error.error);
-          const errorMessage = error.error?.message ? 
-            (Array.isArray(error.error.message) ? error.error.message.join(', ') : error.error.message) :
-            'Failed to update ingredient';
-          this.error.set(errorMessage);
-          this.loading.set(false);
-        }
-      });
-    } else {
-      // Create new ingredient
-      this.ingredientService.createIngredient(ingredientData).subscribe({
-        next: (newIngredient) => {
-          this.ingredients.update(ingredients => [...ingredients, newIngredient]);
-          this.closePopup();
-          this.loading.set(false);
-        },
-        error: (error) => {
-          console.error('Error creating ingredient:', error);
-          console.error('Error details:', error.error);
-          const errorMessage = error.error?.message ? 
-            (Array.isArray(error.error.message) ? error.error.message.join(', ') : error.error.message) :
-            'Failed to create ingredient';
-          this.error.set(errorMessage);
-          this.loading.set(false);
-        }
-      });
-    }
-  }
-
-  closePopup() {
-    this.showAddForm.set(false);
-    this.editingIngredient.set(null);
-  }
-
   trackByIngredientId(index: number, ingredient: Ingredient): string {
     return ingredient.id;
   }
@@ -201,19 +135,9 @@ export class NutritionComponent implements OnInit {
     });
   }
 
-  onAddMeal() {
-    this.editingMeal.set(null);
-    this.showMealForm.set(true);
-  }
-
   onViewMeal(meal: Meal) {
     this.selectedMeal.set(meal);
     this.showMealDetail.set(true);
-  }
-
-  onEditMeal(meal: Meal) {
-    this.editingMeal.set(meal);
-    this.showMealForm.set(true);
   }
 
   onDuplicateMeal(meal: Meal) {

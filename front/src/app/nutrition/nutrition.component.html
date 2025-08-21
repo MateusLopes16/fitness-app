@@ -30,9 +30,7 @@
     <app-meals-list
       [meals]="meals()"
       [loading]="loading()"
-      (addNewMeal)="onAddMeal()"
       (viewMeal)="onViewMeal($event)"
-      (editMeal)="onEditMeal($event)"
       (duplicateMeal)="onDuplicateMeal($event)"
       (deleteMeal)="onDeleteMeal($event)"
     ></app-meals-list>
@@ -43,10 +41,7 @@
     <app-ingredients-list
       [ingredients]="ingredients()"
       [loading]="loading()"
-      (addNewIngredient)="onAddIngredient()"
-      (editIngredient)="onEditIngredient($event)"
       (deleteIngredient)="onDeleteIngredient($event)"
-      (refreshIngredients)="loadIngredients()"
     ></app-ingredients-list>
   </div>
 
@@ -55,7 +50,6 @@
     *ngIf="showMealDetail()"
     [meal]="selectedMeal()"
     (close)="closeMealDetail()"
-    (edit)="onEditMeal($event)"
     (duplicate)="onDuplicateMeal($event)"
   ></app-meal-detail>
 
@@ -85,15 +79,6 @@
     (close)="closeDeleteMealForm()"
     (confirm)="onConfirmDeleteMeal()"
   ></app-delete-meal-popup>
-
-  <!-- Add/Edit Ingredient Popup -->
-  <app-add-ingredient-popup
-    [show]="showAddForm()"
-    [editingIngredient]="editingIngredient()"
-    [loading]="loading()"
-    (close)="closePopup()"
-    (save)="onSaveIngredient($event)"
-  ></app-add-ingredient-popup>
 
   <!-- Delete Ingredient Popup -->
   <app-delete-ingredient-popup

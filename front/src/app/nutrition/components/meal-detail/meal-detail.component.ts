@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
 
 @Component({
@@ -13,8 +14,16 @@ export class MealDetailComponent {
   meal = input<Meal | null>(null);
   
   close = output<void>();
-  edit = output<Meal>();
   duplicate = output<Meal>();
+
+  constructor(private router: Router) {}
+
+  onEdit(meal: Meal): void {
+    if (meal.createdByType === 'admin') {
+      return;
+    }
+    this.router.navigate(['/nutrition/edit-meal', meal.id]);
+  }
 
   getMealTypeIcon(mealType: MealType): string {
     switch (mealType) {
