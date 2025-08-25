@@ -65,4 +65,30 @@ export class MealScheduleService {
   markMealNotCompleted(id: string): Observable<MealSchedule> {
     return this.updateMealSchedule(id, { completed: false });
   }
+
+  // Get weekly schedule
+  getWeekSchedule(date: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/week/${date}`);
+  }
+
+  // Plan entire week
+  planWeek(weekPlan: any): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/week/plan`, weekPlan);
+  }
+
+  // Get daily nutrition summary
+  getDailyNutrition(date: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/nutrition/daily/${date}`);
+  }
+
+  // Helper method to get week range
+  getWeekRange(date: Date): { start: Date; end: Date } {
+    const start = new Date(date);
+    start.setDate(date.getDate() - date.getDay());
+    
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    
+    return { start, end };
+  }
 }

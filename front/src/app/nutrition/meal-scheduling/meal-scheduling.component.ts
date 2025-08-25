@@ -14,18 +14,24 @@ import { Meal, MealType } from '../interfaces/meal.interface';
   styleUrls: ['./meal-scheduling.component.scss']
 })
 export class MealSchedulingComponent implements OnInit {
+  // View modes
+  viewMode = signal<'daily' | 'weekly'>('weekly');
+  
   // Current state
   selectedDate = signal<string>(new Date().toISOString().split('T')[0]);
   selectedMealSchedule = signal<MealSchedule | null>(null);
+  currentWeek = signal<Date>(new Date());
   
   // Data
   mealSchedules = signal<MealSchedule[]>([]);
+  weekSchedule = signal<any[]>([]);
   availableMeals = signal<Meal[]>([]);
   
   // UI state
   loading = signal<boolean>(false);
   error = signal<string>('');
   showAddMealDialog = signal<boolean>(false);
+  showWeekPlanDialog = signal<boolean>(false);
   
   // Add meal form
   addMealForm = signal<CreateMealScheduleDto>({
@@ -35,8 +41,14 @@ export class MealSchedulingComponent implements OnInit {
     notes: ''
   });
 
+  // Week planning
+  weekPlanForm = signal<any>({
+    startDate: '',
+    mealPlans: []
+  });
+
   // Meal types for UI
-  mealTypes = [
+  mealTypes: { value: 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK', label: string, icon: string }[] = [
     { value: 'BREAKFAST', label: 'Breakfast', icon: '🌅' },
     { value: 'LUNCH', label: 'Lunch', icon: '☀️' },
     { value: 'DINNER', label: 'Dinner', icon: '🌙' },
@@ -49,8 +61,42 @@ export class MealSchedulingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadTodaysMealSchedules();
     this.loadAvailableMeals();
+    if (this.viewMode() === 'daily') {
+      this.loadTodaysMealSchedules();
+    } else {
+      this.loadWeekSchedule();
+    }
+  }
+
+  switchViewMode(mode: 'daily' | 'weekly') {
+    this.viewMode.set(mode);
+    this.selectedMealSchedule.set(null);
+    if (mode === 'daily') {
+      this.loadTodaysMealSchedules();
+    } else {
+      this.loadWeekSchedule();
+    }
+  }
+
+  loadWeekSchedule() {
+    this.loading.set(true);
+    this.error.set('');
+    
+    const currentDate = new Date(this.currentWeek());
+    const dateStr = currentDate.toISOString().split('T')[0];
+    
+    this.mealScheduleService.getWeekSchedule(dateStr).subscribe({
+      next: (weekData) => {
+        this.weekSchedule.set(weekData);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading week schedule:', error);
+        this.error.set('Failed to load week schedule');
+        this.loading.set(false);
+      }
+    });
   }
 
   loadTodaysMealSchedules() {
@@ -88,7 +134,46 @@ export class MealSchedulingComponent implements OnInit {
   onDateChange(newDate: string) {
     this.selectedDate.set(newDate);
     this.selectedMealSchedule.set(null);
-    this.loadTodaysMealSchedules();
+    if (this.viewMode() === 'daily') {
+      this.loadTodaysMealSchedules();
+    } else {
+      // Update current week based on selected date
+      this.currentWeek.set(new Date(newDate));
+      this.loadWeekSchedule();
+    }
+  }
+
+  navigateWeek(direction: 'prev' | 'next') {
+    const current = new Date(this.currentWeek());
+    const newWeek = new Date(current);
+    newWeek.setDate(current.getDate() + (direction === 'next' ? 7 : -7));
+    this.currentWeek.set(newWeek);
+    this.loadWeekSchedule();
+  }
+
+  getCurrentWeekRange(): { start: string; end: string } {
+    const { start, end } = this.mealScheduleService.getWeekRange(this.currentWeek());
+    return {
+      start: start.toLocaleDateString(),
+      end: end.toLocaleDateString()
+    };
+  }
+
+  getDaySchedules(date: string): MealSchedule[] {
+    const dayData = this.weekSchedule().find(day => day.date === date);
+    return dayData ? dayData.schedules : [];
+  }
+
+  getDayNutrition(date: string): any {
+    const dayData = this.weekSchedule().find(day => day.date === date);
+    return dayData ? dayData.nutrition : {
+      totalCalories: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+      totalFat: 0,
+      mealsCount: 0,
+      completedMeals: 0
+    };
   }
 
   selectMealSchedule(schedule: MealSchedule) {
@@ -122,6 +207,11 @@ export class MealSchedulingComponent implements OnInit {
         // Update selected schedule if it's the same
         if (this.selectedMealSchedule()?.id === updatedSchedule.id) {
           this.selectedMealSchedule.set(updatedSchedule);
+        }
+        
+        // Reload week schedule if in weekly view
+        if (this.viewMode() === 'weekly') {
+          this.loadWeekSchedule();
         }
         
         this.loading.set(false);
@@ -172,6 +262,11 @@ export class MealSchedulingComponent implements OnInit {
         
         // Select the newly added meal
         this.selectedMealSchedule.set(newSchedule);
+        
+        // Reload week schedule if in weekly view
+        if (this.viewMode() === 'weekly') {
+          this.loadWeekSchedule();
+        }
       },
       error: (error) => {
         console.error('Error adding meal to schedule:', error);
@@ -198,6 +293,11 @@ export class MealSchedulingComponent implements OnInit {
         // Clear selection if deleted meal was selected
         if (this.selectedMealSchedule()?.id === schedule.id) {
           this.selectedMealSchedule.set(null);
+        }
+        
+        // Reload week schedule if in weekly view
+        if (this.viewMode() === 'weekly') {
+          this.loadWeekSchedule();
         }
         
         this.loading.set(false);
@@ -237,5 +337,119 @@ export class MealSchedulingComponent implements OnInit {
 
   getCompletedMealsCount(): number {
     return this.mealSchedules().filter(schedule => schedule.completed).length;
+  }
+
+  // Week planning methods
+  openWeekPlanDialog() {
+    const { start } = this.mealScheduleService.getWeekRange(this.currentWeek());
+    this.weekPlanForm.set({
+      startDate: start.toISOString().split('T')[0],
+      mealPlans: []
+    });
+    this.showWeekPlanDialog.set(true);
+  }
+
+  closeWeekPlanDialog() {
+    this.showWeekPlanDialog.set(false);
+  }
+
+  addMealToPlan(date: string, mealType: string) {
+    this.weekPlanForm.update(form => ({
+      ...form,
+      mealPlans: [...form.mealPlans, {
+        date,
+        mealType,
+        mealId: '',
+        notes: ''
+      }]
+    }));
+  }
+
+  removeMealFromPlan(index: number) {
+    this.weekPlanForm.update(form => ({
+      ...form,
+      mealPlans: form.mealPlans.filter((_: any, i: number) => i !== index)
+    }));
+  }
+
+  updatePlanMeal(index: number, field: string, value: any) {
+    this.weekPlanForm.update(form => ({
+      ...form,
+      mealPlans: form.mealPlans.map((plan: any, i: number) => 
+        i === index ? { ...plan, [field]: value } : plan
+      )
+    }));
+  }
+
+  saveWeekPlan() {
+    const validPlans = this.weekPlanForm().mealPlans.filter((plan: any) => plan.mealId);
+    
+    if (validPlans.length === 0) {
+      this.error.set('Please add at least one meal to the plan');
+      return;
+    }
+
+    this.loading.set(true);
+    this.error.set('');
+
+    const weekPlan = {
+      startDate: this.weekPlanForm().startDate,
+      mealPlans: validPlans
+    };
+
+    this.mealScheduleService.planWeek(weekPlan).subscribe({
+      next: () => {
+        this.closeWeekPlanDialog();
+        this.loadWeekSchedule();
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error planning week:', error);
+        this.error.set('Failed to save week plan');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  // Helper methods for week view
+  getWeekDays(): string[] {
+    const { start } = this.mealScheduleService.getWeekRange(this.currentWeek());
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(start);
+      day.setDate(start.getDate() + i);
+      days.push(day.toISOString().split('T')[0]);
+    }
+    return days;
+  }
+
+  getDayName(date: string): string {
+    return new Date(date).toLocaleDateString('en-US', { weekday: 'short' });
+  }
+
+  getDayDate(date: string): string {
+    return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  isToday(date: string): boolean {
+    return date === new Date().toISOString().split('T')[0];
+  }
+
+  getScheduledMealForType(day: string, mealType: string): MealSchedule | undefined {
+    return this.getDaySchedules(day).find(s => s.mealType === mealType);
+  }
+
+  hasScheduledMealForType(day: string, mealType: string): boolean {
+    return !!this.getScheduledMealForType(day, mealType);
+  }
+
+  addMealForDayAndType(day: string, mealType: string) {
+    this.addMealForm.set({
+      mealId: '',
+      date: day,
+      mealType: mealType as 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK',
+      notes: ''
+    });
+    this.openAddMealDialog();
   }
 }

@@ -48,4 +48,19 @@ export class MealScheduleController {
   remove(@CurrentUser('id') userId: string, @Param('id', ParseUUIDPipe) id: string) {
     return this.mealScheduleService.deleteMealSchedule(userId, id);
   }
+
+  @Get('week/:date')
+  getWeekSchedule(@CurrentUser('id') userId: string, @Param('date') date: string) {
+    return this.mealScheduleService.getWeekSchedule(userId, date);
+  }
+
+  @Post('week/plan')
+  planWeek(@CurrentUser('id') userId: string, @Body() weekPlanDto: any) {
+    return this.mealScheduleService.planWeek(userId, weekPlanDto);
+  }
+
+  @Get('nutrition/daily/:date')
+  getDailyNutrition(@CurrentUser('id') userId: string, @Param('date') date: string) {
+    return this.mealScheduleService.getDailyNutrition(userId, date);
+  }
 }

@@ -3,6 +3,22 @@
   <div class="scheduling-header">
     <h2>📅 Meal Scheduling</h2>
     <p>Plan and track your daily meals</p>
+    
+    <!-- View Mode Toggle -->
+    <div class="view-toggle">
+      <button 
+        class="toggle-btn"
+        [class.active]="viewMode() === 'daily'"
+        (click)="switchViewMode('daily')">
+        📅 Daily
+      </button>
+      <button 
+        class="toggle-btn"
+        [class.active]="viewMode() === 'weekly'"
+        (click)="switchViewMode('weekly')">
+        📊 Weekly
+      </button>
+    </div>
   </div>
 
   <!-- Error Message -->
@@ -12,8 +28,85 @@
     <button class="close-error" (click)="error.set('')">×</button>
   </div>
 
-  <!-- Main Content -->
-  <div class="scheduling-content">
+  <!-- Weekly View -->
+  <div class="weekly-view" *ngIf="viewMode() === 'weekly'">
+    <!-- Week Navigation -->
+    <div class="week-navigation">
+      <button class="nav-btn" (click)="navigateWeek('prev')">⬅️</button>
+      <div class="week-info">
+        <h3>{{ getCurrentWeekRange().start }} - {{ getCurrentWeekRange().end }}</h3>
+      </div>
+      <button class="nav-btn" (click)="navigateWeek('next')">➡️</button>
+      <button class="plan-week-btn" (click)="openWeekPlanDialog()">
+        📋 Plan Week
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading()">
+      <div class="spinner"></div>
+      <p>Loading week schedule...</p>
+    </div>
+
+    <!-- Week Grid -->
+    <div class="week-grid" *ngIf="!loading()">
+      <div *ngFor="let day of getWeekDays()" class="day-column" [class.today]="isToday(day)">
+        <div class="day-header">
+          <div class="day-name">{{ getDayName(day) }}</div>
+          <div class="day-date">{{ getDayDate(day) }}</div>
+          <div class="day-nutrition">
+            <span class="calories">{{ getDayNutrition(day).totalCalories.toFixed(0) }} kcal</span>
+            <span class="protein">{{ getDayNutrition(day).totalProtein.toFixed(1) }}g protein</span>
+          </div>
+        </div>
+        
+        <div class="day-meals">
+          <!-- Meal Type Slots -->
+          <div *ngFor="let mealType of mealTypes" class="meal-slot" [class]="mealType.value.toLowerCase()">
+            <div class="meal-type-header">
+              <span class="meal-icon">{{ mealType.icon }}</span>
+              <span class="meal-label">{{ mealType.label }}</span>
+            </div>
+            
+            <!-- Scheduled Meal -->
+            <div *ngIf="getScheduledMealForType(day, mealType.value) as scheduledMeal" 
+                 class="scheduled-meal"
+                 [class.completed]="scheduledMeal.completed"
+                 (click)="selectMealSchedule(scheduledMeal)">
+              <div class="meal-name">{{ scheduledMeal.meal.name }}</div>
+              <div class="meal-calories">{{ scheduledMeal.meal.totalCalories.toFixed(0) }} kcal</div>
+              <div class="meal-actions">
+                <button class="action-btn complete-btn"
+                        [class.completed]="scheduledMeal.completed"
+                        (click)="toggleMealCompleted(scheduledMeal); $event.stopPropagation()"
+                        title="{{ scheduledMeal.completed ? 'Mark as not completed' : 'Mark as completed' }}">
+                  {{ scheduledMeal.completed ? '✅' : '⭕' }}
+                </button>
+                <button class="action-btn delete-btn"
+                        (click)="deleteMealFromSchedule(scheduledMeal); $event.stopPropagation()"
+                        title="Remove from schedule">
+                  🗑️
+                </button>
+              </div>
+            </div>
+            
+            <!-- Empty Slot -->
+            <div *ngIf="!hasScheduledMealForType(day, mealType.value)" 
+                 class="empty-slot"
+                 (click)="addMealForDayAndType(day, mealType.value)">
+              <span class="add-icon">➕</span>
+              <span class="add-text">Add meal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily View -->
+  <div class="daily-view" *ngIf="viewMode() === 'daily'">
+    <!-- Main Content -->
+    <div class="scheduling-content">
     <!-- Left Panel - Calendar & Meal List -->
     <div class="left-panel">
       <!-- Date Selector -->
@@ -305,6 +398,110 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Week Planning Dialog -->
+  <div class="dialog-overlay" *ngIf="showWeekPlanDialog()" (click)="closeWeekPlanDialog()">
+    <div class="dialog-container large" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3>📋 Plan Your Week</h3>
+        <button class="close-btn" (click)="closeWeekPlanDialog()">×</button>
+      </div>
+
+      <div class="dialog-content">
+        <div class="week-plan-content">
+          <div class="plan-header">
+            <p>Plan meals for the week starting {{ getCurrentWeekRange().start }}</p>
+            <button type="button" class="btn btn-outline" (click)="addMealToPlan(getWeekDays()[0], 'BREAKFAST')">
+              ➕ Add Meal to Plan
+            </button>
+          </div>
+
+          <!-- Current Week Plan -->
+          <div class="current-plan" *ngIf="weekPlanForm().mealPlans.length > 0">
+            <h4>Planned Meals</h4>
+            <div class="planned-meals">
+              <div *ngFor="let plan of weekPlanForm().mealPlans; let i = index" class="planned-meal">
+                <div class="plan-form-row">
+                  <div class="form-group">
+                    <label>Date</label>
+                    <select [value]="plan.date" (change)="updatePlanMeal(i, 'date', ($any($event.target)).value)" class="form-input">
+                      <option *ngFor="let day of getWeekDays()" [value]="day">
+                        {{ getDayName(day) }} {{ getDayDate(day) }}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Meal Type</label>
+                    <select [value]="plan.mealType" (change)="updatePlanMeal(i, 'mealType', ($any($event.target)).value)" class="form-input">
+                      <option *ngFor="let type of mealTypes" [value]="type.value">
+                        {{ type.icon }} {{ type.label }}
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Meal</label>
+                    <select [value]="plan.mealId" (change)="updatePlanMeal(i, 'mealId', ($any($event.target)).value)" class="form-input" required>
+                      <option value="">Choose a meal...</option>
+                      <option *ngFor="let meal of availableMeals()" [value]="meal.id">
+                        {{ meal.name }} ({{ meal.totalCalories.toFixed(0) }} kcal)
+                      </option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Notes</label>
+                    <input type="text" [value]="plan.notes" (input)="updatePlanMeal(i, 'notes', ($any($event.target)).value)" 
+                           placeholder="Optional notes..." class="form-input">
+                  </div>
+                  
+                  <button type="button" class="btn btn-danger" (click)="removeMealFromPlan(i)">
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div class="empty-plan" *ngIf="weekPlanForm().mealPlans.length === 0">
+            <div class="empty-icon">📅</div>
+            <h4>No meals planned yet</h4>
+            <p>Add meals to create your weekly plan</p>
+          </div>
+
+          <!-- Quick Add Options -->
+          <div class="quick-add-section">
+            <h4>Quick Add</h4>
+            <div class="quick-add-grid">
+              <div *ngFor="let day of getWeekDays()" class="day-quick-add">
+                <h5>{{ getDayName(day) }} {{ getDayDate(day) }}</h5>
+                <div class="meal-type-buttons">
+                  <button *ngFor="let type of mealTypes" 
+                          type="button" 
+                          class="quick-add-btn" 
+                          [class]="type.value.toLowerCase()"
+                          (click)="addMealToPlan(day, type.value)">
+                    {{ type.icon }} {{ type.label }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dialog-actions">
+            <button type="button" class="btn btn-secondary" (click)="closeWeekPlanDialog()">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary" (click)="saveWeekPlan()" [disabled]="loading() || weekPlanForm().mealPlans.length === 0">
+              {{ loading() ? 'Saving...' : 'Save Week Plan' }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -234,6 +234,137 @@ export class MealScheduleService {
     });
   }
 
+  async getWeekSchedule(userId: string, date: string): Promise<any> {
+    const selectedDate = new Date(date);
+    const startOfWeek = new Date(selectedDate);
+    startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay());
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    const schedules = await this.databaseService.mealSchedule.findMany({
+      where: {
+        userId,
+        date: {
+          gte: startOfWeek,
+          lte: endOfWeek,
+        },
+      },
+      include: {
+        meal: {
+          include: {
+            ingredients: {
+              include: {
+                ingredient: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        { date: 'asc' },
+        { mealType: 'asc' },
+      ],
+    });
+
+    // Group by date
+    const weekSchedule: any[] = [];
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(startOfWeek);
+      currentDate.setDate(startOfWeek.getDate() + i);
+      const dateStr = currentDate.toISOString().split('T')[0];
+      
+      const daySchedules = schedules
+        .filter(s => s.date.toISOString().split('T')[0] === dateStr)
+        .map(this.transformMealSchedule);
+
+      const dayNutrition = this.calculateDayNutrition(daySchedules);
+
+      weekSchedule.push({
+        date: dateStr,
+        dayOfWeek: currentDate.toLocaleDateString('en-US', { weekday: 'long' }),
+        schedules: daySchedules,
+        nutrition: dayNutrition,
+      });
+    }
+
+    return weekSchedule;
+  }
+
+  async planWeek(userId: string, weekPlanDto: any): Promise<void> {
+    const { startDate, mealPlans } = weekPlanDto;
+    
+    // Delete existing schedules for the week
+    const startOfWeek = new Date(startDate);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    await this.databaseService.mealSchedule.deleteMany({
+      where: {
+        userId,
+        date: {
+          gte: startOfWeek,
+          lte: endOfWeek,
+        },
+      },
+    });
+
+    // Create new schedules
+    const schedules: any[] = [];
+    for (const plan of mealPlans) {
+      schedules.push({
+        userId,
+        mealId: plan.mealId,
+        date: new Date(plan.date),
+        mealType: plan.mealType,
+        notes: plan.notes || null,
+      });
+    }
+
+    if (schedules.length > 0) {
+      await this.databaseService.mealSchedule.createMany({
+        data: schedules,
+      });
+    }
+  }
+
+  async getDailyNutrition(userId: string, date: string): Promise<any> {
+    const schedules = await this.databaseService.mealSchedule.findMany({
+      where: {
+        userId,
+        date: new Date(date),
+      },
+      include: {
+        meal: {
+          include: {
+            ingredients: {
+              include: {
+                ingredient: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const transformedSchedules = schedules.map(this.transformMealSchedule);
+    return this.calculateDayNutrition(transformedSchedules);
+  }
+
+  private calculateDayNutrition(schedules: MealSchedule[]): any {
+    return {
+      totalCalories: schedules.reduce((total, schedule) => total + (schedule.meal.totalCalories || 0), 0),
+      totalProtein: schedules.reduce((total, schedule) => total + (schedule.meal.totalProtein || 0), 0),
+      totalCarbs: schedules.reduce((total, schedule) => total + (schedule.meal.totalCarbs || 0), 0),
+      totalFat: schedules.reduce((total, schedule) => total + (schedule.meal.totalFat || 0), 0),
+      totalFiber: schedules.reduce((total, schedule) => total + (schedule.meal.totalFiber || 0), 0),
+      totalSugar: schedules.reduce((total, schedule) => total + (schedule.meal.totalSugar || 0), 0),
+      totalSodium: schedules.reduce((total, schedule) => total + (schedule.meal.totalSodium || 0), 0),
+      mealsCount: schedules.length,
+      completedMeals: schedules.filter(s => s.completed).length,
+    };
+  }
+
   private transformMealSchedule(mealSchedule: any): MealSchedule {
     const totalCalories = mealSchedule.meal.ingredients.reduce((total: number, ingredient: any) => {
       return total + (Number(ingredient.ingredient.caloriesPer100g) * Number(ingredient.quantityGrams)) / 100;
