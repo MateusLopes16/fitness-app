@@ -1,581 +1,397 @@
-.dashboard-container {
-  background: var(--gradient-bg);
-  color: var(--dark-text);
+// =========================
+// Dashboard Upgrades & Card Enhancements
+// =========================
+@use '../../styles.scss' as *;
+// Profile Card Inputs & Form
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
 }
 
-.dashboard-header {
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(26, 26, 46, 0.95);
-  backdrop-filter: var(--backdrop-blur);
-  border-bottom: var(--border-light);
-  z-index: 1000;
-  padding: 1rem 2rem;
-  margin: 0 auto;
-
-  .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .welcome-section {
-      h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin: 0;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-
-        .user-name {
-          color: var(--primary-color);
-        }
-      }
-
-      .dashboard-subtitle {
-        color: var(--dark-text-secondary);
-        margin: 0.5rem 0 0 0;
-        font-size: 1.1rem;
-      }
-    }
-
-    .header-actions {
-      .logout-btn {
-        background: rgba(255, 107, 107, 0.2);
-        border: 1px solid rgba(255, 107, 107, 0.3);
-        color: #ff6b6b;
-        padding: 0.75rem 1.5rem;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-weight: 500;
-
-        &:hover {
-          background: rgba(255, 107, 107, 0.3);
-          transform: translateY(-2px);
-        }
-
-        .logout-icon {
-          font-size: 1.2rem;
-        }
-      }
-    }
-  }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  margin-bottom: $space-sm;
 }
 
+
+.form-input, .form-select {
+  background: $color-surface-light;
+  color: $color-text;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-sm;
+  font-size: $font-size-base;
+  font-family: $font-family;
+  outline: none;
+  transition: border $transition-fast, box-shadow $transition-fast;
+  box-shadow: none;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus {
+  border-color: $color-accent;
+  box-shadow: 0 0 0 2px rgba($color-accent, 0.15);
+}
+
+.form-actions {
+  display: flex;
+  gap: $space-sm;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  background: $color-accent;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-md;
+  cursor: pointer;
+  transition: background $transition-fast;
+}
+.save-btn:hover {
+  background: $color-accent-hover;
+}
+.cancel-btn {
+  background: transparent;
+  color: $color-accent;
+  border: 2px solid $color-accent;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-md;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background $transition-fast, color $transition-fast;
+}
+.cancel-btn:hover {
+  background: $color-accent;
+  color: #fff;
+}
+
+// Profile Card Buttons
+.edit-btn {
+  background: transparent;
+  border: none;
+  color: $color-accent;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: $space-xs;
+  border-radius: $radius-sm;
+  transition: background $transition-fast, color $transition-fast;
+}
+.edit-btn:hover {
+  background: rgba($color-accent, 0.08);
+  color: $color-accent-hover;
+}
+
+.logout-btn {
+  background: $color-danger;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: $space-xs;
+  border-radius: $radius-sm;
+  transition: background $transition-fast, color $transition-fast;
+}
+.logout-btn:hover {
+  background: #e63946; // Replace darken($color-danger, 10%) with the hex code
+  color: #fff;
+}
+
+// Subscription Card Enhancements
+.subscription-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-lg;
+  background: linear-gradient(120deg, $color-card-dark 80%, $color-accent 120%);
+  box-shadow: $shadow-card;
+  border: 1.5px solid $color-accent;
+}
+.subscription-header h3 {
+  font-size: $font-size-md;
+  font-weight: 700;
+  color: $color-accent;
+  letter-spacing: 0.5px;
+}
+.plan-info .plan-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $color-accent;
+  letter-spacing: 0.5px;
+}
+.plan-info .plan-status {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $color-text-secondary;
+  margin-top: 2px;
+}
+.subscription-meta {
+  margin-top: $space-md;
+  font-size: $font-size-sm;
+}
+.subscription-date {
+  margin-bottom: $space-xs;
+  display: flex;
+  gap: $space-xs;
+  align-items: center;
+}
+.days-remaining {
+  color: $color-accent;
+  font-weight: 600;
+  margin-left: $space-xs;
+}
+.subscription-actions {
+  margin-top: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
+.upgrade-btn, .change-plan-btn, .pause-btn, .resume-btn, .cancel-btn {
+  background: $color-accent;
+  color: #fff;
+  font-size: $font-size-base;
+  font-weight: 600;
+  border: none;
+  border-radius: $radius-sm;
+  box-shadow: $shadow-soft;
+  transition: background $transition-fast, color $transition-fast;
+  display: flex;
+  align-items: center;
+  gap: $space-xs;
+  padding: $space-xs $space-md;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.upgrade-btn:hover, .change-plan-btn:hover, .pause-btn:hover, .resume-btn:hover {
+  background: $color-accent-hover;
+}
+.cancel-btn {
+  background: $color-danger;
+  color: #fff;
+}
+.cancel-btn:hover {
+  background: darken($color-danger, 10%);
+}
+
+// Stat Cards (Objective Cards)
+.stat-card {
+  background: $color-surface-light;
+  border-radius: $radius-md;
+  box-shadow: $shadow-soft;
+  padding: $space-md;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $space-md;
+  transition: box-shadow $transition-fast, background $transition-fast;
+  border: 1.5px solid $color-border;
+}
+.stat-card:hover {
+  box-shadow: $shadow-card;
+  background: $color-card-blur;
+}
+.stat-icon {
+  font-size: 2.2rem;
+  color: $color-accent;
+  background: rgba($color-accent, 0.08);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $color-accent;
+}
+.stat-label {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+// Utility for avatar text
+.avatar-text {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $color-bg;
+  letter-spacing: 1px;
+}
+
+// Payment message
 .payment-message {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem 2rem;
-  border-radius: var(--border-radius);
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  margin-bottom: $space-md;
+  font-weight: 600;
+  font-size: $font-size-base;
   text-align: center;
-  font-weight: 500;
-
   &.success {
-    background: rgba(100, 255, 218, 0.1);
-    border: var(--border-primary);
-    color: var(--primary-color);
+    background: rgba($color-accent, 0.15);
+    color: $color-accent;
+    border: 1.5px solid $color-accent;
   }
-
   &.error {
-    background: rgba(244, 67, 54, 0.2);
-    border: 1px solid rgba(244, 67, 54, 0.3);
-    color: #f44336;
+    background: rgba($color-danger, 0.15);
+    color: $color-danger;
+    border: 1.5px solid $color-danger;
   }
+}
+
+// Dashboard-specific layout and overrides
+.dashboard-container {
+  min-height: 100vh;
+  background: $color-bg;
+  color: $color-text;
 }
 
 .dashboard-main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.8rem;
+  padding: $space-md;
   display: grid;
   grid-template-columns: 350px 1fr;
-  gap: 2rem;
-
+  gap: $space-lg;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    padding: 1rem;
+    padding: $space-sm;
   }
 }
 
 .dashboard-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: $space-md;
 }
 
-.profile-card {
-  background: var(--dark-surface);
-  backdrop-filter: var(--backdrop-blur);
-  border: var(--border-light);
-  border-radius: var(--border-radius-large);
-  padding: 1.5rem;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-
-  .profile-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-
-    .profile-avatar {
-      width: 60px;
-      height: 60px;
-      background: var(--gradient-primary);
-      border-radius: var(--border-radius-round);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--dark-bg);
-    }
-
-    .profile-info {
-      flex: 1;
-
-      h3 {
-        margin: 0;
-        font-size: 1.3rem;
-        font-weight: 600;
-      }
-
-      p {
-        margin: 0.25rem 0 0 0;
-        color: var(--dark-text-secondary);
-        font-size: 0.9rem;
-      }
-    }
-
-    .edit-btn,
-    .logout-btn {
-      background: var(--dark-surface-light);
-      border: var(--border-light);
-      color: var(--dark-text);
-      width: 40px;
-      height: 40px;
-      border-radius: var(--border-radius-round);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-
-      &:hover {
-        background: var(--dark-surface);
-        transform: scale(1.1);
-      }
-
-    }
-
-    .logout-btn {
-      background: rgba(255, 107, 107, 0.2);
-    }
-  }
-
-  .profile-form {
-    .form-group {
-      margin-bottom: 1rem;
-
-      label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: var(--dark-text);
-      }
-
-      .form-input,
-      .form-select {
-        width: 100%;
-        padding: 0.75rem;
-        background: var(--dark-surface-light);
-        border: var(--border-light);
-        border-radius: var(--border-radius);
-        color: var(--dark-text);
-        font-size: 0.9rem;
-        box-sizing: border-box;
-
-        &::placeholder {
-          color: var(--dark-text-secondary);
-        }
-
-        &:focus {
-          outline: none;
-          border-color: var(--primary-color);
-          box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
-        }
-      }
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1.5rem;
-
-      .save-btn {
-        flex: 1;
-        background: var(--gradient-primary);
-        border: none;
-        color: var(--dark-bg);
-        padding: 0.75rem;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-
-        &:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-primary);
-        }
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-      }
-
-      .cancel-btn {
-        flex: 1;
-        background: var(--dark-surface-light);
-        border: var(--border-light);
-        color: var(--dark-text);
-        padding: 0.75rem;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background: var(--dark-surface);
-        }
-      }
-    }
-  }
-
-  .profile-details {
-    .detail-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 0;
-      border-bottom: var(--border-light);
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .detail-label {
-        color: var(--dark-text-secondary);
-        font-weight: 500;
-      }
-
-      .detail-value {
-        color: var(--dark-text);
-        font-weight: 600;
-      }
-    }
-  }
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, $color-accent, $color-accent-hover);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $color-bg;
 }
 
-.subscription-card {
-  background: var(--dark-surface);
-  backdrop-filter: var(--backdrop-blur);
-  border: var(--border-light);
-  border-radius: var(--border-radius-large);
-  padding: 1.5rem;
-  transition: transform 0.3s ease;
+.profile-header {
+  margin-bottom: $space-md;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  &:hover {
-    transform: translateY(-5px);
-  }
+.profile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+}
 
-  .subscription-header {
-    h3 {
-      margin: 0 0 1rem 0;
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-  }
+.profile-info h3 {
+  color: $color-accent;
+}
 
-  .subscription-loading {
-    text-align: center;
-    padding: 2rem;
-    color: var(--dark-text-secondary);
+.profile-info p {
+  color: $color-text-secondary;
+}
 
-    p {
-      margin: 0;
-      font-style: italic;
-    }
-  }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-sm;
+}
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+}
 
-  .subscription-details {
-    .plan-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
+.profile-details .detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $space-xs;
+}
 
-      .plan-name {
-        font-size: 1.1rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
+.profile-details .detail-label {
+  color: $color-text-secondary;
+  font-weight: 500;
+  font-size: large;
+}
 
-      .plan-status {
-        padding: 0.25rem 0.75rem;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        background: rgba(255, 193, 7, 0.2);
-        color: #ffc107;
-        border: 1px solid rgba(255, 193, 7, 0.3);
+.profile-details .detail-value {
+  color: $color-text;
+}
 
-        &.active {
-          background: rgba(100, 255, 218, 0.1);
-          color: var(--primary-color);
-          border-color: var(--border-primary);
-        }
-      }
-    }
+.subscription-header h3 {
+  color: $color-accent;
+}
 
-    .subscription-meta {
-      .subscription-date {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
+.plan-info .plan-name {
+  font-weight: 600;
+}
 
-        .date-label {
-          color: var(--dark-text-secondary);
-          font-weight: 500;
-        }
+.plan-info .plan-status {
+  font-size: $font-size-sm;
+  font-weight: 500;
+}
 
-        .date-value {
-          color: var(--dark-text);
-          font-weight: 600;
-        }
+.subscription-meta {
+  margin-top: $space-sm;
+}
 
-        .days-remaining {
-          color: var(--dark-text-secondary);
-          font-size: 0.85rem;
-          margin-left: 0.5rem;
-        }
-      }
+.subscription-date {
+  margin-bottom: $space-xs;
+}
 
-      .subscription-actions {
-        margin-top: 1rem;
+.date-label {
+  color: $color-text-secondary;
+  font-size: $font-size-sm;
+}
 
-        .upgrade-btn {
-          width: 100%;
-          background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-          border: none;
-          color: var(--dark-text);
-          padding: 0.75rem;
-          border-radius: var(--border-radius);
-          cursor: pointer;
-          font-weight: 500;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
+.date-value {
+  color: $color-text;
+  font-size: $font-size-sm;
+}
 
-          &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-          }
-        }
+.days-remaining {
+  color: $color-accent;
+  font-size: $font-size-sm;
+}
 
-        .premium-actions {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-
-          .renewal-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-
-            .pause-btn,
-            .resume-btn {
-              width: 100%;
-              padding: 0.75rem;
-              border-radius: var(--border-radius);
-              cursor: pointer;
-              font-weight: 500;
-              transition: all 0.3s ease;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 0.5rem;
-              border: none;
-
-              .btn-icon {
-                font-size: 1rem;
-              }
-
-              &:hover {
-                transform: translateY(-2px);
-              }
-            }
-
-            .pause-btn {
-              background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%);
-              color: var(--dark-text);
-
-              &:hover {
-                box-shadow: 0 5px 15px rgba(255, 167, 38, 0.3);
-              }
-            }
-
-            .resume-btn {
-              background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
-              color: var(--dark-text);
-
-              &:hover {
-                box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
-              }
-            }
-          }
-
-          .plan-actions {
-            display: flex;
-            gap: 0.5rem;
-
-            .change-plan-btn,
-            .cancel-btn {
-              flex: 1;
-              padding: 0.75rem;
-              border-radius: var(--border-radius);
-              cursor: pointer;
-              font-weight: 500;
-              transition: all 0.3s ease;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 0.5rem;
-              border: none;
-              font-size: 0.9rem;
-
-              .btn-icon {
-                font-size: 0.9rem;
-              }
-
-              &:hover {
-                transform: translateY(-2px);
-              }
-            }
-
-            .change-plan-btn {
-              background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
-              color: var(--dark-text);
-
-              &:hover {
-                box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
-              }
-            }
-
-            .cancel-btn {
-              background: linear-gradient(135deg, #ef5350 0%, #f44336 100%);
-              color: var(--dark-text);
-
-              &:hover {
-                box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+.subscription-actions {
+  margin-top: $space-sm;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
 }
 
 .dashboard-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: $space-lg;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-
-  .stat-card {
-    background: var(--dark-surface);
-    backdrop-filter: var(--backdrop-blur);
-    border: var(--border-light);
-    border-radius: var(--border-radius-large);
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: translateY(-5px);
-    }
-
-    .stat-icon {
-      font-size: 2rem;
-      padding: 1rem;
-      background: var(--dark-surface-light);
-      border-radius: var(--border-radius);
-    }
-
-    .stat-info {
-      .stat-value {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--primary-color);
-        margin: 0;
-      }
-
-      .stat-label {
-        color: var(--dark-text-secondary);
-        font-size: 0.9rem;
-        margin: 0;
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-header {
-    .header-content {
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
-
-      .welcome-section h1 {
-        font-size: 2rem;
-      }
-    }
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .features-section .features-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-md;
+  margin-bottom: $space-md;
+  @media (max-width: 900px) {
     grid-template-columns: 1fr;
   }
 }

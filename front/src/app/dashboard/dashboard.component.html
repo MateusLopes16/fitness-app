@@ -13,8 +13,8 @@
     <div class="dashboard-sidebar">
 
       <!-- Profile Card -->
-      <div class="profile-card">
-        <div class="profile-header">
+      <div class="profile-card card-blur shadow-soft p-md">
+        <div class="profile-header flex-row gap-md">
           <div class="profile-avatar">
             <span class="avatar-text">{{ currentUser()?.name?.charAt(0)?.toUpperCase() }}</span>
           </div>
@@ -46,11 +46,11 @@
           <div class="form-row">
             <div class="form-group">
               <label>Height (cm)</label>
-              <input type="number" formControlName="height" class="form-input" placeholder="170">
+              <input type="number" formControlName="height" class="form-input small" placeholder="170">
             </div>
             <div class="form-group">
               <label>Weight (kg)</label>
-              <input type="number" formControlName="weight" class="form-input" placeholder="70">
+              <input type="number" formControlName="weight" class="form-input small" placeholder="70">
             </div>
           </div>
 
@@ -136,8 +136,8 @@
       </div>
 
       <!-- Subscription Card -->
-      <div class="subscription-card">
-        <div class="subscription-header">
+      <div class="subscription-card card-dark shadow-soft p-md">
+        <div class="subscription-header flex-row gap-md">
           <h3>🎯 Current Plan</h3>
         </div>
 
@@ -217,21 +217,21 @@
 
       <!-- Quick Stats -->
       <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card card-blur shadow-soft p-md">
           <div class="stat-icon">🔥</div>
           <div class="stat-info">
             <div class="stat-value">{{ calculateBMR() }}</div>
             <div class="stat-label">Basal Metabolism</div>
           </div>
         </div>
-        <div class="stat-card">
+  <div class="stat-card card-blur shadow-soft p-md">
           <div class="stat-icon">🎯</div>
           <div class="stat-info">
             <div class="stat-value">{{ calculateTargetCalories() }}</div>
             <div class="stat-label">Calorie Objective</div>
           </div>
         </div>
-        <div class="stat-card">
+  <div class="stat-card card-blur shadow-soft p-md">
           <div class="stat-icon">🥩</div>
           <div class="stat-info">
             <div class="stat-value">{{ calculateProteinObjective() }}g</div>
