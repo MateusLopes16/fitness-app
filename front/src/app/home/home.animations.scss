@@ -1,0 +1,213 @@
+@use '../../styles' as *;
+
+// =========================
+// Home Component Animations
+// =========================
+
+// Floating animation for hero icons
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+// Fade in animation for modal
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+// Slide up animation for modal content
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Hero title animation
+@keyframes titleSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// Hero subtitle animation
+@keyframes subtitleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Feature cards animation
+@keyframes cardSlideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Button hover animation
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+// Gradient animation for backgrounds
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+// Navigation slide down animation
+@keyframes navSlideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+// Animation classes
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+.title-animation {
+    animation: titleSlideIn 0.8s ease-out;
+}
+
+.subtitle-animation {
+    animation: subtitleFadeIn 1s ease-out 0.3s both;
+}
+
+.card-animation {
+    animation: cardSlideInUp 0.6s ease-out;
+}
+
+.nav-animation {
+    animation: navSlideDown 0.5s ease-out;
+}
+
+// Staggered animations for feature cards
+.feature-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.feature-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.feature-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.feature-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+// Enhanced hover animations
+.hero-text .btn {
+    @include transition(all);
+    
+    &:hover {
+        animation: buttonPulse 0.3s ease-in-out;
+    }
+}
+
+.feature-card {
+    @include transition(all);
+    
+    &:hover {
+        transform: translateY(-8px) scale(1.02);
+    }
+}
+
+// Modal animations
+.modal-overlay {
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    animation: slideUp 0.3s ease;
+}
+
+// Scroll-triggered animations
+@media (prefers-reduced-motion: no-preference) {
+    .hero-title {
+        animation: titleSlideIn 0.8s ease-out;
+    }
+    
+    .hero-subtitle {
+        animation: subtitleFadeIn 1s ease-out 0.3s both;
+    }
+    
+    .fitness-icon {
+        animation: float 6s ease-in-out infinite;
+    }
+}
+
+// Loading animation for buttons
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-loading {
+    position: relative;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: loading 1s linear infinite;
+        margin-left: $space-xs;
+    }
+}

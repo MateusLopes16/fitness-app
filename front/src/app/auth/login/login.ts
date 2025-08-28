@@ -1,24 +1,20 @@
-import { Component, inject, signal, output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth';
 import { LoginRequest } from '../interfaces/auth.interface';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrls: ['./login.scss', './login.animations.scss', './login.responsive.scss']
 })
 export class LoginComponent {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  
-  // Output event to close modal
-  loginSuccess = output<void>();
-  userInteracted = output<void>();
   
   loginForm: FormGroup;
   isLoading = signal(false);
@@ -33,7 +29,6 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.userInteracted.emit(); // Track interaction
       this.isLoading.set(true);
       this.errorMessage.set('');
 
@@ -43,7 +38,6 @@ export class LoginComponent {
         next: (response) => {
           this.isLoading.set(false);
           console.log('Login successful:', response);
-          this.loginSuccess.emit();
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
@@ -60,5 +54,13 @@ export class LoginComponent {
         }
       });
     }
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
+  navigateToHome(): void {
+    this.router.navigate(['/']);
   }
 }

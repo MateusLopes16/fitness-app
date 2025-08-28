@@ -1,6 +1,6 @@
 <div class="subscription-container">
   <div class="subscription-header">
-    <button class="back-btn" (click)="goBack()">
+    <button class="back-btn btn-ghost" (click)="goBack()">
       <span>←</span> Back
     </button>
     <h1>Choose Your Plan</h1>
@@ -38,8 +38,7 @@
       </div>
 
       <button 
-        class="select-btn" 
-        [style.background]="plan.color"
+        class="btn-large btn-full" 
         [disabled]="processingPayment"
         [class.loading]="selectedPlan === plan.id"
       >

@@ -1,0 +1,172 @@
+@use '../../../styles' as *;
+
+// =========================
+// Notification Responsive Styles
+// =========================
+
+// Responsive mixins specific to notifications
+@mixin notification-mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin notification-tablet {
+  @media (min-width: 481px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin notification-desktop {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+// Notification overlay responsive adjustments
+.notification-overlay {
+  @include notification-mobile {
+    top: $space-sm;
+    right: $space-sm;
+    left: $space-sm;
+  }
+
+  @include notification-tablet {
+    top: $space-md;
+    right: $space-md;
+  }
+}
+
+// Notification container responsive adjustments
+.notification {
+  @include notification-mobile {
+    min-width: auto;
+    max-width: none;
+  }
+
+  @include notification-tablet {
+    min-width: 320px;
+    max-width: 380px;
+  }
+
+  @include notification-desktop {
+    min-width: 350px;
+    max-width: 420px;
+  }
+}
+
+// Content responsive adjustments
+.notification-content {
+  @include notification-mobile {
+    padding: $space-sm;
+    @include flex-col($space-xs);
+    
+    .notification-text {
+      .notification-title {
+        font-size: 1rem;
+      }
+
+      .notification-message {
+        font-size: 0.9rem;
+      }
+    }
+
+    .notification-icon {
+      font-size: 1.3rem;
+      align-self: flex-start;
+    }
+
+    .close-btn {
+      align-self: flex-end;
+      margin-top: $space-xs;
+    }
+  }
+
+  @include notification-tablet {
+    padding: $space-md;
+  }
+}
+
+// Progress bar responsive adjustments
+.progress-bar {
+  @include notification-mobile {
+    height: 2px;
+  }
+
+  @include notification-desktop {
+    height: 4px;
+  }
+}
+
+// Landscape mode adjustments for mobile
+@media (max-height: 500px) and (orientation: landscape) {
+  .notification-overlay {
+    top: $space-xs;
+    right: $space-xs;
+    left: auto;
+  }
+
+  .notification {
+    min-width: 280px;
+    max-width: 320px;
+  }
+
+  .notification-content {
+    padding: $space-xs $space-sm;
+
+    .notification-text {
+      .notification-title {
+        font-size: $font-size-sm;
+      }
+
+      .notification-message {
+        font-size: 0.8rem;
+      }
+    }
+
+    .notification-icon {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// Multiple notifications stacking
+.notification-overlay {
+  &:nth-child(1) { top: $space-md; }
+  &:nth-child(2) { top: calc(#{$space-md} + 100px); }
+  &:nth-child(3) { top: calc(#{$space-md} + 200px); }
+  &:nth-child(4) { top: calc(#{$space-md} + 300px); }
+
+  @include notification-mobile {
+    &:nth-child(1) { top: $space-sm; }
+    &:nth-child(2) { top: calc(#{$space-sm} + 80px); }
+    &:nth-child(3) { top: calc(#{$space-sm} + 160px); }
+    &:nth-child(4) { top: calc(#{$space-sm} + 240px); }
+  }
+}
+
+// Large screen adjustments
+@include notification-desktop {
+  .notification-overlay {
+    top: $space-lg;
+    right: $space-lg;
+  }
+
+  .notification-content {
+    padding: $space-lg;
+
+    .notification-icon {
+      font-size: 1.6rem;
+    }
+
+    .notification-text {
+      .notification-title {
+        font-size: 1.2rem;
+      }
+
+      .notification-message {
+        font-size: 1rem;
+      }
+    }
+  }
+}

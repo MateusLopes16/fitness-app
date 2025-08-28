@@ -1,16 +1,17 @@
+@use '../../../styles' as *;
+
 .notification-overlay {
   position: fixed;
-  top: 2rem;
-  right: 2rem;
+  top: $space-md;
+  right: $space-md;
   z-index: 10001;
   animation: slideInRight 0.3s ease-out;
 }
 
 .notification {
-  background: var(--dark-surface);
-  border: var(--border-light);
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  @include card-base;
+  background: $color-surface;
+  border: 1px solid $color-border;
   min-width: 350px;
   max-width: 400px;
   overflow: hidden;
@@ -34,13 +35,12 @@
 }
 
 .notification-content {
-  padding: 1.5rem;
-  display: flex;
+  padding: $space-md;
+  @include flex-row($space-sm);
   align-items: flex-start;
-  gap: 1rem;
 
   .notification-icon {
-    font-size: 1.5rem;
+    font-size: $font-size-md;
     flex-shrink: 0;
     margin-top: 0.25rem;
   }
@@ -49,42 +49,44 @@
     flex: 1;
 
     .notification-title {
-      margin: 0 0 0.5rem 0;
+      margin: 0 0 $space-xs 0;
       font-size: 1.1rem;
       font-weight: 600;
-      color: var(--dark-text);
+      color: $color-text;
     }
 
     .notification-message {
       margin: 0;
-      font-size: 0.95rem;
+      font-size: $font-size-sm;
       line-height: 1.5;
-      color: var(--dark-text-secondary);
+      color: $color-text-secondary;
     }
   }
 
   .close-btn {
+    @include button-base;
     background: none;
     border: none;
-    color: var(--dark-text-secondary);
-    cursor: pointer;
+    color: $color-text-secondary;
     font-size: 1.2rem;
     padding: 0.25rem;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border-radius: $radius-sm;
+    @include transition(all);
     flex-shrink: 0;
+    width: auto;
+    height: auto;
 
     &:hover {
-      background: var(--dark-surface-light);
-      color: var(--dark-text);
+      background: rgba($color-accent, 0.1);
+      color: $color-text;
     }
   }
 }
 
 .progress-bar {
   height: 3px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  transition: width 0.05s linear;
+  background: linear-gradient(90deg, $color-accent, $color-accent-hover);
+  @include transition(width);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -98,32 +100,5 @@
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@media (max-width: 480px) {
-  .notification-overlay {
-    top: 1rem;
-    right: 1rem;
-    left: 1rem;
-  }
-
-  .notification {
-    min-width: auto;
-    max-width: none;
-  }
-
-  .notification-content {
-    padding: 1rem;
-    
-    .notification-text {
-      .notification-title {
-        font-size: 1rem;
-      }
-
-      .notification-message {
-        font-size: 0.9rem;
-      }
-    }
   }
 }

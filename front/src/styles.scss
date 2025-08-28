@@ -1,98 +1,314 @@
-/* Dark Theme Global Styles */
+// =========================
+// Design System Variables
+// =========================
 
-/* Global CSS Custom Properties */
-:root {
-    /* Colors */
-    --primary-color: #64ffda;
-    --primary-dark: #4fc3f7;
-    --secondary-color: #bb86fc;
-    --accent-color: #03dac6;
-    
-    /* Background Colors */
-    --dark-bg: #121212;
-    --dark-surface: rgba(26, 26, 46, 0.8);
-    --dark-surface-light: rgba(40, 40, 70, 0.8);
-    
-    /* Text Colors */
-    --dark-text: #ffffff;
-    --dark-text-secondary: #b0bec5;
-    
-    /* Gradients */
-    --gradient-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    
-    /* Spacing */
-    --border-radius: 8px;
-    --border-radius-large: 16px;
-    --border-radius-round: 50%;
-    
-    /* Shadows */
-    --shadow-primary: 0 8px 25px rgba(100, 255, 218, 0.3);
-    --shadow-card: 0 20px 40px rgba(100, 255, 218, 0.1);
-    --shadow-modal: 0 25px 50px rgba(0, 0, 0, 0.5);
-    
-    /* Borders */
-    --border-light: 1px solid rgba(255, 255, 255, 0.1);
-    --border-primary: 1px solid rgba(100, 255, 218, 0.3);
-    
-    /* Backdrop filters */
-    --backdrop-blur: blur(10px);
-    --backdrop-blur-light: blur(5px);
+// Colors
+$color-bg: #18191a;
+$color-bg-secondary: #232526;
+$color-card-blur: rgba(24, 25, 26, 0.6);
+$color-card-dark: #232526;
+$color-surface: #232526;
+$color-surface-light: #2c2d30;
+$color-text: #e4e6eb;
+$color-text-secondary: #b0b3b8;
+$color-accent: #4a9960;
+$color-accent-hover: #5fb574;
+$color-accent-active: #3d7a4c;
+$color-border: #313338;
+$color-danger: #ff4757;
+
+// Font
+$font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+$font-size-base: 1rem;
+$font-size-lg: 2rem;
+$font-size-md: 1.25rem;
+$font-size-sm: 0.95rem;
+$font-weight-title: 700;
+$font-weight-subtitle: 500;
+
+// Spacing
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 2rem;
+$space-lg: 3rem;
+$space-xl: 4rem;
+
+// Border radius
+$radius-sm: 0.5rem;
+$radius-md: 1rem;
+$radius-lg: 2rem;
+
+// Shadows
+$shadow-soft: 0 2px 16px 0 rgba(0, 0, 0, 0.18);
+$shadow-card: 0 4px 32px 0 rgba(0, 0, 0, 0.22);
+
+// Transitions
+$transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+$transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// =========================
+// Mixins
+// =========================
+
+@mixin transition($props...) {
+  transition: $props $transition;
 }
+
+@mixin flex-row($gap: $space-sm) {
+  display: flex;
+  flex-direction: row;
+  gap: $gap;
+}
+
+@mixin flex-col($gap: $space-sm) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin card-base {
+  padding: $space-md;
+  border-radius: $radius-md;
+  box-shadow: $shadow-soft;
+  transition: box-shadow $transition;
+}
+
+@mixin button-large {
+  width: 100%;
+}
+
+@mixin button {
+  width: 40%;
+}
+
+@mixin button-small {
+  width: 10%;
+}
+
+@mixin button-base {
+  @include button;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  font-weight: 600;
+  border-radius: $radius-sm;
+  padding: $space-xs $space-md;
+  height: 3rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  @include transition(background, color, box-shadow, border);
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// =========================
+// Global Styles
+// =========================
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: var(--gradient-bg);
-    color: var(--dark-text);
-    min-height: 100%;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background: $color-bg;
+  color: $color-text;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  // line-height: 1.6;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
 }
 
+// Custom Scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $color-accent $color-bg-secondary;
+}
 
-/* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background:rgba(26, 26, 46, 0.95);
+  width: 8px;
+  background: $color-bg-secondary;
+  border-radius: $radius-md;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(100, 255, 218, 0.6);
-    border-radius: 4px;
+  background: $color-accent;
+  border-radius: $radius-md;
+  transition: background $transition-fast;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 255, 218, 0.8);
+  background: $color-accent-hover;
 }
 
-/* Global button styles */
-button {
-    font-family: inherit;
+// =========================
+// Layout Containers
+// =========================
+
+.horizontal-container {
+  @include flex-row();
 }
 
-/* Focus styles for accessibility */
-:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
+.vertical-container {
+  @include flex-col();
 }
 
-/* Selection styles */
-::selection {
-    background: rgba(100, 255, 218, 0.3);
-    color: var(--dark-text);
+// =========================
+// Typography
+// =========================
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-title;
+  margin-bottom: $space-sm;
+  color: $color-text;
+}
+
+.subtitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-subtitle;
+  margin-bottom: $space-xs;
+  color: $color-text-secondary;
+}
+
+// =========================
+// Cards
+// =========================
+
+.card-blur {
+  @include card-base;
+  background: $color-card-blur;
+  border: 1px solid $color-border;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.card-dark {
+  @include card-base;
+  background: $color-card-dark;
+  border: 1px solid $color-border;
+}
+
+// =========================
+// Buttons
+// =========================
+
+.btn-full {
+  @include button-base;
+  background: $color-accent;
+  color: #fff;
+  box-shadow: $shadow-soft;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: $color-accent-hover;
+    box-shadow: $shadow-card;
+  }
+
+  &:active:not(:disabled) {
+    background: $color-accent-active;
+  }
+}
+
+.btn-outline {
+  @include button-base;
+  background: transparent;
+  color: $color-accent;
+  border: 2px solid $color-accent;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: $color-accent;
+    color: #fff;
+    box-shadow: $shadow-soft;
+  }
+
+  &:active:not(:disabled) {
+    background: $color-accent-active;
+    color: #fff;
+  }
+}
+
+.btn-ghost {
+  @include button-base;
+  background: transparent;
+  color: $color-accent;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: rgba($color-accent, 0.08);
+    color: $color-accent-hover;
+  }
+
+  &:active:not(:disabled) {
+    background: rgba($color-accent, 0.16);
+    color: $color-accent-active;
+  }
+}
+
+// =========================
+// Cards
+// =========================
+
+.card-base {
+  @include card-base;
+  background: $color-surface;
+  border: 1px solid $color-border;
+}
+
+.title {
+  color: $color-text;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-title;
+  background: linear-gradient(135deg, $color-accent, $color-accent-hover);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// =========================
+// Utilities
+// =========================
+
+.text-accent {
+  color: $color-accent !important;
+}
+
+.bg-accent {
+  background: $color-accent !important;
+  color: #fff !important;
+}
+
+.shadow-soft {
+  box-shadow: $shadow-soft !important;
+}
+
+// Responsive Spacing
+.p-sm {
+  padding: $space-sm !important;
+}
+
+.p-md {
+  padding: $space-md !important;
+}
+
+.p-lg {
+  padding: $space-lg !important;
+}
+
+// Smooth transitions for interactive elements
+*:where(button, a, .card-blur, .card-dark, .btn-full, .btn-outline, .btn-ghost) {
+  @include transition(background, color, box-shadow, border);
 }

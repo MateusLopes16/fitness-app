@@ -1,0 +1,250 @@
+@use '../../../styles.scss' as *;
+
+// Minimal hover animations only
+.submit-btn {
+    &:hover:not(:disabled) {
+        animation: buttonHover 0.3s ease-out;
+    }
+
+    &:active:not(:disabled) {
+        animation: buttonPress 0.1s ease-out;
+    }
+}
+
+.back-btn {
+    &:hover {
+        animation: backButtonHover 0.3s ease-out;
+    }
+}
+
+// Form input focus animations
+.form-input {
+    &:focus {
+        animation: inputFocus 0.3s ease-out;
+    }
+
+    &.error {
+        animation: inputError 0.5s ease-out;
+    }
+}
+
+.error-message {
+    animation: errorSlideIn 0.3s ease-out;
+}
+
+// Loading state animation
+.submit-btn:disabled {
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid currentColor;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+// Link button hover
+.link-button {
+    &:hover {
+        animation: linkHover 0.3s ease-out;
+    }
+}
+
+// Keyframes
+@keyframes pageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes headerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fieldSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes buttonSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes footerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes backButtonHover {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes buttonHover {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+
+    100% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: translateY(-3px);
+    }
+
+    100% {
+        transform: translateY(-1px);
+    }
+}
+
+@keyframes inputFocus {
+    0% {
+        transform: translateY(0);
+        box-shadow: 0 0 0 0 rgba($color-accent, 0);
+    }
+
+    50% {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 2px rgba($color-accent, 0.1);
+    }
+
+    100% {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgba($color-accent, 0.15);
+    }
+}
+
+@keyframes inputError {
+
+    0%,
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(-3px);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes errorSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes titleGlow {
+    from {
+        text-shadow: 0 0 5px rgba($color-accent, 0.3);
+    }
+
+    to {
+        text-shadow: 0 0 15px rgba($color-accent, 0.6);
+    }
+}
+
+@keyframes linkHover {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

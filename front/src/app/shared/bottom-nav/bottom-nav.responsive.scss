@@ -1,0 +1,139 @@
+@use '../../../styles' as *;
+
+// =========================
+// Bottom Navigation Responsive Styles
+// =========================
+
+// Responsive mixins specific to bottom navigation
+@mixin nav-mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin nav-tablet {
+  @media (min-width: 481px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin nav-desktop {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+// Navigation container responsive adjustments
+.bottom-nav {
+  @include nav-mobile {
+    height: 70px;
+    padding: 8px 0;
+  }
+
+  @include nav-tablet {
+    height: 75px;
+    padding: 10px 0;
+  }
+}
+
+// Placeholder height adjustment
+.placeholder {
+  @include nav-mobile {
+    height: 70px;
+  }
+
+  @include nav-tablet {
+    height: 75px;
+  }
+}
+
+// Navigation items responsive adjustments
+.nav-items {
+  @include nav-mobile {
+    padding: 0 $space-sm;
+  }
+
+  @include nav-tablet {
+    padding: 0 $space-md;
+  }
+}
+
+// Individual nav item responsive adjustments
+.nav-item {
+  @include nav-mobile {
+    min-width: 50px;
+    padding: 6px 8px;
+  }
+
+  @include nav-tablet {
+    min-width: 55px;
+    padding: 8px 10px;
+  }
+}
+
+// Icon responsive sizing
+.nav-icon {
+  @include nav-mobile {
+    font-size: 1.2rem;
+  }
+
+  @include nav-tablet {
+    font-size: 1.3rem;
+  }
+}
+
+// Label responsive sizing
+.nav-label {
+  @include nav-mobile {
+    font-size: 0.65rem;
+  }
+
+  @include nav-tablet {
+    font-size: 0.7rem;
+  }
+}
+
+// Landscape mode adjustments for mobile
+@media (max-height: 500px) and (orientation: landscape) {
+  .bottom-nav {
+    height: 60px;
+    padding: 5px 0;
+  }
+
+  .placeholder {
+    height: 60px;
+  }
+
+  .nav-item {
+    min-width: 45px;
+    padding: 4px 6px;
+  }
+
+  .nav-icon {
+    font-size: 1.1rem;
+  }
+
+  .nav-label {
+    font-size: 0.6rem;
+  }
+}
+
+// Large screen adjustments
+@include nav-desktop {
+  .nav-items {
+    max-width: 600px;
+  }
+
+  .nav-item {
+    min-width: 70px;
+    padding: 0px 16px;
+  }
+
+  .nav-icon {
+    font-size: 1.5rem;
+  }
+
+  .nav-label {
+    font-size: 0.75rem;
+  }
+}

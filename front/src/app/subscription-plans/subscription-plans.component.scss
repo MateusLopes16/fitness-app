@@ -1,53 +1,47 @@
+@use '../../styles' as *;
+
 .subscription-container {
   min-height: 100vh;
-  background: var(--gradient-bg);
-  color: var(--dark-text);
-  padding: 2rem;
+  background: $color-bg;
+  color: $color-text;
+  padding: $space-md;
   padding-bottom: 6rem; /* Space for bottom nav */
 }
 
 .subscription-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: $space-lg;
   
   .back-btn {
+    @include button-small;
     position: absolute;
-    top: 2rem;
-    left: 2rem;
-    background: var(--dark-surface);
-    border: var(--border-primary);
-    color: var(--primary-color);
-    padding: 0.75rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    top: $space-md;
+    left: $space-md;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    color: $color-accent;
+    @include flex-row($space-xs);
     font-weight: 500;
     
-    &:hover {
-      background: rgba(100, 255, 218, 0.1);
+    &:hover:not(:disabled) {
+      background: rgba($color-accent, 0.1);
       transform: translateX(-2px);
     }
     
     span {
-      font-size: 1.2rem;
+      font-size: $font-size-md;
     }
   }
   
   h1 {
+    @extend .title;
     font-size: 2.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem;
+    color: $color-accent;
+    margin-bottom: $space-sm;
   }
   
   p {
-    color: var(--dark-text-secondary);
+    color: $color-text-secondary;
     font-size: 1.1rem;
     max-width: 600px;
     margin: 0 auto;
@@ -57,152 +51,125 @@
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  gap: $space-md;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 $space-sm;
 }
 
 .plan-card {
-  background: var(--dark-surface);
-  border: var(--border-primary);
-  border-radius: var(--border-radius-large);
-  backdrop-filter: var(--backdrop-blur);
-  padding: 2rem;
-  position: relative;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: column;
+  @include card-base;
+  background: $color-card-blur;
+  border: 1px solid $color-border;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  @include flex-col($space-md);
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-primary);
-    border-color: var(--primary-color);
+    box-shadow: $shadow-card;
+    border-color: $color-accent;
   }
   
   &.recommended {
-    border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(3, 218, 198, 0.2);
+    border-color: $color-accent;
+    box-shadow: 0 20px 40px rgba($color-accent, 0.2);
     
     &:hover {
-      border-color: var(--accent-color);
-      box-shadow: 0 25px 50px rgba(3, 218, 198, 0.3);
+      border-color: $color-accent;
+      box-shadow: 0 25px 50px rgba($color-accent, 0.3);
     }
   }
 }
 
 .plan-badge {
   position: absolute;
-  top: -1rem;
+  top: -$space-sm;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--accent-color);
-  color: var(--dark-bg);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  font-size: 0.8rem;
-  font-weight: 700;
+  background: $color-accent;
+  color: $color-bg;
+  padding: $space-xs $space-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-title;
   letter-spacing: 0.5px;
 }
 
 .plan-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: $space-md;
   
   .plan-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--dark-text);
-    margin-bottom: 1rem;
+    @extend .subtitle;
+    font-size: $font-size-md;
+    color: $color-text;
+    margin-bottom: $space-sm;
   }
   
   .plan-price {
-    display: flex;
+    @include flex-row(0.25rem);
     align-items: baseline;
     justify-content: center;
-    gap: 0.25rem;
     
     .currency {
-      font-size: 1.2rem;
-      color: var(--primary-color);
+      font-size: $font-size-md;
+      color: $color-accent;
       font-weight: 600;
     }
     
     .amount {
       font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary-color);
+      font-weight: $font-weight-title;
+      color: $color-accent;
     }
     
     .period {
-      font-size: 1rem;
-      color: var(--dark-text-secondary);
+      font-size: $font-size-base;
+      color: $color-text-secondary;
       font-weight: 500;
     }
   }
 }
 
 .plan-features {
-  margin-bottom: 2rem;
+  margin-bottom: $space-md;
   
   ul {
     list-style: none;
     padding: 0;
     
     li {
-      display: flex;
+      @include flex-row(0.75rem);
       align-items: center;
-      gap: 0.75rem;
       padding: 0.75rem 0;
-      color: var(--dark-text-secondary);
-      border-bottom: var(--border-light);
+      color: $color-text-secondary;
+      border-bottom: 1px solid $color-border;
       
       &:last-child {
         border-bottom: none;
       }
       
       .checkmark {
-        color: var(--primary-color);
+        color: $color-accent;
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: $font-size-md;
         flex-shrink: 0;
       }
     }
   }
 }
 
-.select-btn {
-  width: 100%;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: var(--border-radius);
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--dark-bg);
-  position: relative;
-  
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
-  }
-  
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-  }
-  
+.btn-large {
+  width: 100% !important;
+
   &.loading {
-    display: flex;
-    align-items: center;
+    @include flex-row($space-xs);
     justify-content: center;
-    gap: 0.5rem;
   }
 }
 
@@ -223,60 +190,15 @@
 
 .subscription-footer {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: $space-lg;
   
   p {
-    color: var(--dark-text-secondary);
-    margin-bottom: 0.5rem;
+    color: $color-text-secondary;
+    margin-bottom: $space-xs;
     
     &.security-note {
-      font-size: 0.9rem;
+      font-size: $font-size-sm;
       opacity: 0.8;
     }
-  }
-}
-
-@media (max-width: 1200px) {
-  .plans-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    max-width: 800px;
-  }
-  
-  .plan-card {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .subscription-container {
-    padding: 1rem;
-    padding-bottom: 6rem;
-  }
-  
-  .subscription-header {
-    .back-btn {
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 0.75rem;
-    }
-    
-    h1 {
-      font-size: 2rem;
-      margin-top: 3rem;
-    }
-  }
-  
-  .plans-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .plan-card {
-    padding: 1.5rem;
-  }
-  
-  .plan-header .plan-price .amount {
-    font-size: 2.5rem;
   }
 }

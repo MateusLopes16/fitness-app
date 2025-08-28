@@ -7,7 +7,11 @@ import { filter, Subscription } from 'rxjs';
   selector: 'app-bottom-nav',
   imports: [CommonModule],
   templateUrl: './bottom-nav.component.html',
-  styleUrl: './bottom-nav.component.scss'
+  styleUrls: [
+    './bottom-nav.component.scss',
+    './bottom-nav.animations.scss',
+    './bottom-nav.responsive.scss'
+  ]
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
   private router = inject(Router);
@@ -40,6 +44,12 @@ export class BottomNavComponent implements OnInit, OnDestroy {
       this.currentRoute.set('nutrition');
     } else if (url.includes('/workouts')) {
       this.currentRoute.set('workouts');
+    } else if (url.includes('/login') || url.includes('/register')) {
+      // Deselect all items on auth pages
+      this.currentRoute.set('');
+    } else {
+      // For any other route, deselect all items
+      this.currentRoute.set('');
     }
   }
 

@@ -1,24 +1,20 @@
-import { Component, inject, signal, output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth';
 import { RegisterRequest, ActivityLevel, Gender } from '../interfaces/auth.interface';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: './register.scss'
+  styleUrls: ['./register.scss', './register.animations.scss', './register.responsive.scss']
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  
-  // Output event to close modal
-  registerSuccess = output<void>();
-  userInteracted = output<void>();
   
   registerForm: FormGroup;
   isLoading = signal(false);
@@ -58,7 +54,6 @@ export class RegisterComponent {
         next: (response) => {
           this.isLoading.set(false);
           console.log('Registration successful:', response);
-          this.registerSuccess.emit();
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
@@ -79,10 +74,11 @@ export class RegisterComponent {
     }
   }
 
-  onSelectChange(event: Event) {
-    // Prevent event propagation to avoid closing modal
-    event.stopPropagation();
-    // Emit interaction event
-    this.userInteracted.emit();
+  navigateToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
+  navigateToHome(): void {
+    this.router.navigate(['/']);
   }
 }

@@ -1,0 +1,161 @@
+@use '../../../styles' as *;
+
+// =========================
+// Confirmation Dialog Responsive Styles
+// =========================
+
+// Responsive mixins specific to confirmation dialog
+@mixin dialog-mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin dialog-tablet {
+  @media (min-width: 481px) and (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin dialog-desktop {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+// Dialog container responsive adjustments
+.confirmation-dialog {
+  @include dialog-mobile {
+    min-width: auto;
+    margin: $space-sm;
+    max-width: calc(100vw - #{$space-md});
+  }
+
+  @include dialog-tablet {
+    min-width: 350px;
+    max-width: 450px;
+  }
+}
+
+// Header responsive adjustments
+.dialog-header {
+  @include dialog-mobile {
+    padding: $space-md $space-md $space-sm $space-md;
+
+    .dialog-title {
+      font-size: 1.25rem;
+    }
+
+    .dialog-icon {
+      font-size: 2.5rem;
+    }
+  }
+
+  @include dialog-tablet {
+    padding: $space-md $space-md $space-sm $space-md;
+  }
+}
+
+// Content responsive adjustments
+.dialog-content {
+  @include dialog-mobile {
+    padding: $space-sm $space-md;
+
+    .dialog-message {
+      font-size: 1rem;
+    }
+  }
+
+  @include dialog-tablet {
+    padding: $space-sm $space-md;
+  }
+}
+
+// Actions responsive adjustments
+.dialog-actions {
+  @include dialog-mobile {
+    padding: $space-sm $space-md $space-md $space-md;
+    @include flex-col($space-sm);
+
+    button {
+      width: 100%;
+    }
+  }
+
+  @include dialog-tablet {
+    padding: $space-sm $space-md $space-md $space-md;
+  }
+}
+
+// Overlay responsive adjustments
+.confirmation-overlay {
+  @include dialog-mobile {
+    padding: $space-sm;
+  }
+}
+
+// Button responsive adjustments
+.dialog-actions button {
+  @include dialog-mobile {
+    padding: $space-sm;
+    font-size: $font-size-sm;
+  }
+}
+
+// Landscape mode adjustments for mobile
+@media (max-height: 500px) and (orientation: landscape) {
+  .confirmation-dialog {
+    margin: $space-xs;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .dialog-header {
+    padding: $space-sm $space-md $space-xs $space-md;
+
+    .dialog-icon {
+      font-size: 2rem;
+      margin-bottom: $space-xs;
+    }
+
+    .dialog-title {
+      font-size: 1.1rem;
+    }
+  }
+
+  .dialog-content {
+    padding: $space-xs $space-md;
+
+    .dialog-message {
+      font-size: $font-size-sm;
+    }
+  }
+
+  .dialog-actions {
+    padding: $space-xs $space-md $space-sm $space-md;
+  }
+}
+
+// Large screen adjustments
+@include dialog-desktop {
+  .confirmation-dialog {
+    min-width: 450px;
+    max-width: 550px;
+  }
+
+  .dialog-header {
+    .dialog-icon {
+      font-size: 3.5rem;
+    }
+
+    .dialog-title {
+      font-size: $font-size-lg;
+    }
+  }
+
+  .dialog-content {
+    .dialog-message {
+      font-size: 1.2rem;
+    }
+  }
+}

@@ -1,0 +1,319 @@
+@use '../../styles' as *;
+
+// =========================
+// Home Component Responsive Styles
+// =========================
+
+// Responsive mixins specific to home component
+@mixin home-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin home-tablet {
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin home-desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Navigation responsive adjustments
+.navbar {
+  @include home-mobile {
+    padding: $space-sm;
+
+    .nav-brand h1 {
+      font-size: 1.25rem;
+    }
+
+    .nav-actions {
+      gap: $space-xs;
+    }
+
+    .btn {
+      padding: $space-xs $space-sm;
+      font-size: $font-size-sm;
+    }
+  }
+
+  @include home-tablet {
+    padding: $space-sm $space-md;
+  }
+}
+
+// Hero section responsive adjustments
+.hero {
+  @include home-mobile {
+    padding: 6rem $space-sm 3rem;
+    text-align: center;
+  }
+
+  @include home-tablet {
+    padding: 7rem $space-md 3.5rem;
+  }
+}
+
+.hero-content {
+  @include home-mobile {
+    grid-template-columns: 1fr;
+    gap: $space-md;
+  }
+
+  @include home-tablet {
+    gap: $space-lg;
+  }
+}
+
+.hero-text {
+  .hero-title {
+    @include home-mobile {
+      font-size: 2.5rem;
+    }
+
+    @include home-tablet {
+      font-size: 3rem;
+    }
+  }
+
+  .hero-subtitle {
+    @include home-mobile {
+      font-size: 1.1rem;
+    }
+
+    @include home-tablet {
+      font-size: 1.2rem;
+    }
+  }
+
+  .hero-actions {
+    @include home-mobile {
+      justify-content: center;
+      @include flex-col($space-sm);
+
+      .btn {
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+
+    @include home-tablet {
+      @include flex-row($space-sm);
+    }
+  }
+}
+
+.hero-graphic {
+  @include home-mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: $space-sm;
+
+    .fitness-icon {
+      font-size: 2.5rem;
+      padding: $space-md;
+    }
+  }
+
+  @include home-tablet {
+    gap: $space-md;
+
+    .fitness-icon {
+      font-size: 3.5rem;
+    }
+  }
+}
+
+// Features section responsive adjustments
+.features {
+  @include home-mobile {
+    padding: 4rem $space-sm;
+  }
+
+  @include home-tablet {
+    padding: 5rem $space-md;
+  }
+}
+
+.section-title {
+  @include home-mobile {
+    font-size: 2rem;
+  }
+
+  @include home-tablet {
+    font-size: 2.2rem;
+  }
+}
+
+.features-grid {
+  @include home-mobile {
+    grid-template-columns: 1fr;
+    gap: $space-md;
+  }
+
+  @include home-tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-md;
+  }
+}
+
+.feature-card {
+  @include home-mobile {
+    padding: $space-md;
+  }
+
+  @include home-tablet {
+    padding: $space-md;
+  }
+}
+
+// CTA section responsive adjustments
+.cta {
+  @include home-mobile {
+    padding: 4rem $space-sm;
+
+    .cta-content h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @include home-tablet {
+    padding: 5rem $space-md;
+
+    .cta-content h2 {
+      font-size: 2.2rem;
+    }
+  }
+}
+
+// Footer responsive adjustments
+.footer {
+  @include home-mobile {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: $space-md;
+      text-align: center;
+    }
+
+    .footer-links {
+      justify-content: center;
+      gap: $space-md;
+      @include flex-col($space-md);
+    }
+  }
+
+  @include home-tablet {
+    .footer-content {
+      gap: $space-lg;
+    }
+
+    .footer-links {
+      gap: $space-lg;
+    }
+  }
+}
+
+// Modal responsive adjustments
+.modal-content {
+  @include home-mobile {
+    width: 98%;
+    max-width: 100% !important;
+    max-height: 95vh;
+  }
+
+  @include home-tablet {
+    width: 85%;
+    max-width: 600px;
+  }
+}
+
+.modal-close {
+  @include home-mobile {
+    top: -0.25rem;
+    right: -0.25rem;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+}
+
+// Landscape mode adjustments for mobile
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    padding: 4rem $space-sm 2rem;
+    min-height: 80vh;
+  }
+
+  .hero-content {
+    gap: $space-md;
+  }
+
+  .hero-title {
+    font-size: 2rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: $space-sm !important;
+  }
+
+  .hero-graphic {
+    .fitness-icon {
+      font-size: 2rem;
+      padding: $space-sm;
+    }
+  }
+
+  .features {
+    padding: $space-lg $space-sm;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+  }
+}
+
+// Large screen adjustments
+@include home-desktop {
+  .hero-content {
+    max-width: 1400px;
+    gap: 5rem;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .section-title {
+    font-size: 3rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-lg;
+  }
+
+  .feature-card {
+    padding: $space-lg;
+  }
+}
+
+// Ultra-wide screen adjustments
+@media (min-width: 1440px) {
+  .container,
+  .hero-content {
+    max-width: 1400px;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

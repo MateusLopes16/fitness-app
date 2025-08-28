@@ -1,0 +1,108 @@
+@use '../../styles' as *;
+
+// =========================
+// Subscription Plans Responsive Styles
+// =========================
+
+// Responsive mixins specific to subscription plans
+@mixin subscription-mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin subscription-tablet {
+  @media (min-width: 769px) and (max-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin subscription-desktop {
+  @media (min-width: 1201px) {
+    @content;
+  }
+}
+
+// Grid responsive adjustments
+.plans-grid {
+  @include subscription-tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-sm;
+    max-width: 800px;
+  }
+
+  @include subscription-mobile {
+    grid-template-columns: 1fr;
+    gap: $space-md;
+  }
+}
+
+// Card responsive adjustments
+.plan-card {
+  @include subscription-tablet {
+    padding: $space-md;
+  }
+
+  @include subscription-mobile {
+    padding: $space-md;
+  }
+}
+
+// Container responsive adjustments
+.subscription-container {
+  @include subscription-mobile {
+    padding: $space-sm;
+    padding-bottom: 6rem;
+  }
+}
+
+// Header responsive adjustments
+.subscription-header {
+  .back-btn {
+    @include subscription-mobile {
+      top: $space-sm;
+      left: $space-sm;
+      padding: $space-xs 0.75rem;
+    }
+  }
+  
+  h1 {
+    @include subscription-mobile {
+      font-size: $font-size-lg;
+      margin-top: $space-lg;
+    }
+  }
+}
+
+// Plan price responsive adjustments
+.plan-header .plan-price .amount {
+  @include subscription-mobile {
+    font-size: 2.5rem;
+  }
+}
+
+// Navigation spacing adjustments
+.plans-grid {
+  @include subscription-mobile {
+    padding: 0 $space-sm;
+  }
+}
+
+// Typography scaling
+.subscription-header h1 {
+  @include subscription-tablet {
+    font-size: 2.2rem;
+  }
+  
+  @include subscription-mobile {
+    font-size: 1.8rem;
+  }
+}
+
+// Button responsive adjustments
+.btn-large {
+  @include subscription-mobile {
+    padding: $space-sm;
+    font-size: $font-size-sm;
+  }
+}

@@ -1,50 +1,67 @@
-<div class="auth-card" (click)="$event.stopPropagation()">
-  <h2>Login to Your Account</h2>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" (click)="$event.stopPropagation()">
-    
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        class="form-input"
-        [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-        placeholder="Enter your email"
-        (focus)="userInteracted.emit()"
-      />
-      <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        Please enter a valid email address
+<div class="page-container">
+  <div class="auth-page-wrapper">
+
+    <!-- Login Form -->
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <h2>Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to continue your fitness journey</p>
+      </div>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-input"
+            [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            placeholder="Enter your email"
+          />
+          <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-input"
+            [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            placeholder="Enter your password"
+          />
+          <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password must be at least 6 characters long
+          </div>
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </div>
+
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="loginForm.invalid || isLoading()"
+        >
+          <span *ngIf="!isLoading()">Sign In</span>
+          <span *ngIf="isLoading()">Signing in...</span>
+        </button>
+      </form>
+
+      <!-- Footer with register link -->
+      <div class="auth-footer">
+        <p>Don't have an account? 
+          <button class="link-button" (click)="navigateToRegister()">
+            Create account
+          </button>
+        </p>
       </div>
     </div>
-
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        class="form-input"
-        [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-        placeholder="Enter your password"
-        (focus)="userInteracted.emit()"
-      />
-      <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        Password must be at least 6 characters long
-      </div>
-    </div>
-
-    <div class="error-message" *ngIf="errorMessage()">
-      {{ errorMessage() }}
-    </div>
-
-    <button 
-      type="submit" 
-      class="submit-btn"
-      [disabled]="loginForm.invalid || isLoading()"
-    >
-      <span *ngIf="!isLoading()">Login</span>
-      <span *ngIf="isLoading()">Logging in...</span>
-    </button>
-  </form>
+  </div>
 </div>

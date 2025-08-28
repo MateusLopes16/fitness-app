@@ -1,3 +1,5 @@
+@use '../../../styles' as *;
+
 .confirmation-overlay {
   position: fixed;
   top: 0;
@@ -6,7 +8,7 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
-  display: flex;
+  @include flex-row();
   align-items: center;
   justify-content: center;
   z-index: 10000;
@@ -14,13 +16,12 @@
 }
 
 .confirmation-dialog {
-  background: var(--dark-surface);
-  border: var(--border-light);
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  @include card-base;
+  background: $color-surface;
+  border: 1px solid $color-border;
   min-width: 400px;
   max-width: 500px;
-  margin: 1rem;
+  margin: $space-sm;
   animation: slideIn 0.3s ease-out;
   overflow: hidden;
 
@@ -42,62 +43,45 @@
 }
 
 .dialog-header {
-  padding: 2rem 2rem 1rem 2rem;
+  padding: $space-md $space-md $space-sm $space-md;
   text-align: center;
-  border-bottom: var(--border-light);
+  border-bottom: 1px solid $color-border;
 
   .dialog-icon {
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: $space-sm;
     display: block;
   }
 
   .dialog-title {
+    @extend .subtitle;
     margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--dark-text);
+    font-size: $font-size-md;
+    color: $color-text;
   }
 }
 
 .dialog-content {
-  padding: 1.5rem 2rem;
+  padding: $space-md;
 
   .dialog-message {
     margin: 0;
     font-size: 1.1rem;
     line-height: 1.6;
-    color: var(--dark-text-secondary);
+    color: $color-text-secondary;
     text-align: center;
   }
 }
 
 .dialog-actions {
-  padding: 1rem 2rem 2rem 2rem;
-  display: flex;
-  gap: 1rem;
+  padding: $space-sm $space-md $space-md $space-md;
+  @include flex-row($space-sm);
   justify-content: center;
 
   button {
+    @include button-base;
     flex: 1;
-    padding: 0.875rem 1.5rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
     min-height: 48px;
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none !important;
-    }
 
     &:not(:disabled):hover {
       transform: translateY(-2px);
@@ -105,17 +89,19 @@
   }
 
   .cancel-btn {
-    background: var(--dark-surface-light);
-    color: var(--dark-text-secondary);
-    border: 1px solid var(--border-color);
+    @extend .btn-outline;
+    background: transparent;
+    color: $color-text-secondary;
+    border: 2px solid $color-border;
 
     &:not(:disabled):hover {
-      background: var(--dark-surface-lighter);
-      border-color: var(--border-hover);
+      background: $color-surface;
+      border-color: $color-accent;
     }
   }
 
   .confirm-btn {
+    @extend .btn-full;
     color: white;
     font-weight: 600;
 
@@ -152,9 +138,8 @@
     }
 
     .loading-content {
-      display: flex;
+      @include flex-row($space-xs);
       align-items: center;
-      gap: 0.5rem;
     }
 
     .loading-spinner {
@@ -191,38 +176,5 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 480px) {
-  .confirmation-dialog {
-    min-width: auto;
-    margin: 1rem;
-    max-width: calc(100vw - 2rem);
-  }
-
-  .dialog-header {
-    padding: 1.5rem 1.5rem 1rem 1.5rem;
-
-    .dialog-title {
-      font-size: 1.25rem;
-    }
-  }
-
-  .dialog-content {
-    padding: 1rem 1.5rem;
-
-    .dialog-message {
-      font-size: 1rem;
-    }
-  }
-
-  .dialog-actions {
-    padding: 1rem 1.5rem 1.5rem 1.5rem;
-    flex-direction: column;
-
-    button {
-      width: 100%;
-    }
   }
 }

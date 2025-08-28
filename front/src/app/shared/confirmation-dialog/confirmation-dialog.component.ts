@@ -15,7 +15,11 @@ export interface ConfirmationDialogData {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './confirmation-dialog.component.html',
-  styleUrls: ['./confirmation-dialog.component.scss']
+  styleUrls: [
+    './confirmation-dialog.component.scss',
+    './confirmation-dialog.animations.scss',
+    './confirmation-dialog.responsive.scss'
+  ]
 })
 export class ConfirmationDialogComponent {
   @Input() isVisible = false;

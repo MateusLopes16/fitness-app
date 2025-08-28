@@ -18,7 +18,11 @@ export interface SubscriptionPlan {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './subscription-plans.component.html',
-  styleUrls: ['./subscription-plans.component.scss']
+  styleUrls: [
+    './subscription-plans.component.scss',
+    './subscription-plans.animations.scss',
+    './subscription-plans.responsive.scss'
+  ]
 })
 export class SubscriptionPlansComponent implements OnInit {
   plans: SubscriptionPlan[] = [
