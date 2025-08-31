@@ -1,204 +1,139 @@
-@use '../../styles' as *;
+@use '../../styles' as styles;
 
 .subscription-container {
-  min-height: 100vh;
-  background: $color-bg;
-  color: $color-text;
-  padding: $space-md;
-  padding-bottom: 6rem; /* Space for bottom nav */
-}
+    min-height: 100%;
+    background: styles.$color-bg;
+    color: styles.$color-text;
+    padding: styles.$space-base;
 
-.subscription-header {
-  text-align: center;
-  margin-bottom: $space-lg;
-  
-  .back-btn {
-    @include button-small;
-    position: absolute;
-    top: $space-md;
-    left: $space-md;
-    background: $color-surface;
-    border: 1px solid $color-border;
-    color: $color-accent;
-    @include flex-row($space-xs);
-    font-weight: 500;
-    
-    &:hover:not(:disabled) {
-      background: rgba($color-accent, 0.1);
-      transform: translateX(-2px);
+    .btn-outline {
+        float: left;
+        width: auto;
+        padding: styles.$space-small styles.$space-base;
+        gap: styles.$space-small;
     }
-    
-    span {
-      font-size: $font-size-md;
-    }
-  }
-  
-  h1 {
-    @extend .title;
-    font-size: 2.5rem;
-    color: $color-accent;
-    margin-bottom: $space-sm;
-  }
-  
-  p {
-    color: $color-text-secondary;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto;
-  }
 }
 
 .plans-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: $space-md;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 $space-sm;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: styles.$space-base;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 styles.$space-small;
 }
 
-.plan-card {
-  @include card-base;
-  background: $color-card-blur;
-  border: 1px solid $color-border;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  @include flex-col($space-md);
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: $shadow-card;
-    border-color: $color-accent;
-  }
-  
-  &.recommended {
-    border-color: $color-accent;
-    box-shadow: 0 20px 40px rgba($color-accent, 0.2);
-    
+.card-blur {
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
     &:hover {
-      border-color: $color-accent;
-      box-shadow: 0 25px 50px rgba($color-accent, 0.3);
+        transform: translateY(-5px);
+        box-shadow: styles.$shadow-card;
+        border-color: styles.$color-accent;
     }
-  }
+
+    &.recommended {
+        border-color: styles.$color-accent;
+        box-shadow: 0 20px 40px rgba(styles.$color-accent, 0.2);
+
+        &:hover {
+            border-color: styles.$color-accent;
+            box-shadow: 0 25px 50px rgba(styles.$color-accent, 0.3);
+        }
+    }
 }
 
 .plan-badge {
-  position: absolute;
-  top: -$space-sm;
-  left: 50%;
-  transform: translateX(-50%);
-  background: $color-accent;
-  color: $color-bg;
-  padding: $space-xs $space-sm;
-  border-radius: $radius-sm;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-title;
-  letter-spacing: 0.5px;
+    position: absolute;
+    top: - styles.$space-base;
+    left: 50%;
+    transform: translateX(-50%);
+    background: styles.$color-accent;
+    color: styles.$color-bg;
+    padding: styles.$space-small styles.$space-base;
+    border-radius: styles.$radius-50;
+    font-size: styles.$font-size-base;
+    font-weight: styles.$font-weight-title;
+    letter-spacing: 0.5px;
 }
 
 .plan-header {
-  text-align: center;
-  margin-bottom: $space-md;
-  
-  .plan-name {
-    @extend .subtitle;
-    font-size: $font-size-md;
-    color: $color-text;
-    margin-bottom: $space-sm;
-  }
-  
-  .plan-price {
-    @include flex-row(0.25rem);
-    align-items: baseline;
-    justify-content: center;
-    
-    .currency {
-      font-size: $font-size-md;
-      color: $color-accent;
-      font-weight: 600;
+    text-align: center;
+    margin-bottom: styles.$space-base;
+
+    .subtitle {
+        margin: styles.$space-base;
     }
-    
-    .amount {
-      font-size: 3rem;
-      font-weight: $font-weight-title;
-      color: $color-accent;
+
+    .plan-price {
+        @include styles.horizontal-container(0.25rem);
+        align-items: baseline;
+        justify-content: center;
+
+        .currency {
+            font-size: styles.$font-size-base;
+            color: styles.$color-accent;
+            font-weight: 600;
+        }
+
+        .amount {
+            font-size: 3rem;
+            font-weight: styles.$font-weight-title;
+            color: styles.$color-accent;
+        }
+
+        .period {
+            font-size: styles.$font-size-base;
+            color: styles.$color-text-secondary;
+            font-weight: 500;
+        }
     }
-    
-    .period {
-      font-size: $font-size-base;
-      color: $color-text-secondary;
-      font-weight: 500;
-    }
-  }
 }
 
 .plan-features {
-  margin-bottom: $space-md;
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    
-    li {
-      @include flex-row(0.75rem);
-      align-items: center;
-      padding: 0.75rem 0;
-      color: $color-text-secondary;
-      border-bottom: 1px solid $color-border;
-      
-      &:last-child {
-        border-bottom: none;
-      }
-      
-      .checkmark {
-        color: $color-accent;
-        font-weight: bold;
-        font-size: $font-size-md;
-        flex-shrink: 0;
-      }
+    margin-bottom: styles.$space-base;
+    height: 100%;
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            @include styles.horizontal-container(0.75rem);
+            align-items: center;
+            padding: 0.75rem 0;
+            color: styles.$color-text-secondary;
+            border-bottom: 1px solid styles.$color-border;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .checkmark {
+                color: styles.$color-accent;
+                font-weight: bold;
+                font-size: styles.$font-size-base;
+                flex-shrink: 0;
+            }
+        }
     }
-  }
-}
-
-.btn-large {
-  width: 100% !important;
-
-  &.loading {
-    @include flex-row($space-xs);
-    justify-content: center;
-  }
-}
-
-.loading-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .subscription-footer {
-  text-align: center;
-  margin-top: $space-lg;
-  
-  p {
-    color: $color-text-secondary;
-    margin-bottom: $space-xs;
-    
-    &.security-note {
-      font-size: $font-size-sm;
-      opacity: 0.8;
+    text-align: center;
+    margin-top: styles.$space-big;
+
+    p {
+        color: styles.$color-text-secondary;
+        margin-bottom: styles.$space-small;
+
+        &.security-note {
+            font-size: styles.$font-size-base;
+            opacity: 0.8;
+        }
     }
-  }
 }

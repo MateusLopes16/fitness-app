@@ -7,16 +7,13 @@ import { filter, Subscription } from 'rxjs';
   selector: 'app-bottom-nav',
   imports: [CommonModule],
   templateUrl: './bottom-nav.component.html',
-  styleUrls: [
-    './bottom-nav.component.scss',
-    './bottom-nav.animations.scss',
-    './bottom-nav.responsive.scss'
-  ]
+  styleUrls: ['./bottom-nav.component.scss']
+
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private routerSubscription?: Subscription;
-  
+
   currentRoute = signal('home');
 
   ngOnInit() {
@@ -26,7 +23,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
       .subscribe((event: NavigationEnd) => {
         this.updateCurrentRoute(event.url);
       });
-    
+
     // Set initial route
     this.updateCurrentRoute(this.router.url);
   }

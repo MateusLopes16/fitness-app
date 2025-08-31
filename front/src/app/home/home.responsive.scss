@@ -1,319 +1,298 @@
-@use '../../styles' as *;
+@use '../../styles.scss' as styles;
 
 // =========================
-// Home Component Responsive Styles
+// Responsive Breakpoints
 // =========================
 
-// Responsive mixins specific to home component
-@mixin home-mobile {
-  @media (max-width: 768px) {
-    @content;
-  }
-}
+// Mobile devices (up to 768px)
+@media (max-width: 768px) {
 
-@mixin home-tablet {
-  @media (min-width: 769px) and (max-width: 1024px) {
-    @content;
-  }
-}
+    // Header responsive
+    .header {
+        height: 4rem; // Reduce header height for mobile
+        padding: 0 styles.$space-base;
 
-@mixin home-desktop {
-  @media (min-width: 1025px) {
-    @content;
-  }
-}
-
-// Navigation responsive adjustments
-.navbar {
-  @include home-mobile {
-    padding: $space-sm;
-
-    .nav-brand h1 {
-      font-size: 1.25rem;
+        h1 {
+            font-size: 1.5rem; // Reduce title size for mobile
+            margin: 0 styles.$space-small;
+        }
     }
 
     .nav-actions {
-      gap: $space-xs;
+        width: 40%; // Increase width percentage for mobile
+        margin-right: styles.$space-small;
+        gap: styles.$space-small;
+
+        .btn {
+            height: 2.5rem; // Slightly smaller buttons
+            font-size: 0.9rem;
+        }
     }
 
-    .btn {
-      padding: $space-xs $space-sm;
-      font-size: $font-size-sm;
-    }
-  }
-
-  @include home-tablet {
-    padding: $space-sm $space-md;
-  }
-}
-
-// Hero section responsive adjustments
-.hero {
-  @include home-mobile {
-    padding: 6rem $space-sm 3rem;
-    text-align: center;
-  }
-
-  @include home-tablet {
-    padding: 7rem $space-md 3.5rem;
-  }
-}
-
-.hero-content {
-  @include home-mobile {
-    grid-template-columns: 1fr;
-    gap: $space-md;
-  }
-
-  @include home-tablet {
-    gap: $space-lg;
-  }
-}
-
-.hero-text {
-  .hero-title {
-    @include home-mobile {
-      font-size: 2.5rem;
+    // Hero section responsive
+    .hero {
+        padding: 6rem styles.$space-base 3rem; // Reduce vertical padding
     }
 
-    @include home-tablet {
-      font-size: 3rem;
-    }
-  }
-
-  .hero-subtitle {
-    @include home-mobile {
-      font-size: 1.1rem;
+    .hero-content {
+        flex-direction: column-reverse;
+        gap: styles.$space-big;
+        text-align: center;
     }
 
-    @include home-tablet {
-      font-size: 1.2rem;
+    .hero-text {
+        .title {
+            font-size: 2rem; // Reduce hero title size
+            line-height: 1.2;
+            margin-bottom: styles.$space-base;
+        }
+
+        .subtitle {
+            font-size: 1rem; // Reduce subtitle size
+            line-height: 1.4;
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            gap: styles.$space-base;
+            width: 100%;
+        }
+
+        .btn {
+            height: 3rem;
+            font-size: styles.$font-size-base;
+        }
     }
-  }
 
-  .hero-actions {
-    @include home-mobile {
-      justify-content: center;
-      @include flex-col($space-sm);
-
-      .btn {
+    .hero-image {
         width: 100%;
-        max-width: 200px;
-      }
+        margin-top: styles.$space-big;
     }
 
-    @include home-tablet {
-      @include flex-row($space-sm);
-    }
-  }
-}
+    .hero-graphic {
+        grid-template-columns: 1fr 1fr;
+        gap: styles.$space-base;
 
-.hero-graphic {
-  @include home-mobile {
-    grid-template-columns: 1fr 1fr;
-    gap: $space-sm;
-
-    .fitness-icon {
-      font-size: 2.5rem;
-      padding: $space-md;
-    }
-  }
-
-  @include home-tablet {
-    gap: $space-md;
-
-    .fitness-icon {
-      font-size: 3.5rem;
-    }
-  }
-}
-
-// Features section responsive adjustments
-.features {
-  @include home-mobile {
-    padding: 4rem $space-sm;
-  }
-
-  @include home-tablet {
-    padding: 5rem $space-md;
-  }
-}
-
-.section-title {
-  @include home-mobile {
-    font-size: 2rem;
-  }
-
-  @include home-tablet {
-    font-size: 2.2rem;
-  }
-}
-
-.features-grid {
-  @include home-mobile {
-    grid-template-columns: 1fr;
-    gap: $space-md;
-  }
-
-  @include home-tablet {
-    grid-template-columns: repeat(2, 1fr);
-    gap: $space-md;
-  }
-}
-
-.feature-card {
-  @include home-mobile {
-    padding: $space-md;
-  }
-
-  @include home-tablet {
-    padding: $space-md;
-  }
-}
-
-// CTA section responsive adjustments
-.cta {
-  @include home-mobile {
-    padding: 4rem $space-sm;
-
-    .cta-content h2 {
-      font-size: 2rem;
-    }
-  }
-
-  @include home-tablet {
-    padding: 5rem $space-md;
-
-    .cta-content h2 {
-      font-size: 2.2rem;
-    }
-  }
-}
-
-// Footer responsive adjustments
-.footer {
-  @include home-mobile {
-    .footer-content {
-      grid-template-columns: 1fr;
-      gap: $space-md;
-      text-align: center;
+        .fitness-icon {
+            font-size: 3rem; // Make icons smaller for mobile
+            padding: styles.$space-base;
+        }
     }
 
-    .footer-links {
-      justify-content: center;
-      gap: $space-md;
-      @include flex-col($space-md);
+    // Footer responsive
+    .footer {
+        padding: styles.$space-big styles.$space-base styles.$space-base;
+
+        .footer-content {
+            grid-template-columns: 1fr; // Stack footer content vertically
+            gap: styles.$space-big;
+            text-align: center;
+        }
+
+        .footer-brand {
+            h3 {
+                font-size: 1.25rem;
+                margin-bottom: styles.$space-small;
+            }
+
+            p {
+                font-size: 0.9rem;
+                margin-bottom: styles.$space-base;
+            }
+        }
+
+        .footer-links {
+            justify-content: center;
+            gap: styles.$space-big;
+        }
+
+        .footer-column {
+            h4 {
+                font-size: 1rem;
+                margin-bottom: styles.$space-small;
+            }
+
+            a {
+                font-size: 0.9rem;
+                margin-bottom: styles.$space-small;
+            }
+        }
+
+        .footer-bottom {
+            padding-top: styles.$space-base;
+            
+            p {
+                font-size: 0.85rem;
+            }
+        }
     }
-  }
+}
 
-  @include home-tablet {
-    .footer-content {
-      gap: $space-lg;
+// Small mobile devices (up to 480px)
+@media (max-width: 480px) {
+    .header {
+        height: 3.5rem;
+
+        h1 {
+            font-size: 1.25rem; // Even smaller title for very small screens
+        }
     }
 
-    .footer-links {
-      gap: $space-lg;
+    .nav-actions {
+        width: 50%; // Even more width percentage for very small screens
+
+        .btn {
+            height: 2.25rem;
+            font-size: 0.85rem;
+            padding: 0 styles.$space-small;
+        }
     }
-  }
-}
 
-// Modal responsive adjustments
-.modal-content {
-  @include home-mobile {
-    width: 98%;
-    max-width: 100% !important;
-    max-height: 95vh;
-  }
-
-  @include home-tablet {
-    width: 85%;
-    max-width: 600px;
-  }
-}
-
-.modal-close {
-  @include home-mobile {
-    top: -0.25rem;
-    right: -0.25rem;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1rem;
-  }
-}
-
-// Landscape mode adjustments for mobile
-@media (max-height: 500px) and (orientation: landscape) {
-  .hero {
-    padding: 4rem $space-sm 2rem;
-    min-height: 80vh;
-  }
-
-  .hero-content {
-    gap: $space-md;
-  }
-
-  .hero-title {
-    font-size: 2rem !important;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem !important;
-    margin-bottom: $space-sm !important;
-  }
-
-  .hero-graphic {
-    .fitness-icon {
-      font-size: 2rem;
-      padding: $space-sm;
+    .hero {
+        padding: 4rem styles.$space-small 2rem;
     }
-  }
 
-  .features {
-    padding: $space-lg $space-sm;
-  }
+    .hero-text {
+        .title {
+            font-size: 1.75rem; // Further reduce for small screens
+            margin-bottom: styles.$space-small;
+        }
 
-  .modal-content {
-    max-height: 90vh;
-  }
+        .subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-actions {
+            gap: styles.$space-small;
+        }
+
+        .btn {
+            width: 100%;
+            height: 2.75rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    .hero-graphic {
+        grid-template-columns: 1fr 1fr;
+        gap: styles.$space-small;
+
+        .fitness-icon {
+            font-size: 2rem; // Even smaller icons
+            padding: styles.$space-small;
+        }
+    }
+
+    // Footer responsive for small mobile
+    .footer {
+        padding: styles.$space-base styles.$space-small styles.$space-small;
+
+        .footer-content {
+            gap: styles.$space-base;
+        }
+
+        .footer-brand {
+            h3 {
+                font-size: 1.125rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+        }
+
+        .footer-links {
+            flex-direction: column;
+            gap: styles.$space-base;
+            align-items: center;
+        }
+
+        .footer-column {
+            h4 {
+                font-size: 0.95rem;
+                margin-bottom: styles.$space-small;
+            }
+
+            a {
+                font-size: 0.85rem;
+            }
+        }
+
+        .footer-bottom {
+            p {
+                font-size: 0.8rem;
+                line-height: 1.4;
+            }
+        }
+    }
 }
 
-// Large screen adjustments
-@include home-desktop {
-  .hero-content {
-    max-width: 1400px;
-    gap: 5rem;
-  }
+// Tablet devices (769px to 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .header {
+        h1 {
+            font-size: 1.75rem;
+        }
+    }
 
-  .hero-title {
-    font-size: 4rem;
-  }
+    .nav-actions {
+        width: 30%;
+    }
 
-  .hero-subtitle {
-    font-size: 1.4rem;
-  }
+    .hero-text {
+        .title {
+            font-size: 2.25rem;
+        }
 
-  .section-title {
-    font-size: 3rem;
-  }
+        .subtitle {
+            font-size: 1.125rem;
+        }
 
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: $space-lg;
-  }
+        .btn {
+            width: 48%; // Slightly adjust for tablet
+        }
+    }
 
-  .feature-card {
-    padding: $space-lg;
-  }
+    .hero-graphic {
+        .fitness-icon {
+            font-size: 3.5rem;
+        }
+    }
+
+    // Footer responsive for tablet
+    .footer {
+        .footer-content {
+            grid-template-columns: 1fr 1.5fr; // Adjust grid ratio for tablet
+            gap: styles.$space-big;
+        }
+
+        .footer-brand {
+            h3 {
+                font-size: 1.125rem;
+            }
+        }
+
+        .footer-links {
+            gap: styles.$space-big;
+        }
+
+        .footer-column {
+            h4 {
+                font-size: 0.95rem;
+            }
+
+            a {
+                font-size: 0.9rem;
+            }
+        }
+    }
 }
 
-// Ultra-wide screen adjustments
-@media (min-width: 1440px) {
-  .container,
-  .hero-content {
-    max-width: 1400px;
-  }
+// ************************************
+// $**********************************
 
-  .features-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+
+
+
+

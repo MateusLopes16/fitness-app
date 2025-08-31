@@ -9,13 +9,13 @@ import { RegisterRequest, ActivityLevel, Gender } from '../interfaces/auth.inter
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrls: ['./register.scss', './register.animations.scss', './register.responsive.scss']
+  styleUrls: ['./register.scss', './register.responsive.scss']
 })
 export class RegisterComponent {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  
+
   registerForm: FormGroup;
   isLoading = signal(false);
   errorMessage = signal('');
@@ -59,7 +59,7 @@ export class RegisterComponent {
         error: (error) => {
           this.isLoading.set(false);
           console.error('Registration error:', error);
-          
+
           if (error.status === 409) {
             this.errorMessage.set('An account with this email already exists');
           } else if (error.status === 0) {

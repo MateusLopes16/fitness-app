@@ -1,25 +1,20 @@
 <div class="subscription-container">
   <div class="subscription-header">
-    <button class="back-btn btn-ghost" (click)="goBack()">
+    <button class="btn-outline" (click)="goBack()">
       <span>←</span> Back
     </button>
-    <h1>Choose Your Plan</h1>
-    <p>Select the perfect plan to unlock your fitness potential</p>
+    <h1 class="title">Choose Your Plan</h1>
+    <p class="subtitle">Select the perfect plan to unlock your fitness potential</p>
   </div>
 
   <div class="plans-grid">
-    <div 
-      class="plan-card" 
-      [class.recommended]="plan.recommended"
-      *ngFor="let plan of plans"
-      (click)="selectPlan(plan)"
-    >
+    <div class="card-blur" [class.recommended]="plan.recommended" *ngFor="let plan of plans" (click)="selectPlan(plan)">
       <div class="plan-badge" *ngIf="plan.recommended">
         <span>RECOMMENDED</span>
       </div>
-      
+
       <div class="plan-header">
-        <h3 class="plan-name">{{ plan.name }}</h3>
+        <h3 class="subtitle">{{ plan.name }}</h3>
         <div class="plan-price">
           <span class="currency">$</span>
           <span class="amount">{{ plan.price }}</span>
@@ -36,19 +31,6 @@
           </li>
         </ul>
       </div>
-
-      <button 
-        class="btn-large btn-full" 
-        [disabled]="processingPayment"
-        [class.loading]="selectedPlan === plan.id"
-      >
-        <span *ngIf="plan.price === 0 && selectedPlan !== plan.id">Get Started Free</span>
-        <span *ngIf="plan.price > 0 && selectedPlan !== plan.id">Choose {{ plan.name }}</span>
-        <span *ngIf="selectedPlan === plan.id && processingPayment">
-          <span class="loading-spinner"></span>
-          Processing...
-        </span>
-      </button>
     </div>
   </div>
 

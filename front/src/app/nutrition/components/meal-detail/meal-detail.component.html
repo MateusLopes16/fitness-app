@@ -1,31 +1,61 @@
-<div class="meal-detail-overlay" (click)="close.emit()">
-    <div class="meal-detail-modal" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-            <div class="title-section">
-                <h1>{{ meal()?.name }}</h1>
-                <div class="meal-meta">
-                    <span class="meal-type" *ngIf="meal()?.mealType">
-                        {{ getMealTypeIcon(meal()!.mealType!) }} {{ meal()?.mealType }}
-                    </span>
-                    <span class="meal-date" *ngIf="meal()?.date">
-                        📅 {{ formatDate(meal()!.date!) }}
-                    </span>
-                    <span class="servings">
-                        👥 {{ meal()?.servings }} serving{{ meal()!.servings! > 1 ? 's' : '' }}
-                    </span>
-                    <span class="badge admin" *ngIf="meal()?.createdByType === 'admin'">Admin Recipe</span>
-                </div>
-            </div>
-            <button class="close-btn" (click)="close.emit()">
-                ✕
+<div class="meal-detail-container">
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+        <div class="spinner"></div>
+        <p>Loading meal details...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" *ngIf="error && !loading">
+        <div class="error-icon">⚠️</div>
+        <h3>Error Loading Meal</h3>
+        <p>{{ error }}</p>
+        <button class="btn-primary" (click)="onBack()">
+            ← Back to Nutrition
+        </button>
+    </div>
+
+    <!-- Meal Content -->
+    <div class="meal-content" *ngIf="meal && !loading && !error">
+        <!-- Header with Back Button -->
+        <div class="page-header">
+            <button class="back-btn" (click)="onBack()">
+                ← Back to Nutrition
             </button>
+            <div class="header-actions">
+                <button class="btn-secondary" (click)="onDuplicate()">
+                    📋 Duplicate Meal
+                </button>
+                <button class="btn-primary" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
+                    ✏️ Edit Meal
+                </button>
+            </div>
         </div>
 
-        <div class="modal-content">
+        <!-- Meal Header -->
+        <div class="meal-header">
+            <div class="title-section">
+                <h1>{{ meal.name }}</h1>
+                <div class="meal-meta">
+                    <span class="meal-type" *ngIf="meal.mealType">
+                        {{ getMealTypeIcon(meal.mealType) }} {{ meal.mealType }}
+                    </span>
+                    <span class="meal-date" *ngIf="meal.date">
+                        📅 {{ formatDate(meal.date) }}
+                    </span>
+                    <span class="servings">
+                        👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
+                    </span>
+                    <span class="badge admin" *ngIf="meal.createdByType === 'admin'">Admin Recipe</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="meal-body">
             <!-- Description -->
-            <div class="section" *ngIf="meal()?.description">
+            <div class="section" *ngIf="meal.description">
                 <h3>📝 Description</h3>
-                <p class="description">{{ meal()?.description }}</p>
+                <p class="description">{{ meal.description }}</p>
             </div>
 
             <!-- Nutrition Summary -->
@@ -33,31 +63,31 @@
                 <h3>📊 Nutrition Facts (Total)</h3>
                 <div class="nutrition-grid">
                     <div class="nutrition-card primary">
-                        <div class="nutrition-value">{{ meal()?.totalCalories?.toFixed(0) || '0' }}</div>
+                        <div class="nutrition-value">{{ meal.totalCalories.toFixed(0) || '0' }}</div>
                         <div class="nutrition-label">Calories</div>
                     </div>
                     <div class="nutrition-card">
-                        <div class="nutrition-value">{{ meal()?.totalProtein?.toFixed(1) || '0' }}g</div>
+                        <div class="nutrition-value">{{ meal.totalProtein.toFixed(1) || '0' }}g</div>
                         <div class="nutrition-label">Protein</div>
                     </div>
                     <div class="nutrition-card">
-                        <div class="nutrition-value">{{ meal()?.totalCarbs?.toFixed(1) || '0' }}g</div>
+                        <div class="nutrition-value">{{ meal.totalCarbs.toFixed(1) || '0' }}g</div>
                         <div class="nutrition-label">Carbs</div>
                     </div>
                     <div class="nutrition-card">
-                        <div class="nutrition-value">{{ meal()?.totalFat?.toFixed(1) || '0' }}g</div>
+                        <div class="nutrition-value">{{ meal.totalFat.toFixed(1) || '0' }}g</div>
                         <div class="nutrition-label">Fat</div>
                     </div>
-                    <div class="nutrition-card" *ngIf="meal()?.totalFiber && meal()!.totalFiber! > 0">
-                        <div class="nutrition-value">{{ meal()?.totalFiber?.toFixed(1) }}g</div>
+                    <div class="nutrition-card" *ngIf="meal.totalFiber && meal.totalFiber > 0">
+                        <div class="nutrition-value">{{ meal.totalFiber.toFixed(1) }}g</div>
                         <div class="nutrition-label">Fiber</div>
                     </div>
-                    <div class="nutrition-card" *ngIf="meal()?.totalSugar && meal()!.totalSugar! > 0">
-                        <div class="nutrition-value">{{ meal()?.totalSugar?.toFixed(1) }}g</div>
+                    <div class="nutrition-card" *ngIf="meal.totalSugar && meal.totalSugar > 0">
+                        <div class="nutrition-value">{{ meal.totalSugar.toFixed(1) }}g</div>
                         <div class="nutrition-label">Sugar</div>
                     </div>
-                    <div class="nutrition-card" *ngIf="meal()?.totalSodium && meal()!.totalSodium! > 0">
-                        <div class="nutrition-value">{{ meal()?.totalSodium?.toFixed(0) }}mg</div>
+                    <div class="nutrition-card" *ngIf="meal.totalSodium && meal.totalSodium > 0">
+                        <div class="nutrition-value">{{ meal.totalSodium.toFixed(0) }}mg</div>
                         <div class="nutrition-label">Sodium</div>
                     </div>
                 </div>
@@ -65,9 +95,9 @@
 
             <!-- Ingredients -->
             <div class="section">
-                <h3>🥕 Ingredients ({{ meal()?.ingredients?.length || 0 }})</h3>
+                <h3>🥕 Ingredients ({{ meal.ingredients.length || 0 }})</h3>
                 <div class="ingredients-list">
-                    <div *ngFor="let ingredient of meal()?.ingredients" class="ingredient-item">
+                    <div *ngFor="let ingredient of meal.ingredients" class="ingredient-item">
                         <div class="ingredient-info">
                             <div class="ingredient-name">
                                 {{ ingredient.ingredient.name }}
@@ -94,26 +124,14 @@
             </div>
 
             <!-- Recipe -->
-            <div class="section" *ngIf="meal()?.recipe">
+            <div class="section" *ngIf="meal.recipe">
                 <h3>👨‍🍳 Recipe Instructions</h3>
                 <div class="recipe-content">
-                    <p *ngFor="let step of getRecipeSteps(meal()!.recipe!)" class="recipe-step">
+                    <p *ngFor="let step of getRecipeSteps(meal.recipe)" class="recipe-step">
                         {{ step }}
                     </p>
                 </div>
             </div>
-        </div>
-
-        <div class="modal-actions">
-            <button class="btn-secondary" (click)="close.emit()">
-                Close
-            </button>
-            <button class="btn-primary" (click)="duplicate.emit(meal()!)">
-                📋 Duplicate Meal
-            </button>
-            <button class="btn-primary" (click)="onEdit(meal()!)" *ngIf="meal()?.createdByType === 'user'">
-                ✏️ Edit Meal
-            </button>
         </div>
     </div>
 </div>

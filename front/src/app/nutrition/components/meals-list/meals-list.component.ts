@@ -8,13 +8,12 @@ import { Meal, MealType } from '../../interfaces/meal.interface';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './meals-list.component.html',
-  styleUrls: ['./meals-list.component.scss']
+  styleUrls: []
 })
 export class MealsListComponent implements OnInit {
   meals = input<Meal[]>([]);
   loading = input<boolean>(false);
 
-  viewMeal = output<Meal>();
   duplicateMeal = output<Meal>();
   deleteMeal = output<Meal>();
 
@@ -55,6 +54,10 @@ export class MealsListComponent implements OnInit {
       return;
     }
     this.router.navigate(['/nutrition/edit-meal', meal.id]);
+  }
+
+  onView(meal: Meal): void {
+    this.router.navigate(['/nutrition/meal', meal.id]);
   }
 
   getMealTypeIcon(mealType: MealType): string {

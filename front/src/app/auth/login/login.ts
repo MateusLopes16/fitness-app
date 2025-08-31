@@ -9,7 +9,7 @@ import { LoginRequest } from '../interfaces/auth.interface';
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss', './login.animations.scss', './login.responsive.scss']
+  styleUrls: ['./login.scss', './login.responsive.scss']
 })
 export class LoginComponent {
   private authService = inject(AuthService);

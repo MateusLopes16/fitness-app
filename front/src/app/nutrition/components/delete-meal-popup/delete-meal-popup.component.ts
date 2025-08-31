@@ -7,7 +7,7 @@ import { Meal } from '../../interfaces/meal.interface';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './delete-meal-popup.component.html',
-  styleUrls: ['./delete-meal-popup.component.scss']
+  styleUrls: []
 })
 export class DeleteMealPopupComponent {
   meal = input<Meal | null>(null);

@@ -11,7 +11,7 @@ import { Meal, MealType } from '../interfaces/meal.interface';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './meal-scheduling.component.html',
-  styleUrls: ['./meal-scheduling.component.scss']
+  styleUrls: []
 })
 export class MealSchedulingComponent implements OnInit {
   // View modes

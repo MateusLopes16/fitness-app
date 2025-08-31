@@ -9,7 +9,6 @@ import { AuthService } from '../auth/auth';
   templateUrl: './home.component.html',
   styleUrls: [
     './home.component.scss',
-    './home.animations.scss',
     './home.responsive.scss'
   ]
 })

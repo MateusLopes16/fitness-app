@@ -10,7 +10,7 @@ import { Ingredient, CreateIngredientDto } from '../interfaces/ingredient.interf
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-ingredient.component.html',
-  styleUrls: ['./add-ingredient.component.scss']
+  styleUrls: []
 })
 export class AddIngredientComponent implements OnInit {
   loading = signal<boolean>(false);
@@ -35,7 +35,7 @@ export class AddIngredientComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private ingredientService: IngredientService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Check if we're editing an existing ingredient
@@ -94,7 +94,7 @@ export class AddIngredientComponent implements OnInit {
 
     // Clean up the ingredient data before sending
     const ingredientData = { ...this.ingredient() };
-    
+
     // Remove empty strings and convert them to undefined for optional fields
     if (!ingredientData.brand?.trim()) ingredientData.brand = undefined;
     if (!ingredientData.barcode?.trim()) ingredientData.barcode = undefined;
@@ -102,7 +102,7 @@ export class AddIngredientComponent implements OnInit {
     if (!ingredientData.sugarPer100g?.trim()) ingredientData.sugarPer100g = undefined;
     if (!ingredientData.sodiumPer100g?.trim()) ingredientData.sodiumPer100g = undefined;
 
-    const request = this.isEditing() 
+    const request = this.isEditing()
       ? this.ingredientService.updateIngredient(this.ingredientId()!, ingredientData)
       : this.ingredientService.createIngredient(ingredientData);
 
@@ -113,7 +113,7 @@ export class AddIngredientComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error saving ingredient:', error);
-        const errorMessage = error.error?.message ? 
+        const errorMessage = error.error?.message ?
           (Array.isArray(error.error.message) ? error.error.message.join(', ') : error.error.message) :
           `Failed to ${this.isEditing() ? 'update' : 'create'} ingredient`;
         this.error.set(errorMessage);

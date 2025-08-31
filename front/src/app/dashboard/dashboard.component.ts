@@ -13,7 +13,6 @@ import { NotificationComponent, NotificationData } from '../shared/notification/
   selector: 'app-dashboard',
   imports: [CommonModule, ReactiveFormsModule, ConfirmationDialogComponent, NotificationComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
   private authService = inject(AuthService);

@@ -15,11 +15,8 @@ export interface NotificationData {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './notification.component.html',
-  styleUrls: [
-    './notification.component.scss',
-    './notification.animations.scss',
-    './notification.responsive.scss'
-  ]
+    styleUrls: []
+
 })
 export class NotificationComponent implements OnInit {
   @Input() isVisible = false;

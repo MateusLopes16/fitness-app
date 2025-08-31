@@ -35,7 +35,6 @@
     <app-meals-list
       [meals]="meals()"
       [loading]="loading()"
-      (viewMeal)="onViewMeal($event)"
       (duplicateMeal)="onDuplicateMeal($event)"
       (deleteMeal)="onDeleteMeal($event)"
     ></app-meals-list>
@@ -54,14 +53,6 @@
   <div *ngIf="activeTab() === 'scheduling'" class="tab-content">
     <app-meal-scheduling></app-meal-scheduling>
   </div>
-
-  <!-- Meal Detail Modal -->
-  <app-meal-detail
-    *ngIf="showMealDetail()"
-    [meal]="selectedMeal()"
-    (close)="closeMealDetail()"
-    (duplicate)="onDuplicateMeal($event)"
-  ></app-meal-detail>
 
   <!-- Meal Form Modal -->
   <app-meal-form
@@ -92,7 +83,7 @@
 
   <!-- Delete Ingredient Popup -->
   <app-delete-ingredient-popup
-    [show]="showDeleteForm()"
+    *ngIf="showDeleteForm()"
     [ingredient]="deletingIngredient()"
     [loading]="loading()"
     (close)="onCloseDeleteForm()"

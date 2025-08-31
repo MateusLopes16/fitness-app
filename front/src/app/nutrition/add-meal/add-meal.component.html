@@ -1,32 +1,35 @@
 <div class="add-meal-container">
   <div class="page-header">
     <h1>{{ isEditing() ? 'Edit' : 'Add' }} Meal</h1>
-    <button class="btn-back" (click)="onCancel()">← Back to Nutrition</button>
+    <button class="btn-back" (click)="onCancel()">
+      <span>←</span>
+      Back to Nutrition
+    </button>
   </div>
 
   <!-- Error Display -->
-  <div class="error-message" *ngIf="error()">
+  <div class="error-message animate-shake" *ngIf="error()">
     <span class="error-icon">⚠️</span>
     {{ error() }}
   </div>
 
   <!-- Loading State -->
   <div class="loading-state" *ngIf="loading() && isEditing()">
-    <div class="loading-spinner"></div>
+    <div class="loading-spinner animate-spin"></div>
     <p>Loading meal...</p>
   </div>
 
   <!-- Form -->
   <div class="form-container" *ngIf="!loading() || !isEditing()">
-    <form (ngSubmit)="onSave()">
+    <form (ngSubmit)="onSave()" class="meal-form">
       <div class="form-grid">
         <!-- Basic Information -->
-        <div class="form-section">
+        <div class="form-section basic-info">
           <h3>Basic Information</h3>
           
           <div class="form-row">
             <div class="form-group">
-              <label for="name">Meal Name *</label>
+              <label for="name">Meal Name</label>
               <input
                 type="text"
                 id="name"
@@ -93,7 +96,7 @@
         </div>
 
         <!-- Ingredients -->
-        <div class="form-section">
+        <div class="form-section ingredients-section">
           <div class="section-header">
             <h3>🥕 Ingredients ({{ formData().ingredients.length }})</h3>
             <button type="button" class="btn-add" (click)="showIngredientSelector.set(!showIngredientSelector())">
@@ -102,7 +105,7 @@
           </div>
 
           <!-- Add Ingredient Selector -->
-          <div class="ingredient-selector" *ngIf="showIngredientSelector()">
+          <div class="ingredient-selector animate-dropdown-appear" *ngIf="showIngredientSelector()">
             <div class="ingredient-search">
               <input
                 type="text"
@@ -113,7 +116,7 @@
               >
             </div>
             
-            <div class="ingredients-dropdown" *ngIf="filteredIngredients.length > 0">
+            <div class="ingredients-dropdown animate-dropdown-appear" *ngIf="filteredIngredients.length > 0">
               <div
                 *ngFor="let ingredient of filteredIngredients"
                 class="ingredient-option"
@@ -130,7 +133,7 @@
           <div class="ingredients-list" *ngIf="formData().ingredients.length > 0">
             <div
               *ngFor="let ingredient of formData().ingredients; let i = index"
-              class="ingredient-item"
+              class="ingredient-item animate-ingredient-slide-in"
             >
               <div class="ingredient-details">
                 <div class="ingredient-name">
@@ -167,7 +170,7 @@
           </div>
 
           <!-- Total Nutrition Preview -->
-          <div class="nutrition-preview" *ngIf="formData().ingredients.length > 0">
+          <div class="nutrition-preview animate-nutrition-pulse" *ngIf="formData().ingredients.length > 0">
             <h4>📊 Estimated Total Nutrition</h4>
             <div class="nutrition-grid">
               <div class="nutrition-item">

@@ -8,7 +8,7 @@ import { Ingredient, CreateIngredientDto } from '../../interfaces/ingredient.int
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-ingredient-popup.component.html',
-  styleUrls: ['./add-ingredient-popup.component.scss']
+  styleUrls: []
 })
 export class AddIngredientPopupComponent implements OnInit {
   @Input() show = false;

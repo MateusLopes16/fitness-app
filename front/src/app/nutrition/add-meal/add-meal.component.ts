@@ -12,7 +12,7 @@ import { Ingredient } from '../interfaces/ingredient.interface';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-meal.component.html',
-  styleUrls: ['./add-meal.component.scss']
+  styleUrls: []
 })
 export class AddMealComponent implements OnInit {
   loading = signal<boolean>(false);

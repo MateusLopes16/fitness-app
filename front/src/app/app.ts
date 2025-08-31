@@ -6,7 +6,6 @@ import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
   selector: 'app-root',
   imports: [RouterOutlet, BottomNavComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
 })
 export class App {
   protected readonly title = signal('front');

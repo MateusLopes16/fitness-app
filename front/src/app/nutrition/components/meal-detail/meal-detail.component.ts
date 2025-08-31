@@ -1,28 +1,68 @@
-import { Component, input, output } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
+import { MealService } from '../../services/meal.service';
 
 @Component({
   selector: 'app-meal-detail',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './meal-detail.component.html',
-  styleUrls: ['./meal-detail.component.scss']
+    styleUrls: []
+
 })
-export class MealDetailComponent {
-  meal = input<Meal | null>(null);
+export class MealDetailComponent implements OnInit {
+  meal: Meal | null = null;
+  loading = true;
+  error: string | null = null;
   
-  close = output<void>();
-  duplicate = output<Meal>();
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private mealService = inject(MealService);
 
-  constructor(private router: Router) {}
-
-  onEdit(meal: Meal): void {
-    if (meal.createdByType === 'admin') {
-      return;
+  ngOnInit(): void {
+    const mealId = this.route.snapshot.params['id'];
+    if (mealId) {
+      this.loadMeal(mealId);
+    } else {
+      this.error = 'No meal ID provided';
+      this.loading = false;
     }
-    this.router.navigate(['/nutrition/edit-meal', meal.id]);
+  }
+
+  private loadMeal(id: string): void {
+    this.loading = true;
+    this.mealService.getMeal(id).subscribe({
+      next: (meal) => {
+        this.meal = meal;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Failed to load meal details';
+        this.loading = false;
+        console.error('Error loading meal:', error);
+      }
+    });
+  }
+
+  onBack(): void {
+    this.router.navigate(['/nutrition']);
+  }
+
+  onEdit(): void {
+    if (this.meal && this.meal.createdByType !== 'admin') {
+      this.router.navigate(['/nutrition/edit-meal', this.meal.id]);
+    }
+  }
+
+  onDuplicate(): void {
+    if (this.meal) {
+      // Navigate to add meal with meal data for duplication
+      this.router.navigate(['/nutrition/add-meal'], { 
+        queryParams: { duplicate: this.meal.id } 
+      });
+    }
   }
 
   getMealTypeIcon(mealType: MealType): string {

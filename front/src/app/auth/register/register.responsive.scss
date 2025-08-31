@@ -1,0 +1,137 @@
+@use '../../../styles.scss' as styles;
+
+// =========================
+// Responsive Breakpoints
+// =========================
+
+// Mobile devices (up to 768px)
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    margin-top: 5vh;
+    padding: 0 styles.$space-base;
+  }
+
+  .auth-header {
+    margin-bottom: styles.$space-big;
+    
+    .title {
+      font-size: 2rem; // Smaller title on mobile
+      margin-bottom: styles.$space-small;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: styles.$space-base;
+    }
+  }
+
+  .card-base {
+    padding: styles.$space-big styles.$space-base;
+    margin-bottom: styles.$space-base;
+  }
+
+  .form-group {
+    padding: styles.$space-small 0;
+    
+    label {
+      font-size: 0.9rem;
+      margin-bottom: styles.$space-small;
+    }
+
+    .input {
+      padding: styles.$space-base;
+      font-size: styles.$font-size-base;
+      min-height: 44px; // Touch-friendly minimum height
+    }
+  }
+
+  .btn-full {
+    height: 48px; // Touch-friendly button height
+    font-size: styles.$font-size-base;
+    margin: styles.$space-base auto;
+  }
+
+  .auth-footer {
+    padding: styles.$space-base 0;
+    text-align: center;
+    
+    p {
+      font-size: 0.9rem;
+    }
+
+    .link-button {
+      font-size: 0.9rem;
+    }
+  }
+
+  .error-message {
+    font-size: 0.85rem;
+    padding: styles.$space-small;
+    border-radius: styles.$radius-10;
+    background: rgba(styles.$color-error, 0.1);
+    border: 1px solid rgba(styles.$color-error, 0.3);
+    color: styles.$color-error;
+    margin: styles.$space-small 0;
+  }
+}
+
+// Small mobile devices (up to 480px)
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    margin-top: 3vh;
+    padding: 0 styles.$space-small;
+  }
+
+  .auth-header {
+    .title {
+      font-size: 1.75rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .card-base {
+    padding: styles.$space-base styles.$space-small;
+  }
+
+  .form-group {
+    .input {
+      padding: styles.$space-small styles.$space-base;
+    }
+  }
+
+  .auth-footer {
+    p {
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .link-button {
+      font-size: 0.85rem;
+      display: block;
+      margin-top: styles.$space-small;
+    }
+  }
+}
+
+// Tablet devices (769px to 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    width: 50%;
+    margin-top: 8vh;
+  }
+
+  .auth-header {
+    .title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .card-base {
+    padding: styles.$space-big;
+  }
+}

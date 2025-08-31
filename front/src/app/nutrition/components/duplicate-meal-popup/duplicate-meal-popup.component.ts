@@ -8,7 +8,7 @@ import { Meal, MealType, DuplicateMealDto } from '../../interfaces/meal.interfac
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './duplicate-meal-popup.component.html',
-  styleUrls: ['./duplicate-meal-popup.component.scss']
+  styleUrls: []
 })
 export class DuplicateMealPopupComponent {
   meal = input<Meal | null>(null);

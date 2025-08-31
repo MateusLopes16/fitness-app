@@ -29,7 +29,7 @@
              [class.lunch]="meal.mealType === 'LUNCH'"
              [class.dinner]="meal.mealType === 'DINNER'"
              [class.snack]="meal.mealType === 'SNACK'"
-             (click)="viewMeal.emit(meal)">
+             (click)="onView(meal)">>
           
           <div class="meal-header">
             <div class="meal-title">
@@ -94,6 +94,11 @@
           </div>
 
           <div class="meal-actions" (click)="$event.stopPropagation()">
+            <button class="btn-action view" 
+                    title="View Details"
+                    (click)="onView(meal)">
+              👁️
+            </button>
             <button class="btn-action" 
                     title="Duplicate"
                     (click)="duplicateMeal.emit(meal)">

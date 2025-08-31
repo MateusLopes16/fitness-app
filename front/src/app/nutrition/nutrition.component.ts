@@ -7,7 +7,6 @@ import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interfa
 import { IngredientsListComponent } from './components/ingredients-list/ingredients-list.component';
 import { DeleteIngredientPopupComponent } from './components/delete-ingredient-popup/delete-ingredient-popup.component';
 import { MealsListComponent } from './components/meals-list/meals-list.component';
-import { MealDetailComponent } from './components/meal-detail/meal-detail.component';
 import { MealFormComponent } from './components/meal-form/meal-form.component';
 import { DuplicateMealPopupComponent } from './components/duplicate-meal-popup/duplicate-meal-popup.component';
 import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-meal-popup.component';
@@ -17,18 +16,17 @@ import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.compo
   selector: 'app-nutrition',
   standalone: true,
   imports: [
-    CommonModule, 
-    IngredientsListComponent, 
+    CommonModule,
+    IngredientsListComponent,
     DeleteIngredientPopupComponent,
     MealsListComponent,
-    MealDetailComponent,
     MealFormComponent,
     DuplicateMealPopupComponent,
     DeleteMealPopupComponent,
     MealSchedulingComponent
   ],
   templateUrl: './nutrition.component.html',
-  styleUrls: ['./nutrition.component.scss']
+  styleUrls: []
 })
 export class NutritionComponent implements OnInit {
   // Tab management
@@ -41,12 +39,10 @@ export class NutritionComponent implements OnInit {
 
   // Meals
   meals = signal<Meal[]>([]);
-  selectedMeal = signal<Meal | null>(null);
   editingMeal = signal<Meal | null>(null);
   duplicatingMeal = signal<Meal | null>(null);
   deletingMeal = signal<Meal | null>(null);
-  
-  showMealDetail = signal<boolean>(false);
+
   showMealForm = signal<boolean>(false);
   showDuplicateForm = signal<boolean>(false);
   showDeleteMealForm = signal<boolean>(false);
@@ -58,7 +54,7 @@ export class NutritionComponent implements OnInit {
   constructor(
     private ingredientService: IngredientService,
     private mealService: MealService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadIngredients();
@@ -68,7 +64,7 @@ export class NutritionComponent implements OnInit {
   loadIngredients() {
     this.loading.set(true);
     this.error.set('');
-    
+
     this.ingredientService.getIngredients().subscribe({
       next: (ingredients) => {
         this.ingredients.set(ingredients);
@@ -101,7 +97,7 @@ export class NutritionComponent implements OnInit {
 
     this.ingredientService.deleteIngredient(ingredient.id).subscribe({
       next: () => {
-        this.ingredients.update(ingredients => 
+        this.ingredients.update(ingredients =>
           ingredients.filter(i => i.id !== ingredient.id)
         );
         this.loading.set(false);
@@ -123,7 +119,7 @@ export class NutritionComponent implements OnInit {
   loadMeals() {
     this.loading.set(true);
     this.error.set('');
-    
+
     this.mealService.getMeals().subscribe({
       next: (meals) => {
         this.meals.set(meals);
@@ -137,11 +133,6 @@ export class NutritionComponent implements OnInit {
     });
   }
 
-  onViewMeal(meal: Meal) {
-    this.selectedMeal.set(meal);
-    this.showMealDetail.set(true);
-  }
-
   onDuplicateMeal(meal: Meal) {
     this.duplicatingMeal.set(meal);
     this.showDuplicateForm.set(true);
@@ -150,11 +141,6 @@ export class NutritionComponent implements OnInit {
   onDeleteMeal(meal: Meal) {
     this.deletingMeal.set(meal);
     this.showDeleteMealForm.set(true);
-  }
-
-  closeMealDetail() {
-    this.showMealDetail.set(false);
-    this.selectedMeal.set(null);
   }
 
   closeMealForm() {
@@ -177,13 +163,13 @@ export class NutritionComponent implements OnInit {
     this.error.set('');
 
     const editingId = this.editingMeal()?.id;
-    
+
     if (editingId) {
       // Update existing meal
       this.mealService.updateMeal(editingId, mealData).subscribe({
         next: (updatedMeal) => {
           // Update in meals list
-          this.meals.update(meals => 
+          this.meals.update(meals =>
             meals.map(m => m.id === editingId ? updatedMeal : m)
           );
           this.closeMealForm();
@@ -244,7 +230,7 @@ export class NutritionComponent implements OnInit {
     this.mealService.deleteMeal(meal.id).subscribe({
       next: () => {
         // Remove from meals list
-        this.meals.update(meals => 
+        this.meals.update(meals =>
           meals.filter(m => m.id !== meal.id)
         );
         this.closeDeleteMealForm();

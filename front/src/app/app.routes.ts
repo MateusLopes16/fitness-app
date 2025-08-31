@@ -5,6 +5,7 @@ import { SubscriptionPlansComponent } from './subscription-plans/subscription-pl
 import { NutritionComponent } from './nutrition/nutrition.component';
 import { AddIngredientComponent } from './nutrition/add-ingredient/add-ingredient.component';
 import { AddMealComponent } from './nutrition/add-meal/add-meal.component';
+import { MealDetailComponent } from './nutrition/components/meal-detail/meal-detail.component';
 import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 import { authGuard } from './auth/auth-guard';
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'nutrition/edit-ingredient/:id', component: AddIngredientComponent, canActivate: [authGuard] },
   { path: 'nutrition/add-meal', component: AddMealComponent, canActivate: [authGuard] },
   { path: 'nutrition/edit-meal/:id', component: AddMealComponent, canActivate: [authGuard] },
+  { path: 'nutrition/meal/:id', component: MealDetailComponent, canActivate: [authGuard] },
   { path: 'subscription-plans', component: SubscriptionPlansComponent },
   { path: '**', redirectTo: '' }
 ];

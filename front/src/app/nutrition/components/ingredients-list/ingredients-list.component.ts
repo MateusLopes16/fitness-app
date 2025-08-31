@@ -8,7 +8,7 @@ import { Ingredient } from '../../interfaces/ingredient.interface';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './ingredients-list.component.html',
-  styleUrls: ['./ingredients-list.component.scss']
+  styleUrls: []
 })
 export class IngredientsListComponent {
   @Input() ingredients: Ingredient[] = [];
