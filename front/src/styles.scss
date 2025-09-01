@@ -229,6 +229,24 @@ body {
   }
 }
 
+.btn-ghost {
+  @include button-base;
+  background: transparent;
+  color: $color-accent;
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background: $color-accent-hover-soft;
+    color: #fff;
+    box-shadow: $shadow-soft;
+  }
+
+  &:active:not(:disabled) {
+    background: $color-accent-active;
+    color: #fff;
+  }
+}
+
 .container {
   min-height: 100%;
   font-family: $font-family;

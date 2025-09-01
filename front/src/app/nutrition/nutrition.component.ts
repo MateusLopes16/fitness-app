@@ -5,11 +5,8 @@ import { MealService } from './services/meal.service';
 import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interface';
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
 import { IngredientsListComponent } from './components/ingredients-list/ingredients-list.component';
-import { DeleteIngredientPopupComponent } from './components/delete-ingredient-popup/delete-ingredient-popup.component';
 import { MealsListComponent } from './components/meals-list/meals-list.component';
 import { MealFormComponent } from './components/meal-form/meal-form.component';
-import { DuplicateMealPopupComponent } from './components/duplicate-meal-popup/duplicate-meal-popup.component';
-import { DeleteMealPopupComponent } from './components/delete-meal-popup/delete-meal-popup.component';
 import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
 
 @Component({
@@ -18,15 +15,12 @@ import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.compo
   imports: [
     CommonModule,
     IngredientsListComponent,
-    DeleteIngredientPopupComponent,
     MealsListComponent,
     MealFormComponent,
-    DuplicateMealPopupComponent,
-    DeleteMealPopupComponent,
     MealSchedulingComponent
   ],
   templateUrl: './nutrition.component.html',
-  styleUrls: []
+  styleUrls: ['./nutrition.component.scss']
 })
 export class NutritionComponent implements OnInit {
   // Tab management

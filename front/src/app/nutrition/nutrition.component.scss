@@ -1,0 +1,23 @@
+@use '../../styles.scss' as styles;
+
+.container {
+    margin: styles.$space-base auto;
+    padding: styles.$space-big;
+}
+
+.nutrition-header {
+    text-align: center;
+}
+
+.nutrition-tabs {
+    @include styles.horizontal-container(styles.$space-base);
+    width: 50%;
+    margin: styles.$space-base auto;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .active {
+        background-color: styles.$color-accent-soft;
+        color: styles.$color-text;
+    }
+}

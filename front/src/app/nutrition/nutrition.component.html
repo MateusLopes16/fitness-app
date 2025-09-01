@@ -1,25 +1,25 @@
-<div class="nutrition-container">
+<div class="container">
   <div class="nutrition-header">
-    <h1>🥗 Nutrition Management</h1>
-    <p>Manage your meals, ingredients, and track your daily nutrition</p>
+    <h1 class="title">Nutrition Management</h1>
+    <p class="subtitle">Manage your meals, ingredients, and track your daily nutrition</p>
   </div>
 
   <!-- Navigation Tabs -->
-  <div class="nutrition-tabs">
-    <button class="tab-button" 
+  <div class="nutrition-tabs card-base">
+    <button class="btn-ghost" 
             [class.active]="activeTab() === 'meals'"
             (click)="activeTab.set('meals')">
-      🍽️ My Meals
+      🍽️ Meals
     </button>
-    <button class="tab-button" 
+    <button class="btn-ghost" 
             [class.active]="activeTab() === 'ingredients'"
             (click)="activeTab.set('ingredients')">
       🥕 Ingredients
     </button>
-    <button class="tab-button" 
+    <button class="btn-ghost" 
             [class.active]="activeTab() === 'scheduling'"
             (click)="activeTab.set('scheduling')">
-      📅 Meal Scheduling
+      📅 Planning
     </button>
   </div>
 
@@ -62,31 +62,4 @@
     (close)="closeMealForm()"
     (save)="onSaveMeal($event)"
   ></app-meal-form>
-
-  <!-- Duplicate Meal Modal -->
-  <app-duplicate-meal-popup
-    *ngIf="showDuplicateForm()"
-    [meal]="duplicatingMeal()"
-    [loading]="loading()"
-    (close)="closeDuplicateForm()"
-    (duplicate)="onConfirmDuplicate($event)"
-  ></app-duplicate-meal-popup>
-
-  <!-- Delete Meal Modal -->
-  <app-delete-meal-popup
-    *ngIf="showDeleteMealForm()"
-    [meal]="deletingMeal()"
-    [loading]="loading()"
-    (close)="closeDeleteMealForm()"
-    (confirm)="onConfirmDeleteMeal()"
-  ></app-delete-meal-popup>
-
-  <!-- Delete Ingredient Popup -->
-  <app-delete-ingredient-popup
-    *ngIf="showDeleteForm()"
-    [ingredient]="deletingIngredient()"
-    [loading]="loading()"
-    (close)="onCloseDeleteForm()"
-    (confirm)="onConfirmDelete()"
-  ></app-delete-ingredient-popup>
 </div>

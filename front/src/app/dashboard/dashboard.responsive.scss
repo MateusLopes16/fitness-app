@@ -13,172 +13,177 @@
     gap: styles.$space-base;
   }
 
-  .dashboard-sidebar {
-    width: 100%;
-    order: 1;
-  }
-
-  .dashboard-content {
-    width: 100%;
-    order: 2;
-  }
-
-  // Profile section responsive
   .profile-header {
-    // flex-direction: column;
-    text-align: center;
     width: 100%;
-    padding: styles.$space-base;
-    gap: styles.$space-base;
-
-    .profile-avatar {
-      width: 80px;
-      height: 80px;
-      font-size: 2rem;
-      margin-right: 0;
-      margin-bottom: styles.$space-small;
-    }
-
-    .profile-info {
-      text-align: center;
-      margin-bottom: styles.$space-small;
-
-      h3 {
-        font-size: 1.25rem;
-        margin-bottom: styles.$space-small;
-      }
-
-      p {
-        font-size: 1rem;
-      }
-
-      .truncate {
-        max-width: 200px;
-        margin: 0 auto;
-      }
-    }
-
-    .btn-outline,
-    .btn-full {
-      width: 2.5rem;
-      height: 2.5rem;
-      margin: 0;
-    }
-  }
-
-  // Profile form responsive
-  .profile-form {
-    .form-row {
-    //   flex-direction: column;
-      gap: 0;
-    }
-
-    .form-group {
-      padding: styles.$space-small 0;
-
-      label {
-        font-size: 0.9rem;
-      }
-
-      .input {
-        padding: styles.$space-small;
-        font-size: styles.$font-size-base;
-      }
-    }
-
-    .form-actions {
-    //   flex-direction: column;
-      gap: styles.$space-small;
-
-      .btn {
-        width: 100%;
-        height: 3rem;
-      }
-    }
-  }
-
-  // Profile details responsive
-  .profile-details {
-    .detail-item {
-    //   flex-direction: column;
-      text-align: center;
-      padding: styles.$space-base 0;
-      border-bottom: 1px solid styles.$color-border;
-
-      .detail-label {
-        font-size: 0.9rem;
-        margin-bottom: styles.$space-small;
-      }
-
-      .detail-value {
-        font-size: 1rem;
-        margin-left: 0;
-      }
-    }
-  }
-
-  // Subscription section responsive
-  .sub-card {
-    .plan-info {
-    //   flex-direction: column;
-      text-align: center;
-      gap: styles.$space-base;
-
-      .plan-name {
-        font-size: 1.125rem;
-      }
-
-      .plan-status {
-        font-size: 0.9rem;
-        padding: styles.$space-small;
-      }
-    }
-
-    .subscription-actions {
-      .btn {
-        width: 100%;
-        height: 3rem;
-        margin-bottom: styles.$space-small;
-        font-size: 0.9rem;
-      }
-    }
-
-    .plan-actions {
-      flex-direction: column;
-      gap: styles.$space-small;
-    }
-  }
-
-  // Stats grid responsive
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: styles.$space-base;
-
-    .card-base {
-    //   flex-direction: column;
-      text-align: center;
-      padding: styles.$space-base;
-
-      .stat-icon {
-        font-size: 2rem;
-        margin-bottom: styles.$space-small;
-      }
-
-      .stat-info {
-        padding: 0;
-
-        .stat-value {
-          font-size: 1.75rem;
-          margin-bottom: styles.$space-small;
-        }
-
-        .stat-label {
-          font-size: 0.9rem;
-        }
-      }
-    }
   }
 }
+
+//   .dashboard-sidebar {
+//     width: 100%;
+//     order: 1;
+//   }
+
+//   .dashboard-content {
+//     width: 100%;
+//     order: 2;
+//   }
+
+//   // Profile section responsive
+//   .profile-header {
+//     // flex-direction: column;
+//     text-align: center;
+//     width: 100%;
+//     padding: styles.$space-base;
+//     gap: styles.$space-base;
+
+//     .profile-avatar {
+//       width: 80px;
+//       height: 80px;
+//       font-size: 2rem;
+//       margin-right: 0;
+//       margin-bottom: styles.$space-small;
+//     }
+
+//     .profile-info {
+//       text-align: center;
+//       margin-bottom: styles.$space-small;
+
+//       h3 {
+//         font-size: 1.25rem;
+//         margin-bottom: styles.$space-small;
+//       }
+
+//       p {
+//         font-size: 1rem;
+//       }
+
+//       .truncate {
+//         max-width: 200px;
+//         margin: 0 auto;
+//       }
+//     }
+
+//     .btn-outline,
+//     .btn-full {
+//       width: 2.5rem;
+//       height: 2.5rem;
+//       margin: 0;
+//     }
+//   }
+
+//   // Profile form responsive
+//   .profile-form {
+//     .form-row {
+//     //   flex-direction: column;
+//       gap: 0;
+//     }
+
+//     .form-group {
+//       padding: styles.$space-small 0;
+
+//       label {
+//         font-size: 0.9rem;
+//       }
+
+//       .input {
+//         padding: styles.$space-small;
+//         font-size: styles.$font-size-base;
+//       }
+//     }
+
+//     .form-actions {
+//     //   flex-direction: column;
+//       gap: styles.$space-small;
+
+//       .btn {
+//         width: 100%;
+//         height: 3rem;
+//       }
+//     }
+//   }
+
+//   // Profile details responsive
+//   .profile-details {
+//     .detail-item {
+//     //   flex-direction: column;
+//       text-align: center;
+//       padding: styles.$space-base 0;
+//       border-bottom: 1px solid styles.$color-border;
+
+//       .detail-label {
+//         font-size: 0.9rem;
+//         margin-bottom: styles.$space-small;
+//       }
+
+//       .detail-value {
+//         font-size: 1rem;
+//         margin-left: 0;
+//       }
+//     }
+//   }
+
+//   // Subscription section responsive
+//   .sub-card {
+//     .plan-info {
+//     //   flex-direction: column;
+//       text-align: center;
+//       gap: styles.$space-base;
+
+//       .plan-name {
+//         font-size: 1.125rem;
+//       }
+
+//       .plan-status {
+//         font-size: 0.9rem;
+//         padding: styles.$space-small;
+//       }
+//     }
+
+//     .subscription-actions {
+//       .btn {
+//         width: 100%;
+//         height: 3rem;
+//         margin-bottom: styles.$space-small;
+//         font-size: 0.9rem;
+//       }
+//     }
+
+//     .plan-actions {
+//       flex-direction: column;
+//       gap: styles.$space-small;
+//     }
+//   }
+
+//   // Stats grid responsive
+//   .stats-grid {
+//     grid-template-columns: 1fr;
+//     gap: styles.$space-base;
+
+//     .card-base {
+//     //   flex-direction: column;
+//       text-align: center;
+//       padding: styles.$space-base;
+
+//       .stat-icon {
+//         font-size: 2rem;
+//         margin-bottom: styles.$space-small;
+//       }
+
+//       .stat-info {
+//         padding: 0;
+
+//         .stat-value {
+//           font-size: 1.75rem;
+//           margin-bottom: styles.$space-small;
+//         }
+
+//         .stat-label {
+//           font-size: 0.9rem;
+//         }
+//       }
+//     }
+//   }
+// }
 
 // Small mobile devices (up to 480px)
 @media (max-width: 480px) {
@@ -259,6 +264,7 @@
 
     .card-base {
       padding: styles.$space-small;
+      justify-content: center;
 
       .stat-icon {
         font-size: 1.5rem;
@@ -295,7 +301,7 @@
 
   .profile-header {
     width: 100%;
-    
+
     .profile-info {
       .truncate {
         max-width: 180px;
