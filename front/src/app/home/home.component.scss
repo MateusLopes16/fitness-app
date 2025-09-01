@@ -1,5 +1,4 @@
 @use '../../styles' as styles;
-@import './home.responsive.scss';
 
 // Header & Navigation
 .header {
@@ -205,7 +204,7 @@
 .footer {
     background: rgba(styles.$color-bg, 0.8);
     color: styles.$color-text;
-    padding: styles.$space-big styles.$space-base styles.$space-small;
+    padding: styles.$space-big;
     border-top: 1px solid styles.$color-border;
 
     .footer-container {
@@ -262,7 +261,7 @@
 
     .footer-bottom {
         border-top: 1px solid styles.$color-border;
-        padding-top: styles.$space-base;
+        padding: styles.$space-base;
         text-align: center;
         color: styles.$color-text-secondary;
     }

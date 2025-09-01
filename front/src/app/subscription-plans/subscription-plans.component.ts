@@ -20,6 +20,7 @@ export interface SubscriptionPlan {
   templateUrl: './subscription-plans.component.html',
   styleUrls: [
     './subscription-plans.component.scss',
+    './subscription-plans.responsive.scss'
   ]
 })
 export class SubscriptionPlansComponent implements OnInit {

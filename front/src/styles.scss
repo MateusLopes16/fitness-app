@@ -11,12 +11,21 @@ $color-surface-light: #2c2d30;
 $color-text: #e4e6eb;
 $color-text-secondary: #b0b3b8;
 $color-accent: #b8860b;
+$color-accent-soft: rgba(184, 134, 11, 0.5);
 $color-accent-hover: #daa520;
+$color-accent-hover-soft: rgba(218, 165, 32, 0.3);
 $color-accent-active: #9a7209;
 $color-border: #313338;
-$color-error: #ff4757;
-$color-success: #2ed573;
+$color-error: rgba(255, 71, 87, 0.8);
+$color-error-soft: rgba(255, 71, 87, 0.5);
+$color-error-softer: rgba(255, 71, 87, 0.3);
+$color-success: rgba(46, 213, 115, 0.8);
+$color-success-soft: rgba(46, 213, 115, 0.5);
+$color-success-softer: rgba(46, 213, 115, 0.3);
 $color-warning: #ffa502;
+$color-blue: rgba(30, 144, 255, 0.8);
+$color-blue-soft: rgba(30, 144, 255, 0.5);
+$color-blue-softer: rgba(30, 144, 255, 0.3);
 
 // Font
 $font-family: Arial, sans-serif;
@@ -34,7 +43,7 @@ $space-big: 1.5rem;
 // Border radius
 $radius-10: 10px;
 $radius-50: 50px;
-$radius-100: 100%;
+$radius-100: 100px;
 
 // Shadows
 $shadow-soft: 0 2px 16px 0 rgba(0, 0, 0, 0.18);
@@ -173,6 +182,13 @@ body {
   -webkit-backdrop-filter: blur(16px);
 }
 
+.card-gradient {
+  @include card-base;
+  background: linear-gradient(135deg, $color-bg, $color-bg-secondary);
+  border: 1px solid $color-border;
+  box-shadow: $shadow-soft;
+}
+
 // =========================
 // Buttons
 // =========================
@@ -180,7 +196,7 @@ body {
 .btn-full {
   @include button-base;
   background: $color-accent;
-  color: #fff;
+  color: $color-text;
   box-shadow: $shadow-soft;
 
   &:hover:not(:disabled),
@@ -190,7 +206,7 @@ body {
   }
 
   &:active:not(:disabled) {
-    background: $color-accent-active;
+    background: linear-gradient(135deg, $color-accent, $color-accent-hover);
   }
 }
 
@@ -202,7 +218,7 @@ body {
 
   &:hover:not(:disabled),
   &:focus-visible:not(:disabled) {
-    background: $color-accent;
+    background: $color-accent-hover-soft;
     color: #fff;
     box-shadow: $shadow-soft;
   }
@@ -230,6 +246,7 @@ body {
   border: 2px solid $color-border;
   width: 100%;
   font-size: $font-size-base;
+
   &:focus {
     border-color: $color-accent;
     outline: none;
