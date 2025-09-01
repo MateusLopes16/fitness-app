@@ -2,13 +2,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Ingredient } from '../../interfaces/ingredient.interface';
+import { IngredientItemComponent } from './ingredient-item/ingredient-item.component';
+
 
 @Component({
   selector: 'app-ingredients-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IngredientItemComponent],
   templateUrl: './ingredients-list.component.html',
-  styleUrls: []
+  styleUrls: ['./ingredients-list.component.scss'],
 })
 export class IngredientsListComponent {
   @Input() ingredients: Ingredient[] = [];

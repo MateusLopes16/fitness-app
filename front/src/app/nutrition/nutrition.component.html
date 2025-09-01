@@ -6,47 +6,27 @@
 
   <!-- Navigation Tabs -->
   <div class="nutrition-tabs card-base">
-    <button class="btn-ghost" 
-            [class.active]="activeTab() === 'meals'"
-            (click)="activeTab.set('meals')">
-      🍽️ Meals
-    </button>
-    <button class="btn-ghost" 
-            [class.active]="activeTab() === 'ingredients'"
-            (click)="activeTab.set('ingredients')">
+    <button class="btn-ghost" [class.active]="activeTab() === 'ingredients'" (click)="activeTab.set('ingredients')">
       🥕 Ingredients
     </button>
-    <button class="btn-ghost" 
-            [class.active]="activeTab() === 'scheduling'"
-            (click)="activeTab.set('scheduling')">
+    <button class="btn-ghost" [class.active]="activeTab() === 'meals'" (click)="activeTab.set('meals')">
+      🍽️ Meals
+    </button>
+    <button class="btn-ghost" [class.active]="activeTab() === 'scheduling'" (click)="activeTab.set('scheduling')">
       📅 Planning
     </button>
   </div>
 
-  <!-- Error Message -->
-  <div class="error-message" *ngIf="error()">
-    <span class="error-icon">⚠️</span>
-    {{ error() }}
-    <button class="close-error" (click)="error.set('')">×</button>
+  <!-- Ingredients Tab -->
+  <div *ngIf="activeTab() === 'ingredients'" class="tab-content">
+    <app-ingredients-list [ingredients]="ingredients()" [loading]="loading()"
+      (deleteIngredient)="onDeleteIngredient($event)"></app-ingredients-list>
   </div>
 
   <!-- Meals Tab -->
   <div *ngIf="activeTab() === 'meals'" class="tab-content">
-    <app-meals-list
-      [meals]="meals()"
-      [loading]="loading()"
-      (duplicateMeal)="onDuplicateMeal($event)"
-      (deleteMeal)="onDeleteMeal($event)"
-    ></app-meals-list>
-  </div>
-
-  <!-- Ingredients Tab -->
-  <div *ngIf="activeTab() === 'ingredients'" class="tab-content">
-    <app-ingredients-list
-      [ingredients]="ingredients()"
-      [loading]="loading()"
-      (deleteIngredient)="onDeleteIngredient($event)"
-    ></app-ingredients-list>
+    <app-meals-list [meals]="meals()" [loading]="loading()" (duplicateMeal)="onDuplicateMeal($event)"
+      (deleteMeal)="onDeleteMeal($event)"></app-meals-list>
   </div>
 
   <!-- Meal Scheduling Tab -->
@@ -54,12 +34,12 @@
     <app-meal-scheduling></app-meal-scheduling>
   </div>
 
-  <!-- Meal Form Modal -->
-  <app-meal-form
-    *ngIf="showMealForm()"
-    [editingMeal]="editingMeal()"
-    [loading]="loading()"
-    (close)="closeMealForm()"
-    (save)="onSaveMeal($event)"
-  ></app-meal-form>
+
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error()">
+    <span class="error-icon">⚠️</span>
+    {{ error() }}
+    <button class="close-error" (click)="error.set('')">×</button>
+  </div>
 </div>

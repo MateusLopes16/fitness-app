@@ -6,7 +6,6 @@ import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interfa
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
 import { IngredientsListComponent } from './components/ingredients-list/ingredients-list.component';
 import { MealsListComponent } from './components/meals-list/meals-list.component';
-import { MealFormComponent } from './components/meal-form/meal-form.component';
 import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
 
 @Component({
@@ -16,7 +15,6 @@ import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.compo
     CommonModule,
     IngredientsListComponent,
     MealsListComponent,
-    MealFormComponent,
     MealSchedulingComponent
   ],
   templateUrl: './nutrition.component.html',
