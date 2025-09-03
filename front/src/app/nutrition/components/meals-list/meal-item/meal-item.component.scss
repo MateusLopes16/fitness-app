@@ -1,0 +1,186 @@
+@use '../../../../../styles.scss' as styles;
+
+.container {
+    padding: 0;
+}
+
+.card-blur {
+    width: 450px;
+    min-width: 450px;
+    max-width: 100%; // Ensure it doesn't overflow on smaller screens
+    margin: 0 auto; // Center the card
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+        transition: styles.$transition-fast;
+        cursor: pointer;
+    }
+}
+
+.admin {
+    border-left: 4px solid styles.$color-accent !important;
+}
+
+.personal {
+    border-left: 4px solid styles.$color-blue !important;
+}
+
+.meal-header {
+    @include styles.horizontal-container(styles.$space-small);
+    margin-bottom: styles.$space-big;
+
+    .meal-title {
+        @include styles.horizontal-container(styles.$space-small);
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .subtitle {
+            margin: 0;
+            font-weight: styles.$font-weight-title;
+        }
+    }
+
+    .truncate {
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+}
+
+.meal-badges {
+    @include styles.horizontal-container(styles.$space-small);
+    width: fit-content;
+    align-items: center;
+    font-size: .7rem;
+    padding: 0;
+
+    .badge {
+        @include styles.horizontal-container(styles.$space-small);
+        justify-content: center;
+        align-items: center;
+        border-radius: styles.$radius-10;
+        width: 80px;
+        height: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .admin-badge {
+        background-color: styles.$color-accent-hover-soft;
+        border: 1px solid styles.$color-accent;
+    }
+
+    .personal-badge {
+        background-color: styles.$color-blue-softer;
+        border: 1px solid styles.$color-blue;
+    }
+
+    .breakfast-badge {
+        background-color: styles.$color-success-softer;
+        border: 1px solid styles.$color-success;
+    }
+
+    .lunch-badge {
+        background-color: styles.$color-warning-softer;
+        border: 1px solid styles.$color-warning;
+    }
+
+    .dinner-badge {
+        background-color: styles.$color-error-softer;
+        border: 1px solid styles.$color-error;
+    }
+
+    .snack-badge {
+        background-color: styles.$color-pink-softer;
+        border: 1px solid styles.$color-pink;
+    }
+
+
+}
+
+.main-content {
+    @include styles.horizontal-container(styles.$space-small);
+    margin-bottom: styles.$space-small;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.nutrition-summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: styles.$space-small;
+    width: fit-content;
+    font-size: 0.9rem;
+
+    .macro-item {
+        @include styles.horizontal-container(.1rem);
+        align-items: center;
+        justify-content: center;
+        border-radius: styles.$radius-10;
+        width: 80px;
+        height: 80px;
+        background-color: styles.$color-surface;
+        flex-direction: column; // Stack value and label vertically
+        
+        .macro-value {
+            font-weight: styles.$font-weight-title;
+            line-height: 1;
+        }
+
+        .macro-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            line-height: 1;
+        }
+    }
+
+    .cal {
+        background-color: styles.$color-surface-lighter;
+        border: 1px solid styles.$color-text-secondary;
+    }
+
+    .prot {
+        background-color: styles.$color-error-softer;
+        border: 1px solid styles.$color-error;
+    }
+
+    .carbs {
+        background-color: styles.$color-blue-softer;
+        border: 1px solid styles.$color-blue;
+    }
+
+    .fat {
+        background-color: styles.$color-warning-softer;
+        border: 1px solid styles.$color-warning;
+    }
+}
+
+.ingredients-count {
+    width: 100%;
+    text-align: center;
+    font-weight: styles.$font-weight-title;
+    padding-bottom: styles.$space-big;
+}
+
+
+.meal-actions {
+    @include styles.horizontal-container(styles.$space-small);
+    justify-content: flex-end;
+}
+
+.right-side {
+    @include styles.vertical-container(styles.$space-small);
+    justify-content: space-between;
+    min-height: 160px;
+}
+
+.btn-outline {
+    max-width: 40px;
+    border: none !important;
+}

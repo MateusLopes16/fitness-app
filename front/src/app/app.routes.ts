@@ -3,7 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SubscriptionPlansComponent } from './subscription-plans/subscription-plans.component';
 import { NutritionComponent } from './nutrition/nutrition.component';
-import { AddIngredientComponent } from './nutrition/add-ingredient/add-ingredient.component';
+import { AddIngredientComponent } from './nutrition/components/ingredients-list/add-ingredient/add-ingredient.component';
 import { AddMealComponent } from './nutrition/add-meal/add-meal.component';
 import { MealDetailComponent } from './nutrition/components/meal-detail/meal-detail.component';
 import { LoginComponent } from './auth/login/login';

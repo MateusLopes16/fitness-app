@@ -2,13 +2,16 @@ import { Component, OnInit, signal, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
+import { MealItemComponent } from './meal-item/meal-item.component';
 
 @Component({
   selector: 'app-meals-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MealItemComponent],
   templateUrl: './meals-list.component.html',
-  styleUrls: []
+  styleUrls: ['./meals-list.component.scss', 
+    './meals-list.reponsive.scss'
+  ]
 })
 export class MealsListComponent implements OnInit {
   meals = input<Meal[]>([]);
@@ -58,19 +61,5 @@ export class MealsListComponent implements OnInit {
 
   onView(meal: Meal): void {
     this.router.navigate(['/nutrition/meal', meal.id]);
-  }
-
-  getMealTypeIcon(mealType: MealType): string {
-    switch (mealType) {
-      case MealType.BREAKFAST: return '🌅';
-      case MealType.LUNCH: return '☀️';
-      case MealType.DINNER: return '🌙';
-      case MealType.SNACK: return '🍪';
-      default: return '🍽️';
-    }
-  }
-
-  formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString();
   }
 }

@@ -2,15 +2,17 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IngredientService } from '../services/ingredient.service';
-import { Ingredient, CreateIngredientDto } from '../interfaces/ingredient.interface';
+import { IngredientService } from '../../../services/ingredient.service';
+import { Ingredient, CreateIngredientDto } from '../../../interfaces/ingredient.interface';
 
 @Component({
   selector: 'app-add-ingredient',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-ingredient.component.html',
-  styleUrls: []
+  styleUrls: ['./add-ingredient.component.scss',
+    './add-ingredient.responsive.component.scss'
+  ]
 })
 export class AddIngredientComponent implements OnInit {
   loading = signal<boolean>(false);

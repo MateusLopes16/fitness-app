@@ -18,7 +18,10 @@ import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.compo
     MealSchedulingComponent
   ],
   templateUrl: './nutrition.component.html',
-  styleUrls: ['./nutrition.component.scss']
+  styleUrls: [
+    './nutrition.component.scss',
+    './nutrition.responsive.scss'
+  ]
 })
 export class NutritionComponent implements OnInit {
   // Tab management

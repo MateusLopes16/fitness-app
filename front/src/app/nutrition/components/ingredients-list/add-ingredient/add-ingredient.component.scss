@@ -1,0 +1,67 @@
+@use '../../../../../styles.scss' as styles;
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    padding: styles.$space-base;
+    position: relative;
+
+    .btn-ghost {
+        width: fit-content;
+        padding: styles.$space-small styles.$space-base;
+        @include styles.horizontal-container(styles.$space-small);
+        position: absolute;
+        top: styles.$space-big;
+        left: styles.$space-small;
+    }
+}
+
+.form-section {
+    @include styles.horizontal-container(styles.$space-base);
+    width: 100%;
+    justify-content: center;
+    margin: styles.$space-small 0;
+}
+
+.ingredient-form {
+    @include styles.vertical-container(styles.$space-base);
+    padding: styles.$space-base styles.$space-big;
+}
+
+.form-group {
+    @include styles.vertical-container(styles.$space-small);
+    margin-bottom: styles.$space-small;
+    width: 100%;
+
+    .input {
+        width: 100%;
+    }
+}
+
+
+.form-actions {
+    @include styles.horizontal-container(styles.$space-small);
+    justify-content: end;
+    margin-top: styles.$space-small;
+
+    .btn-full {
+        width: 25%;
+    }
+
+    .red {
+        background-color: styles.$color-error;
+
+        &:active:not(:disabled) {
+            background: styles.$color-error;
+        }
+
+        &:hover:not(:disabled),
+        &:focus-visible:not(:disabled) {
+            background: styles.$color-error-soft;
+            box-shadow: styles.$shadow-card;
+        }
+    }
+}

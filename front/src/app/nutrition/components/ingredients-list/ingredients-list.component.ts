@@ -10,7 +10,10 @@ import { IngredientItemComponent } from './ingredient-item/ingredient-item.compo
   standalone: true,
   imports: [CommonModule, IngredientItemComponent],
   templateUrl: './ingredients-list.component.html',
-  styleUrls: ['./ingredients-list.component.scss'],
+  styleUrls: [
+    './ingredients-list.component.scss',
+    './ingredients-list.responsive.scss'
+  ],
 })
 export class IngredientsListComponent {
   @Input() ingredients: Ingredient[] = [];

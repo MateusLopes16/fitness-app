@@ -8,24 +8,33 @@ $color-bg-secondary: #232526;
 $color-card-blur: rgba(24, 25, 26, 0.6);
 $color-surface: #232526;
 $color-surface-light: #2c2d30;
+$color-surface-lighter: #3a3b3e;
 $color-text: #e4e6eb;
 $color-text-secondary: #b0b3b8;
-$color-accent: #b8860b;
-$color-accent-soft: rgba(184, 134, 11, 0.5);
-$color-accent-hover: #daa520;
-$color-accent-hover-soft: rgba(218, 165, 32, 0.3);
-$color-accent-active: #9a7209;
+
+$color-accent: rgba(238, 108, 77, 0.9);
+$color-accent-soft: rgba(238, 108, 77, 0.5);
+$color-accent-hover: rgba(238, 108, 77, 0.7);
+$color-accent-hover-soft: rgba(238, 108, 77, 0.3);
+$color-accent-active: rgba(238, 108, 77, 1);
+
 $color-border: #313338;
+$color-border-softer: rgba(49, 51, 56, 0.5);
 $color-error: rgba(255, 71, 87, 0.8);
 $color-error-soft: rgba(255, 71, 87, 0.5);
 $color-error-softer: rgba(255, 71, 87, 0.3);
 $color-success: rgba(46, 213, 115, 0.8);
 $color-success-soft: rgba(46, 213, 115, 0.5);
 $color-success-softer: rgba(46, 213, 115, 0.3);
-$color-warning: #ffa502;
+$color-warning: rgba(255, 165, 2, 0.8);
+$color-warning-soft: rgba(255, 165, 2, 0.5);
+$color-warning-softer: rgba(255, 165, 2, 0.3);
 $color-blue: rgba(30, 144, 255, 0.8);
 $color-blue-soft: rgba(30, 144, 255, 0.5);
 $color-blue-softer: rgba(30, 144, 255, 0.3);
+$color-pink: rgba(255, 105, 180, 0.8);
+$color-pink-soft: rgba(255, 105, 180, 0.5);
+$color-pink-softer: rgba(255, 105, 180, 0.3);
 
 // Font
 $font-family: Arial, sans-serif;

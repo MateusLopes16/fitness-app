@@ -1,0 +1,67 @@
+<div class="card-blur" [class.admin]="meal.createdByType === 'admin'" [class.personal]="meal.createdByType === 'user'"
+    [class.breakfast]="meal.mealType === 'BREAKFAST'" [class.lunch]="meal.mealType === 'LUNCH'"
+    [class.dinner]="meal.mealType === 'DINNER'" [class.snack]="meal.mealType === 'SNACK'" (click)="onView()">
+
+    <div class="meal-header">
+        <div class="meal-title">
+            <h3 class="subtitle truncate">{{ meal.name }}</h3>
+            <div class="meal-meta">
+                <span class="servings">
+                    👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="ingredients-count">
+        🥕 {{ meal.ingredients.length }} ingredient{{ meal.ingredients.length > 1 ? 's' : '' }}
+    </div>
+    <div class="main-content">
+        <div class="nutrition-summary">
+            <div class="macro-item cal">
+                <span class="macro-value">{{ meal.totalCalories.toFixed(0) }}</span>
+                <span class="macro-label">kcal</span>
+            </div>
+            <div class="macro-item prot">
+                <span class="macro-value">{{ meal.totalProtein.toFixed(1) }}g</span>
+                <span class="macro-label">prot</span>
+            </div>
+            <div class="macro-item carbs">
+                <span class="macro-value">{{ meal.totalCarbs.toFixed(1) }}g</span>
+                <span class="macro-label">carbs</span>
+            </div>
+            <div class="macro-item fat">
+                <span class="macro-value">{{ meal.totalFat.toFixed(1) }}g</span>
+                <span class="macro-label">fat</span>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="meal-badges">
+                <span class="badge admin-badge" *ngIf="meal.createdByType === 'admin'">
+                    <span class="badge-icon">👑 </span>Admin</span>
+                <span class="badge personal-badge" *ngIf="meal.createdByType === 'user'">
+                    <span class="badge-icon">👤 </span>Personal</span>
+                <span class="badge breakfast-badge" *ngIf="meal.mealType === 'BREAKFAST'">
+                    <span class="badge-icon">🌅 </span>Breakfast</span>
+                <span class="badge lunch-badge" *ngIf="meal.mealType === 'LUNCH'">
+                    <span class="badge-icon">☀️ </span>Lunch</span>
+                <span class="badge dinner-badge" *ngIf="meal.mealType === 'DINNER'">
+                    <span class="badge-icon">🌙 </span>Dinner</span>
+                <span class="badge snack-badge" *ngIf="meal.mealType === 'SNACK'">
+                    <span class="badge-icon">🍪 </span>Snack</span>
+            </div>
+            <div class="meal-actions" (click)="$event.stopPropagation()">
+                <button class="btn-outline" title="Duplicate" (click)="onDuplicate()">
+                    📋
+                </button>
+                <button class="btn-outline" title="Edit" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
+                    ✏️
+                </button>
+                <button class="btn-outline delete" title="Delete" (click)="onDelete()"
+                    *ngIf="meal.createdByType === 'user'">
+                    🗑️
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,214 @@
+@use '../../../../styles.scss' as styles;
+
+// =========================
+// Responsive Breakpoints
+// =========================
+
+// Mobile devices (up to 768px)
+@media (max-width: 768px) {
+    .container {
+        padding: 0 styles.$space-base;
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .list-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: styles.$space-base;
+        margin-bottom: styles.$space-base;
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        .btn-full {
+            width: 100%;
+            height: 3rem;
+            font-size: styles.$font-size-base;
+        }
+    }
+
+    .ingredients-list {
+        gap: styles.$space-small;
+    }
+
+    // Loading state responsive
+    .loading-state {
+        padding: styles.$space-big;
+        text-align: center;
+
+        .loading-spinner {
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: styles.$space-base;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+    }
+
+    // Empty state responsive
+    .empty-state {
+        padding: styles.$space-big styles.$space-base;
+        text-align: center;
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: styles.$space-base;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        p {
+            font-size: 0.9rem;
+            margin-bottom: styles.$space-big;
+            line-height: 1.4;
+        }
+
+        .btn {
+            width: 100%;
+            height: 3rem;
+            font-size: styles.$font-size-base;
+        }
+    }
+}
+
+// Small mobile devices (up to 480px)
+@media (max-width: 480px) {
+    .container {
+        padding: 0 styles.$space-small;
+    }
+
+    .list-header {
+        gap: styles.$space-small;
+        margin-bottom: styles.$space-small;
+
+        .subtitle {
+            font-size: 1.125rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        .btn-full {
+            height: 2.75rem;
+            font-size: 0.9rem;
+            padding: 0 styles.$space-small;
+        }
+    }
+
+    .ingredients-list {
+        gap: styles.$space-small;
+    }
+
+    // Loading state for small mobile
+    .loading-state {
+        padding: styles.$space-base;
+
+        .loading-spinner {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        p {
+            font-size: 0.85rem;
+        }
+    }
+
+    // Empty state for small mobile
+    .empty-state {
+        padding: styles.$space-base styles.$space-small;
+
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        p {
+            font-size: 0.85rem;
+            margin-bottom: styles.$space-base;
+        }
+
+        .btn {
+            height: 2.75rem;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+// Tablet devices (769px to 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        padding: 0 styles.$space-base;
+        max-width: 100%;
+    }
+
+    .list-header {
+        .subtitle {
+            font-size: 1.375rem;
+        }
+
+        .btn-full {
+            width: 25%;
+            height: 2.75rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    .ingredients-list {
+        gap: styles.$space-base;
+    }
+
+    // Empty state for tablet
+    .empty-state {
+        padding: styles.$space-big;
+
+        .empty-icon {
+            font-size: 3.5rem;
+        }
+
+        h3 {
+            font-size: 1.375rem;
+        }
+
+        p {
+            font-size: 1rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            width: 60%;
+            max-width: 300px;
+            height: 3rem;
+        }
+    }
+}
+
+// Large tablet/small desktop (1025px to 1200px)
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .list-header {
+        .btn-full {
+            width: 22%;
+        }
+    }
+
+    // Empty state for large tablet
+    .empty-state {
+        .btn {
+            width: 40%;
+            max-width: 250px;
+        }
+    }
+}

@@ -5,7 +5,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     selector: 'app-ingredient-item',
     imports: [CommonModule],
     templateUrl: './ingredient-item.component.html',
-    styleUrls: ['./ingredient-item.component.scss']
+    styleUrls: [
+        './ingredient-item.component.scss',
+        './ingredient-item.responsive.scss'
+    ]
 })
 export class IngredientItemComponent {
     @Input() ingredient: any; // Replace 'any' with your ingredient interface

@@ -1,0 +1,203 @@
+@use '../../styles.scss' as styles;
+
+// =========================
+// Responsive Breakpoints
+// =========================
+
+// Mobile devices (up to 768px)
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        padding: styles.$space-base;
+    }
+
+    .nutrition-header {
+        text-align: center;
+        margin-bottom: styles.$space-big;
+
+        .title {
+            font-size: 1.75rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+    }
+
+    .nutrition-tabs {
+        width: 100%;
+        margin: styles.$space-base 0;
+        flex-direction: column;
+        gap: styles.$space-small;
+        padding: styles.$space-base;
+
+        .btn-ghost {
+            width: 100%;
+            height: 3rem;
+            font-size: styles.$font-size-base;
+            text-align: center;
+            justify-content: center;
+            border-radius: styles.$radius-10;
+            transition: all 0.2s ease;
+
+            &.active {
+                background-color: styles.$color-accent-soft;
+                color: styles.$color-text;
+                font-weight: 600;
+            }
+
+            &:hover:not(.active) {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+
+    .tab-content {
+        margin-top: styles.$space-base;
+        padding: 0;
+    }
+
+    // Error message responsive
+    .error-message {
+        margin: styles.$space-base 0;
+        padding: styles.$space-base;
+        font-size: 0.9rem;
+        flex-direction: column;
+        text-align: center;
+        gap: styles.$space-small;
+
+        .error-icon {
+            font-size: 1.25rem;
+        }
+
+        .close-error {
+            align-self: center;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1rem;
+        }
+    }
+}
+
+// Small mobile devices (up to 480px)
+@media (max-width: 480px) {
+    .container {
+        padding: styles.$space-small;
+    }
+
+    .nutrition-header {
+        margin-bottom: styles.$space-base;
+
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+    }
+
+    .nutrition-tabs {
+        margin: styles.$space-small 0;
+        padding: styles.$space-small;
+        gap: styles.$space-small;
+
+        .btn-ghost {
+            height: 2.75rem;
+            font-size: 0.9rem;
+            padding: 0 styles.$space-small;
+        }
+    }
+
+    .tab-content {
+        margin-top: styles.$space-small;
+    }
+
+    // Error message for small mobile
+    .error-message {
+        margin: styles.$space-small 0;
+        padding: styles.$space-small;
+        font-size: 0.85rem;
+
+        .error-icon {
+            font-size: 1.125rem;
+        }
+
+        .close-error {
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+// Tablet devices (769px to 1024px)
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        margin: styles.$space-base auto;
+        padding: styles.$space-big styles.$space-base;
+        max-width: 100%;
+    }
+
+    .nutrition-header {
+        margin-bottom: styles.$space-big;
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: styles.$space-small;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+    }
+
+    .nutrition-tabs {
+        width: 70%;
+        margin: styles.$space-base auto;
+        flex-direction: row;
+        gap: styles.$space-small;
+        padding: styles.$space-small;
+
+        .btn-ghost {
+            flex: 1;
+            height: 2.75rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    .tab-content {
+        margin-top: styles.$space-base;
+    }
+
+    // Error message for tablet
+    .error-message {
+        margin: styles.$space-base auto;
+        max-width: 600px;
+        padding: styles.$space-base;
+        font-size: 0.95rem;
+    }
+}
+
+// Large tablet/small desktop (1025px to 1200px)
+@media (min-width: 1025px) and (max-width: 1200px) {
+    .container {
+        max-width: 1000px;
+        padding: styles.$space-big;
+    }
+
+    .nutrition-tabs {
+        width: 60%;
+    }
+
+    // Error message for large tablet
+    .error-message {
+        max-width: 700px;
+    }
+}

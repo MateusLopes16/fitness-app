@@ -5,7 +5,6 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: styles.$space-big styles.$space-base;
     border-radius: styles.$radius-10;
 
     .col-name {
@@ -14,6 +13,7 @@
 
     .ingredient-value {
         width: 50%;
+        padding: styles.$space-base 0;
         text-align: center;
         font-weight: styles.$font-weight-title;
     }
@@ -43,9 +43,9 @@
 }
 
 .admin-ingredient {
-    border-left: 4px solid styles.$color-accent;
+    border-left: 4px solid styles.$color-accent !important;
 }
 
 .user-ingredient {
-    border-left: 4px solid styles.$color-blue;
+    border-left: 4px solid styles.$color-blue !important;
 }

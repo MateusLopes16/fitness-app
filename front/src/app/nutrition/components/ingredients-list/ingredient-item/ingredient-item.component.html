@@ -7,11 +7,6 @@
         <span class="ingredient-name">{{ ingredient.name }}</span>
     </div>
 
-    <div class="ingredient-value col-brand">
-        <span *ngIf="ingredient.brand; else noBrand">{{ ingredient.brand }}</span>
-        <ng-template #noBrand><span class="no-data">-</span></ng-template>
-    </div>
-
     <div class="ingredient-value col-calories">
         <span class="value">{{ ingredient.caloriesPer100g }}</span>
     </div>
