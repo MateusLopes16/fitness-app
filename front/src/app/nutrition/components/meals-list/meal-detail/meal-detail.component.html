@@ -1,4 +1,4 @@
-<div class="meal-detail-container">
+<div class="container">
     <!-- Loading State -->
     <div class="loading-state" *ngIf="loading">
         <div class="spinner"></div>
@@ -10,7 +10,7 @@
         <div class="error-icon">⚠️</div>
         <h3>Error Loading Meal</h3>
         <p>{{ error }}</p>
-        <button class="btn-primary" (click)="onBack()">
+        <button class="btn-ghost" (click)="onBack()">
             ← Back to Nutrition
         </button>
     </div>
@@ -19,14 +19,14 @@
     <div class="meal-content" *ngIf="meal && !loading && !error">
         <!-- Header with Back Button -->
         <div class="page-header">
-            <button class="back-btn" (click)="onBack()">
+            <button class="btn-ghost" (click)="onBack()">
                 ← Back to Nutrition
             </button>
             <div class="header-actions">
-                <button class="btn-secondary" (click)="onDuplicate()">
+                <button class="btn-outline" (click)="onDuplicate()">
                     📋 Duplicate Meal
                 </button>
-                <button class="btn-primary" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
+                <button class="btn-full" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
                     ✏️ Edit Meal
                 </button>
             </div>

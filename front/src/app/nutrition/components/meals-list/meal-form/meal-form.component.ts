@@ -1,9 +1,9 @@
 import { Component, OnInit, signal, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Meal, MealType, CreateMealDto, CreateMealIngredientDto } from '../../interfaces/meal.interface';
-import { Ingredient } from '../../interfaces/ingredient.interface';
-import { IngredientService } from '../../services/ingredient.service';
+import { Meal, MealType, CreateMealDto, CreateMealIngredientDto } from '../../../interfaces/meal.interface';
+import { Ingredient } from '../../../interfaces/ingredient.interface';
+import { IngredientService } from '../../../services/ingredient.service';
 
 @Component({
   selector: 'app-meal-form',

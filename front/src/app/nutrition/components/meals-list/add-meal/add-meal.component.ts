@@ -2,17 +2,19 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MealService } from '../services/meal.service';
-import { IngredientService } from '../services/ingredient.service';
-import { Meal, CreateMealDto, MealType } from '../interfaces/meal.interface';
-import { Ingredient } from '../interfaces/ingredient.interface';
+import { MealService } from '../../../services/meal.service';
+import { IngredientService } from '../../../services/ingredient.service';
+import { Meal, CreateMealDto, MealType } from '../../../interfaces/meal.interface';
+import { Ingredient } from '../../../interfaces/ingredient.interface';
+import { IngredientItemComponent } from '../../ingredients-list/ingredient-item/ingredient-item.component';
+
 
 @Component({
   selector: 'app-add-meal',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-meal.component.html',
-  styleUrls: []
+  styleUrls: ['./add-meal.component.scss']
 })
 export class AddMealComponent implements OnInit {
   loading = signal<boolean>(false);

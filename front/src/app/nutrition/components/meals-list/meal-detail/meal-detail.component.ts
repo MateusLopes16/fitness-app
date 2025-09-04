@@ -1,15 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Meal, MealType } from '../../interfaces/meal.interface';
-import { MealService } from '../../services/meal.service';
+import { Meal, MealType } from '../../../interfaces/meal.interface';
+import { MealService } from '../../../services/meal.service';
 
 @Component({
   selector: 'app-meal-detail',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './meal-detail.component.html',
-    styleUrls: []
+    styleUrls: ['./meal-detail.component.scss']
 
 })
 export class MealDetailComponent implements OnInit {

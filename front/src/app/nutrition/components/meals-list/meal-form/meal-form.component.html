@@ -1,8 +1,8 @@
 <!-- Meal Form Modal -->
-<div class="meal-form-overlay" (click)="close.emit()">
+<div class="container" (click)="close.emit()">
   <div class="meal-form-modal" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>{{ editingMeal() ? 'Edit Meal' : 'Create New Meal' }}</h2>
+      <h2 class="title">{{ editingMeal() ? 'Edit Meal' : 'Create New Meal' }}</h2>
       <button class="close-btn" (click)="close.emit()">✕</button>
     </div>
 
