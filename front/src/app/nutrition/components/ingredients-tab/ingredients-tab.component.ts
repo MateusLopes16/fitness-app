@@ -2,20 +2,20 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Ingredient } from '../../interfaces/ingredient.interface';
-import { IngredientItemComponent } from './ingredient-item/ingredient-item.component';
+import { IngredientsListComponent } from './ingredients-list/ingredients-list.component';
 
 
 @Component({
-  selector: 'app-ingredients-list',
+  selector: 'app-ingredients-tab',
   standalone: true,
-  imports: [CommonModule, IngredientItemComponent],
-  templateUrl: './ingredients-list.component.html',
+  imports: [CommonModule, IngredientsListComponent],
+  templateUrl: './ingredients-tab.component.html',
   styleUrls: [
-    './ingredients-list.component.scss',
-    './ingredients-list.responsive.scss'
+    './ingredients-tab.component.scss',
+    './ingredients-tab.responsive.scss'
   ],
 })
-export class IngredientsListComponent {
+export class IngredientsTabComponent {
   @Input() ingredients: Ingredient[] = [];
   @Input() loading: boolean = false;
 

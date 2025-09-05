@@ -19,8 +19,8 @@
 
   <!-- Ingredients Tab -->
   <div *ngIf="activeTab() === 'ingredients'" class="tab-content">
-    <app-ingredients-list [ingredients]="ingredients()" [loading]="loading()"
-      (deleteIngredient)="onDeleteIngredient($event)"></app-ingredients-list>
+    <app-ingredients-tab [ingredients]="ingredients()" [loading]="loading()"
+      (deleteIngredient)="onDeleteIngredient($event)"></app-ingredients-tab>
   </div>
 
   <!-- Meals Tab -->

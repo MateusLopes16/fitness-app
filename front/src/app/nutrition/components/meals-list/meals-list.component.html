@@ -7,6 +7,11 @@
     </button>
   </div>
 
+  <!-- <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner animate-spin"></div>
+    <p>Loading ingredients...</p>
+  </div> -->
+
   <div class="meals-grid" *ngIf="!loading();">
     <div *ngIf="filteredMeals().length === 0" class="empty-state">
       <div class="empty-icon">🍽️</div>
@@ -17,13 +22,8 @@
       </button>
     </div>
 
-    <app-meal-item 
-      *ngFor="let meal of filteredMeals()" 
-      [meal]="meal"
-      (view)="onView($event)"
-      (edit)="onEdit($event)"
-      (duplicate)="duplicateMeal.emit($event)"
-      (delete)="deleteMeal.emit($event)">
+    <app-meal-item *ngFor="let meal of filteredMeals()" [meal]="meal" (view)="onView($event)" (edit)="onEdit($event)"
+      (duplicate)="duplicateMeal.emit($event)" (delete)="deleteMeal.emit($event)">
     </app-meal-item>
   </div>
 

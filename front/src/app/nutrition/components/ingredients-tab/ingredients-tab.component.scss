@@ -1,0 +1,70 @@
+@use '../../../../styles.scss' as styles;
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    @include styles.vertical-container(styles.$space-small)
+}
+
+
+.list-header {
+    @include styles.horizontal-container(styles.$space-base);
+    display: flex;
+    align-items: center;
+    margin-bottom: styles.$space-base;
+
+    .subtitle {
+        text-align: left;
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-full {
+        width: 20%;
+    }
+}
+
+
+
+.ingredient-item {
+    @include styles.horizontal-container(styles.$space-base);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: styles.$radius-10;
+    border: 1px solid styles.$color-accent !important;
+
+    .col-name {
+        width: 100%;
+    }
+
+    .ingredient-value {
+        width: 50%;
+        padding: 0;
+        text-align: center;
+        font-weight: styles.$font-weight-title;
+    }
+
+    .truncate {
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .col-protein {
+        color: styles.$color-error;
+    }
+
+    .col-fat {
+        color: styles.$color-warning;
+    }
+
+    .col-fiber {
+        color: styles.$color-success;
+    }
+
+    .col-carbs {
+        color: styles.$color-blue;
+    }
+}

@@ -1,19 +1,16 @@
-<div class="meal-scheduling-container">
+<div class="container">
   <!-- Header -->
   <div class="scheduling-header">
-    <h2>📅 Meal Scheduling</h2>
-    <p>Plan and track your daily meals</p>
-    
-    <!-- View Mode Toggle -->
+    <h2 class="subtitle">📅 Meal Scheduling</h2>    
     <div class="view-toggle">
       <button 
-        class="toggle-btn"
+        class="btn-full"
         [class.active]="viewMode() === 'daily'"
         (click)="switchViewMode('daily')">
         📅 Daily
       </button>
       <button 
-        class="toggle-btn"
+        class="btn-full"
         [class.active]="viewMode() === 'weekly'"
         (click)="switchViewMode('weekly')">
         📊 Weekly

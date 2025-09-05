@@ -6,7 +6,6 @@ import { MealService } from '../../../services/meal.service';
 import { IngredientService } from '../../../services/ingredient.service';
 import { Meal, CreateMealDto, MealType } from '../../../interfaces/meal.interface';
 import { Ingredient } from '../../../interfaces/ingredient.interface';
-import { IngredientItemComponent } from '../../ingredients-list/ingredient-item/ingredient-item.component';
 
 
 @Component({

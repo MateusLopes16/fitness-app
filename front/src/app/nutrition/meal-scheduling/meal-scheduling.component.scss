@@ -1,0 +1,28 @@
+@use '../../../styles.scss' as styles;
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.scheduling-header {
+    @include styles.horizontal-container(styles.$space-base);
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-toggle {
+    @include styles.horizontal-container(styles.$space-small);
+    width: 100%;
+    justify-content: end;
+
+    .btn-full {
+        width: 20%;
+    }
+}
+
+.subtitle {
+    width: 100%;
+    text-align: left;
+}

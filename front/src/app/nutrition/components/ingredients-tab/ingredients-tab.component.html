@@ -14,14 +14,43 @@
     <p>Loading ingredients...</p>
   </div>
 
-  <!-- Ingredients List -->
-  <div class="ingredients-list" *ngIf="!loading && ingredients.length > 0">
-    <!-- Ingredient rows -->
+  <!-- <div class="ingredients-list" *ngIf="!loading && ingredients.length > 0">
     <app-ingredient-item *ngFor="let ingredient of ingredients; trackBy: trackByIngredientId" [ingredient]="ingredient"
       (edit)="onEdit($event)" (delete)="onDelete($event)" class="animate-ingredient-slide-in">
     </app-ingredient-item>
+  </div> -->
+  <div class="column-details">
+    <div class="ingredient-item card-blur">
+      <div class="col-name truncate">
+        <span class="creator-badge">
+          👑
+        </span>
+        <span class="ingredient-name">Name</span>
+      </div>
+
+      <div class="ingredient-value col-calories">
+        <span class="value">Calories</span>
+      </div>
+
+      <div class="ingredient-value col-protein">
+        <span class="value">Protein</span>
+      </div>
+
+      <div class="ingredient-value col-carbs">
+        <span class="value">Carbs</span>
+      </div>
+
+      <div class="ingredient-value col-fat">
+        <span class="value">Fat</span>
+      </div>
+
+      <div class="ingredient-value col-fiber">
+        <span class="value">Fiber</span>
+      </div>
+    </div>
   </div>
-  
+  <app-ingredients-list [ingredients]="ingredients" [loading]="loading"
+    (deleteIngredient)="onDelete($event)"></app-ingredients-list>
 
   <!-- Empty State -->
   <div class="empty-state animate-empty-state-bounce" *ngIf="!loading && ingredients.length === 0">
