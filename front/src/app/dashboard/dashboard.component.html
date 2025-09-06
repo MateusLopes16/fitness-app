@@ -245,12 +245,3 @@
     <!-- Feature Cards -->
   </div>
 </div>
-
-<!-- Confirmation Dialog -->
-<app-confirmation-dialog [isVisible]="showConfirmDialog()" [dialogData]="confirmDialogData"
-  [isProcessing]="isProcessingAction()" (confirm)="onConfirmAction()" (cancel)="onCancelAction()">
-</app-confirmation-dialog>
-
-<!-- Success/Error Notifications -->
-<app-notification [isVisible]="showNotification()" [data]="notificationData" (closed)="onNotificationClosed()">
-</app-notification>

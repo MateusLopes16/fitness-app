@@ -6,12 +6,10 @@ import { AuthService } from '../auth/auth';
 import { ActivityLevel, FitnessObjective, Gender } from '../auth/interfaces/auth.interface';
 import { SubscriptionService, Subscription } from '../services/subscription.service';
 import { UserService } from '../services/user.service';
-import { ConfirmationDialogComponent, ConfirmationDialogData } from '../shared/confirmation-dialog/confirmation-dialog.component';
-import { NotificationComponent, NotificationData } from '../shared/notification/notification.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, ReactiveFormsModule, ConfirmationDialogComponent, NotificationComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss',
     './dashboard.responsive.scss'
@@ -36,11 +34,9 @@ export class DashboardComponent implements OnInit {
 
   // Dialog and notification state
   showConfirmDialog = signal(false);
-  confirmDialogData: ConfirmationDialogData | null = null;
   isProcessingAction = signal(false);
-  
+
   showNotification = signal(false);
-  notificationData: NotificationData | null = null;
 
   constructor() {
     this.profileForm = this.fb.group({
@@ -58,10 +54,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     // Refresh user profile data from database
     this.refreshUserProfile();
-    
+
     // Load user's subscription info from database
     this.loadSubscriptionInfo();
-    
+
     // Check for payment success/failure messages
     this.route.queryParams.subscribe(params => {
       if (params['payment'] === 'success') {
@@ -133,7 +129,7 @@ export class DashboardComponent implements OnInit {
 
   formatObjective(objective?: FitnessObjective): string {
     if (!objective) return 'Not set';
-    
+
     switch (objective) {
       case FitnessObjective.BULK:
         return 'Bulk (Muscle Gain)';
@@ -167,7 +163,7 @@ export class DashboardComponent implements OnInit {
     if (this.profileForm.valid) {
       const formValue = this.profileForm.value;
       console.log('Saving profile:', formValue);
-      
+
       // Convert string values to appropriate types
       const updateData = {
         name: formValue.name,
@@ -183,23 +179,16 @@ export class DashboardComponent implements OnInit {
       this.userService.updateProfile(updateData).subscribe({
         next: (updatedUser) => {
           console.log('Profile updated successfully:', updatedUser);
-          
+
           // Update the auth service current user
           this.authService.updateCurrentUser(updatedUser);
-          
+
           // Toggle edit mode off
           this.isEditingProfile.set(false);
-          
-          // Show success notification
-          this.notificationData = {
-            title: 'Profile Updated',
-            message: 'Your profile has been updated successfully!',
-            type: 'success',
-            autoClose: true,
-            duration: 4000
-          };
+
+
           this.showNotification.set(true);
-          
+
           // Force refresh the view by updating the form values
           this.profileForm.patchValue({
             name: updatedUser.name,
@@ -214,13 +203,6 @@ export class DashboardComponent implements OnInit {
         },
         error: (error) => {
           console.error('Failed to update profile:', error);
-          this.notificationData = {
-            title: 'Update Failed',
-            message: 'Failed to update profile. Please try again.',
-            type: 'error',
-            autoClose: true,
-            duration: 4000
-          };
           this.showNotification.set(true);
         }
       });
@@ -246,7 +228,7 @@ export class DashboardComponent implements OnInit {
     const weight = Number(user.weight);
     const height = Number(user.height);
     const gender = user.gender || Gender.MALE; // Default to male if not specified
-    
+
     if (gender === Gender.MALE) {
       // BMR for men: 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) - (5.677 × age in years)
       return Math.round(88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age));
@@ -297,14 +279,14 @@ export class DashboardComponent implements OnInit {
   calculateProteinObjective(): number {
     const user = this.currentUser();
     if (!user?.weight) return 0;
-    
+
     const weight = Number(user.weight);
     return Math.round(weight * 1.8);
   }
 
   formatGender(gender?: Gender): string {
     if (!gender) return 'Not set';
-    
+
     switch (gender) {
       case Gender.MALE:
         return 'Male';
@@ -317,7 +299,7 @@ export class DashboardComponent implements OnInit {
 
   formatActivityLevel(level?: ActivityLevel): string {
     if (!level) return '';
-    
+
     switch (level) {
       case ActivityLevel.SEDENTARY:
         return 'Sedentary';
@@ -440,7 +422,7 @@ export class DashboardComponent implements OnInit {
     this.isProcessingAction.set(true);
 
     const actionType = this.confirmDialogData.icon;
-    
+
     switch (actionType) {
       case '⏸️': // Pause
         this.subscriptionService.pauseAutoRenewal().subscribe({
@@ -499,7 +481,7 @@ export class DashboardComponent implements OnInit {
     this.isProcessingAction.set(false);
     this.showConfirmDialog.set(false);
     this.confirmDialogData = null;
-    
+
     this.notificationData = {
       title,
       message,
@@ -514,7 +496,7 @@ export class DashboardComponent implements OnInit {
     this.isProcessingAction.set(false);
     this.showConfirmDialog.set(false);
     this.confirmDialogData = null;
-    
+
     this.notificationData = {
       title: 'Error',
       message,

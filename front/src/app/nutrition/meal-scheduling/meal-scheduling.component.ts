@@ -5,11 +5,13 @@ import { MealScheduleService } from '../services/meal-schedule.service';
 import { MealService } from '../services/meal.service';
 import { MealSchedule, CreateMealScheduleDto } from '../interfaces/meal-schedule.interface';
 import { Meal, MealType } from '../interfaces/meal.interface';
+import { DailySchedulingComponent } from './daily-scheduling/daily-scheduling.component';
+import { WeeklySchedulingComponent } from './weekly-scheduling/weekly-scheduling.component';
 
 @Component({
   selector: 'app-meal-scheduling',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DailySchedulingComponent, WeeklySchedulingComponent],
   templateUrl: './meal-scheduling.component.html',
   styleUrls: ['./meal-scheduling.component.scss']
 })

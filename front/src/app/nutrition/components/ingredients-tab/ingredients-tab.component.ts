@@ -23,13 +23,6 @@ export class IngredientsTabComponent {
 
   constructor(private router: Router) {}
 
-  onEdit(ingredient: Ingredient): void {
-    if (ingredient.createdByType === 'admin') {
-      return;
-    }
-    this.router.navigate(['/nutrition/edit-ingredient', ingredient.id]);
-  }
-
   onDelete(ingredient: Ingredient): void {
     if (ingredient.createdByType === 'admin') {
       return;
@@ -41,7 +34,4 @@ export class IngredientsTabComponent {
     this.router.navigate(['/nutrition/add-ingredient']);
   }
 
-  trackByIngredientId(index: number, ingredient: Ingredient): string {
-    return ingredient.id;
-  }
 }
