@@ -1,21 +1,23 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { inject, signal } from '@angular/core';
 import { AuthService } from '../auth';
 import { LoginRequest } from '../interfaces/auth.interface';
 
+
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss', './login.responsive.scss']
 })
-export class LoginComponent {
+export class Login {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  
+
   loginForm: FormGroup;
   isLoading = signal(false);
   errorMessage = signal('');
@@ -43,7 +45,7 @@ export class LoginComponent {
         error: (error) => {
           this.isLoading.set(false);
           console.error('Login error:', error);
-          
+
           if (error.status === 401) {
             this.errorMessage.set('Invalid email or password');
           } else if (error.status === 0) {

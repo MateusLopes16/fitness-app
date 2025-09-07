@@ -5,7 +5,7 @@ import { AddIngredientComponent } from "../../components/ingredients-tab/add-ing
 
 @Component({
   selector: 'app-daily-scheduling',
-  imports: [CommonModule, DailyMealItem, AddIngredientComponent],
+  imports: [CommonModule, DailyMealItem],
   templateUrl: './daily-scheduling.component.html',
   styleUrl: './daily-scheduling.component.scss'
 })

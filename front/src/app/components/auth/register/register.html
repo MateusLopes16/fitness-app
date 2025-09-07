@@ -1,0 +1,54 @@
+<div class="container">
+    <!-- Register Form -->
+    <div class="auth-header">
+        <h2 class="title">Create Your Account</h2>
+        <p class="subtitle">Join thousands who have transformed their fitness journey</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="card-base">
+
+        <!-- Two Column Layout -->
+
+        <!-- General Information Column -->
+
+
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" formControlName="name" class="input"
+                [class.error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+                placeholder="Enter your full name" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" formControlName="email" class="input"
+                [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                placeholder="Enter your email" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" class="input"
+                [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                placeholder="Enter your password" />
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage()">
+            {{ errorMessage() }}
+        </div>
+
+        <button type="submit" class="btn-full" [disabled]="registerForm.invalid || isLoading()">
+            <span *ngIf="!isLoading()">Create Account</span>
+            <span *ngIf="isLoading()">Creating Account...</span>
+        </button>
+    </form>
+
+    <!-- Footer with login link -->
+    <div class="auth-footer">
+        <p>Already have an account?
+            <button class="link-button" (click)="navigateToLogin()">
+                Sign in
+            </button>
+        </p>
+    </div>
+</div>

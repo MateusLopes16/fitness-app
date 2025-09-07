@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ActivityLevel, FitnessObjective, User } from '../auth/interfaces/auth.interface';
+import { ActivityLevel, FitnessObjective, User } from '../components/auth/interfaces/auth.interface';
 
 export interface UpdateUserDto {
   name?: string;

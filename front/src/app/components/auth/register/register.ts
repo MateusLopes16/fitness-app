@@ -1,17 +1,18 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth';
-import { RegisterRequest, ActivityLevel, Gender } from '../interfaces/auth.interface';
+import { RegisterRequest } from '../interfaces/auth.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrls: ['./register.scss', './register.responsive.scss']
 })
-export class RegisterComponent {
+export class Register {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
@@ -25,11 +26,6 @@ export class RegisterComponent {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      height: [''],
-      weight: [''],
-      dateOfBirth: [''],
-      gender: [''],
-      activityLevel: ['']
     });
   }
 
@@ -42,12 +38,7 @@ export class RegisterComponent {
       const registerData: RegisterRequest = {
         name: formValue.name,
         email: formValue.email,
-        password: formValue.password,
-        ...(formValue.height && { height: parseFloat(formValue.height) }),
-        ...(formValue.weight && { weight: parseFloat(formValue.weight) }),
-        ...(formValue.dateOfBirth && { dateOfBirth: formValue.dateOfBirth }),
-        ...(formValue.gender && { gender: formValue.gender as Gender }),
-        ...(formValue.activityLevel && { activityLevel: formValue.activityLevel as ActivityLevel })
+        password: formValue.password
       };
 
       this.authService.register(registerData).subscribe({

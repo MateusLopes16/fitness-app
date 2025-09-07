@@ -78,7 +78,7 @@ model User {
   name            String
   height          Decimal?
   weight          Decimal?
-  dateOfBirth     DateTime?         @map("date_of_birth")
+    dateOfBirth     DateTime?         // Optional date of birth field
   gender          Gender?
   activityLevel   ActivityLevel     @default(SEDENTARY) @map("activity_level")
   objective       FitnessObjective? @default(MAINTAIN)

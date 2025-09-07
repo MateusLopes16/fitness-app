@@ -92,9 +92,9 @@ export class SubscriptionPlansComponent implements OnInit {
   constructor(
     private router: Router,
     private stripeService: StripeService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   selectPlan(plan: SubscriptionPlan): void {
     if (plan.id === 'free') {
@@ -110,9 +110,9 @@ export class SubscriptionPlansComponent implements OnInit {
     try {
       this.processingPayment = true;
       this.selectedPlan = plan.id;
-      
+
       console.log('Processing payment for plan:', plan.name);
-      
+
       await this.stripeService.redirectToCheckout(plan.id, plan.price);
     } catch (error) {
       console.error('Payment processing error:', error);
