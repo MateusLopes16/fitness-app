@@ -1,1 +1,11 @@
-<p>ingredients-tab works!</p>
+<div class="container">
+    <!-- Header -->
+    <div class="list-header">
+        <h2 class="subtitle">Your Ingredients</h2>
+        <button class="btn-full" (click)="onAddNew()" [disabled]="loading">
+            <span class="btn-icon">➕</span>
+            Add Ingredient
+        </button>
+    </div>
+    <app-ingredients-list></app-ingredients-list>
+</div>

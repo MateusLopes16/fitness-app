@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ingredient } from '../../../interfaces/ingredient.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ingredient-item',
@@ -13,10 +14,14 @@ export class IngredientItem {
   @Output() edit = new EventEmitter<Ingredient>();
   @Output() delete = new EventEmitter<Ingredient>();
 
+  private router = inject(Router);
+
   onEdit() {
-    if (this.ingredient) {
-      this.edit.emit(this.ingredient);
+    if (this.ingredient === undefined || this.ingredient.createdByType === 'admin') {
+      // TODO => notify cant delete with reason 
+      return;
     }
+    this.router.navigate(['/nutrition/edit-ingredient', this.ingredient.id]);
   }
 
   onDelete() {

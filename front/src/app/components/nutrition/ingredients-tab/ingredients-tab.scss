@@ -1,0 +1,25 @@
+@use '../../../../styles.scss' as styles;
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    @include styles.vertical-container(styles.$space-small)
+}
+
+
+.list-header {
+    @include styles.horizontal-container(styles.$space-base);
+    display: flex;
+    align-items: center;
+    margin-bottom: styles.$space-base;
+
+    .subtitle {
+        text-align: left;
+        width: 100%;
+        margin: 0;
+    }
+
+    .btn-full {
+        width: 20%;
+    }
+}

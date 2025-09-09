@@ -1,6 +1,0 @@
-<div class="ingredients-list" *ngIf="!loading && ingredients.length > 0">
-  <!-- Ingredient rows -->
-  <app-ingredient-item *ngFor="let ingredient of ingredients; trackBy: trackByIngredientId" [ingredient]="ingredient"
-    (edit)="onEdit($event)" (delete)="onDelete($event)">
-  </app-ingredient-item>
-</div>

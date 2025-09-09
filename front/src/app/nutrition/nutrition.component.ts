@@ -4,7 +4,7 @@ import { IngredientService } from './services/ingredient.service';
 import { MealService } from './services/meal.service';
 import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interface';
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
-import { IngredientsTabComponent } from './components/ingredients-tab/ingredients-tab.component';
+import { IngredientsTab } from '../components/nutrition/ingredients-tab/ingredients-tab';
 import { MealsListComponent } from './components/meals-list/meals-list.component';
 import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
 
@@ -13,7 +13,7 @@ import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.compo
   standalone: true,
   imports: [
     CommonModule,
-    IngredientsTabComponent,
+    IngredientsTab,
     MealsListComponent,
     MealSchedulingComponent
   ],
