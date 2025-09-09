@@ -2,13 +2,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Ingredient } from '../../../interfaces/ingredient.interface';
-import { IngredientItemComponent } from '../ingredient-item/ingredient-item.component';
+import { IngredientItem } from '../../../../components/nutrition/ingredients-tab/ingredients-list/ingredient-item/ingredient-item';
 
 
 @Component({
     selector: 'app-ingredients-list',
     standalone: true,
-    imports: [CommonModule, IngredientItemComponent],
+    imports: [CommonModule, IngredientItem],
     templateUrl: './ingredients-list.component.html',
     styleUrls: [
         './ingredients-list.component.scss',
