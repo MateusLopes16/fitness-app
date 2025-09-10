@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
 })
 export class IngredientItem {
   @Input() ingredient: Ingredient | undefined;
-  @Output() edit = new EventEmitter<Ingredient>();
-  @Output() delete = new EventEmitter<Ingredient>();
+  @Output() deleteIngredient = new EventEmitter<Ingredient>();
 
   private router = inject(Router);
 
@@ -26,7 +25,7 @@ export class IngredientItem {
 
   onDelete() {
     if (this.ingredient) {
-      this.delete.emit(this.ingredient);
+      this.deleteIngredient.emit(this.ingredient);
     }
   }
 }

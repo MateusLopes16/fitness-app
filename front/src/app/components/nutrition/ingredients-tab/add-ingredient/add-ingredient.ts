@@ -2,19 +2,19 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IngredientService } from '../../../services/ingredient.service';
-import { Ingredient, CreateIngredientDto } from '../../../interfaces/ingredient.interface';
+import { IngredientService } from '../../services/ingredient.service';
+import { Ingredient, CreateIngredientDto } from '../../interfaces/ingredient.interface';
 
 @Component({
   selector: 'app-add-ingredient',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './add-ingredient.component.html',
-  styleUrls: ['./add-ingredient.component.scss',
-    './add-ingredient.responsive.component.scss'
+  templateUrl: './add-ingredient.html',
+  styleUrls: ['./add-ingredient.scss',
+    './add-ingredient.responsive.scss'
   ]
 })
-export class AddIngredientComponent implements OnInit {
+export class AddIngredient implements OnInit {
   loading = signal<boolean>(false);
   error = signal<string>('');
   isEditing = signal<boolean>(false);

@@ -1,13 +1,20 @@
-<div class="empty-state animate-empty-state-bounce" *ngIf="!loading && ingredients.length === 0">
-    <div class="empty-icon">🥗</div>
-    <h3>No ingredients found</h3>
-    <p>Start by adding your first ingredient to build your nutrition database.</p>
-    <button class="btn btn-primary" (click)="onAddNew()">
+<!-- Loading state -->
+<div class="loading-state" *ngIf="loading()">
+    <h3 class="subtitle">Loading ingredients...</h3>
+    <p class="subtitle">Please wait while we fetch your ingredients.</p>
+</div>
+
+<!-- Empty state -->
+<div class="empty-state animate-empty-state-bounce" *ngIf="showEmptyState()">
+    <h3 class="subtitle">🥗 No ingredients found</h3>
+    <p class="subtitle">Start by adding your first ingredient to build your nutrition database.</p>
+    <button class="btn-full" (click)="onAddNew()">
         Add Your First Ingredient
     </button>
 </div>
 
-<div class="ingredients-list" *ngIf="!loading && ingredients.length > 0">
+<!-- Ingredients list -->
+<div class="ingredients-list" *ngIf="hasIngredients()">
     <div class="column-details">
         <div class="ingredient-item card-blur">
             <div class="col-name truncate">
@@ -40,7 +47,6 @@
     </div>
     <!-- Ingredient rows -->
     <app-ingredient-item *ngFor="let ingredient of ingredients(); trackBy: trackByIngredientId"
-        [ingredient]="ingredient">
+        [ingredient]="ingredient" (deleteIngredient)="onDelete($event)">
     </app-ingredient-item>
-
 </div>
