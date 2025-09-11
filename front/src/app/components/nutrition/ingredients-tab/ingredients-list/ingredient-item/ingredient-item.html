@@ -1,5 +1,5 @@
 <div class="ingredient-item card-blur" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
-    [class.user-ingredient]="ingredient?.createdByType === 'user'">
+    [class.user-ingredient]="ingredient?.createdByType === 'user'" (click)="onSelect()">
     <div class="col-name truncate">
         <span class="creator-badge" [class]="ingredient?.createdByType">
             {{ ingredient?.createdByType === 'admin' ? '👑' : '👤' }}

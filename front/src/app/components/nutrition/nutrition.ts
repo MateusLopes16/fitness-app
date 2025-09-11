@@ -4,33 +4,26 @@ import { IngredientService } from './services/ingredient.service';
 import { MealService } from './services/meal.service';
 import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interface';
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
-import { IngredientsTab } from '../components/nutrition/ingredients-tab/ingredients-tab';
-import { MealsListComponent } from './components/meals-list/meals-list.component';
-import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
+import { IngredientsTab } from './ingredients-tab/ingredients-tab';
+import { ActivatedRoute } from '@angular/router';
+// import { MealsListComponent } from './components/meals-list/meals-list.component';
+// import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
+
+enum ExistingTabs {
+  meals,
+  ingredients,
+  scheduling
+}
 
 @Component({
   selector: 'app-nutrition',
-  standalone: true,
-  imports: [
-    CommonModule,
-    IngredientsTab,
-    MealsListComponent,
-    MealSchedulingComponent
-  ],
-  templateUrl: './nutrition.component.html',
-  styleUrls: [
-    './nutrition.component.scss',
-    './nutrition.responsive.scss'
-  ]
+  imports: [CommonModule, IngredientsTab],
+  templateUrl: './nutrition.html',
+  styleUrls: ['./nutrition.scss', './nutrition.responsive.scss']
 })
-export class NutritionComponent implements OnInit {
+export class Nutrition implements OnInit {
   // Tab management
-  activeTab = signal<'meals' | 'ingredients' | 'scheduling'>('meals');
-
-  // Ingredients
-  ingredients = signal<Ingredient[]>([]);
-  showDeleteForm = signal<boolean>(false);
-  deletingIngredient = signal<Ingredient | null>(null);
+  activeTab = signal<ExistingTabs>(ExistingTabs.meals);
 
   // Meals
   meals = signal<Meal[]>([]);
@@ -45,69 +38,22 @@ export class NutritionComponent implements OnInit {
   // Common
   loading = signal<boolean>(false);
   error = signal<string>('');
+ExistingTabs: any;
 
   constructor(
     private ingredientService: IngredientService,
-    private mealService: MealService
-  ) { }
+    private mealService: MealService,
+    private route: ActivatedRoute,
+  ) {
+  }
 
   ngOnInit() {
-    this.loadIngredients();
     this.loadMeals();
-  }
 
-  loadIngredients() {
-    this.loading.set(true);
-    this.error.set('');
-
-    this.ingredientService.getIngredients().subscribe({
-      next: (ingredients) => {
-        this.ingredients.set(ingredients);
-        this.loading.set(false);
-      },
-      error: (error) => {
-        console.error('Error loading ingredients:', error);
-        this.error.set('Failed to load ingredients');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  onDeleteIngredient(ingredient: Ingredient) {
-    this.deletingIngredient.set(ingredient);
-    this.showDeleteForm.set(true);
-  }
-
-  onCloseDeleteForm() {
-    this.showDeleteForm.set(false);
-    this.deletingIngredient.set(null);
-  }
-
-  onConfirmDelete() {
-    const ingredient = this.deletingIngredient();
-    if (!ingredient) return;
-
-    this.loading.set(true);
-    this.error.set('');
-
-    this.ingredientService.deleteIngredient(ingredient.id).subscribe({
-      next: () => {
-        this.ingredients.update(ingredients =>
-          ingredients.filter(i => i.id !== ingredient.id)
-        );
-        this.loading.set(false);
-        this.onCloseDeleteForm();
-      },
-      error: (error) => {
-        console.error('Error deleting ingredient:', error);
-        this.error.set('Failed to delete ingredient');
-        this.loading.set(false);
-      }
-    });
-  }
-
-  trackByIngredientId(index: number, ingredient: Ingredient): string {
-    return ingredient.id;
+    const activeTab = this.route.snapshot.paramMap.get('activeTab');
+    if (activeTab) {
+      this.activeTab.set(activeTab);
+    }
   }
 
   // Meal methods

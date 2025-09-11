@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meal, MealType } from '../../../interfaces/meal.interface';
-import { MealService } from '../../../services/meal.service';
+import { MealService } from '../../../../components/nutrition/services/meal.service';
 
 @Component({
   selector: 'app-meal-detail',

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class IngredientItem {
   @Input() ingredient: Ingredient | undefined;
   @Output() deleteIngredient = new EventEmitter<Ingredient>();
+  @Output() selectedIngredient = new EventEmitter<Ingredient>();
 
   private router = inject(Router);
 
@@ -26,6 +27,12 @@ export class IngredientItem {
   onDelete() {
     if (this.ingredient) {
       this.deleteIngredient.emit(this.ingredient);
+    }
+  }
+
+  onSelect() {
+    if (this.ingredient) {
+      this.selectedIngredient.emit(this.ingredient);
     }
   }
 }

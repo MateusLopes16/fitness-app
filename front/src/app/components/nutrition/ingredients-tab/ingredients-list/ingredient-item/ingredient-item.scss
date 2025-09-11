@@ -6,6 +6,12 @@
     align-items: center;
     justify-content: space-evenly;
     border-radius: styles.$radius-10;
+    cursor: pointer;
+    transition: all ease-in-out .1s;
+
+    &:hover {
+        background-color: styles.$color-accent-hover-soft;
+    }
 
     .col-name {
         width: 100%;
