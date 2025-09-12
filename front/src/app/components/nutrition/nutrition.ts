@@ -6,7 +6,8 @@ import { Ingredient, CreateIngredientDto } from './interfaces/ingredient.interfa
 import { Meal, CreateMealDto, DuplicateMealDto } from './interfaces/meal.interface';
 import { IngredientsTab } from './ingredients-tab/ingredients-tab';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { MealsListComponent } from './components/meals-list/meals-list.component';
+import { MealsList } from './meals-tab/meals-list/meals-list';
+import { MealsTab } from "./meals-tab/meals-tab";
 // import { MealSchedulingComponent } from './meal-scheduling/meal-scheduling.component';
 
 enum NutritionTabs {
@@ -17,7 +18,7 @@ enum NutritionTabs {
 
 @Component({
   selector: 'app-nutrition',
-  imports: [CommonModule, IngredientsTab],
+  imports: [CommonModule, IngredientsTab, MealsTab],
   templateUrl: './nutrition.html',
   styleUrls: ['./nutrition.scss', './nutrition.responsive.scss']
 })
@@ -53,7 +54,6 @@ export class Nutrition implements OnInit {
   }
 
   ngOnInit() {
-    this.loadMeals();
 
     // Check for activeTab in query parameters and clean URL
     const activeTabParam = this.route.snapshot.queryParamMap.get('activeTab');
@@ -74,23 +74,7 @@ export class Nutrition implements OnInit {
     this.activeTab.set(tab);
   }
 
-  // Meal methods
-  loadMeals() {
-    this.loading.set(true);
-    this.error.set('');
 
-    this.mealService.getMeals().subscribe({
-      next: (meals) => {
-        this.meals.set(meals);
-        this.loading.set(false);
-      },
-      error: (error) => {
-        console.error('Error loading meals:', error);
-        this.error.set('Failed to load meals');
-        this.loading.set(false);
-      }
-    });
-  }
 
   onDuplicateMeal(meal: Meal) {
     this.duplicatingMeal.set(meal);

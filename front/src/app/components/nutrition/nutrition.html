@@ -1,29 +1,29 @@
 <div class="container">
-    <div class="nutrition-header">
-        <h1 class="title">Nutrition Management</h1>
-        <p class="subtitle">Manage your meals, ingredients, and track your daily nutrition</p>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="nutrition-tabs card-base">
-        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.INGREDIENTS)" (click)="setActiveTab(NutritionTabs.INGREDIENTS)">
-            🥕 Ingredients
-        </button>
-        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.MEALS)" (click)="setActiveTab(NutritionTabs.MEALS)">
-            🍽️ Meals
-        </button>
-        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.SCHEDULING)" (click)="setActiveTab(NutritionTabs.SCHEDULING)">
-            📅 Planning
-        </button>
-    </div>
-
-    <app-ingredients-tab *ngIf="isActiveTab(NutritionTabs.INGREDIENTS)"></app-ingredients-tab>
-
-    <!-- <div *ngIf="activeTab() === 'meals'" class="tab-content">
-    <app-meals-list [meals]="meals()" [loading]="loading()" (duplicateMeal)="onDuplicateMeal($event)"
-      (deleteMeal)="onDeleteMeal($event)"></app-meals-list>
+  <div class="nutrition-header">
+    <h1 class="title">Nutrition Management</h1>
+    <p class="subtitle">Manage your meals, ingredients, and track your daily nutrition</p>
   </div>
 
+  <!-- Navigation Tabs -->
+  <div class="nutrition-tabs card-base">
+    <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.INGREDIENTS)"
+      (click)="setActiveTab(NutritionTabs.INGREDIENTS)">
+      🥕 Ingredients
+    </button>
+    <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.MEALS)"
+      (click)="setActiveTab(NutritionTabs.MEALS)">
+      🍽️ Meals
+    </button>
+    <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.SCHEDULING)"
+      (click)="setActiveTab(NutritionTabs.SCHEDULING)">
+      📅 Planning
+    </button>
+  </div>
+
+  <app-ingredients-tab *ngIf="isActiveTab(NutritionTabs.INGREDIENTS)"></app-ingredients-tab>
+
+  <app-meals-tab *ngIf="isActiveTab(NutritionTabs.MEALS)"></app-meals-tab>
+  <!--
   <div *ngIf="activeTab() === 'scheduling'" class="tab-content">
     <app-meal-scheduling></app-meal-scheduling>
   </div>

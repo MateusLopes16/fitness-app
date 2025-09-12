@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./ingredients-list.scss']
 })
 export class IngredientsList implements OnInit {
+  @Input() filteredIngredients: Ingredient[] | undefined;
+
   ingredients = signal<Ingredient[]>([]);
   loading = signal<boolean>(false);
 
@@ -36,6 +38,11 @@ export class IngredientsList implements OnInit {
   }
 
   loadIngredients() {
+    if (this.filteredIngredients) {
+      this.ingredients.set(this.filteredIngredients);
+      return;
+    }
+
     console.log('Loading ingredients...');
     this.loading.set(true);
     this.ingredients.set([]); // Clear existing data while loading

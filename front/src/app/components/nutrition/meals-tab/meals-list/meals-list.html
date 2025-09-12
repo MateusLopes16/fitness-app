@@ -1,1 +1,21 @@
-<p>meals-list works!</p>
+<!-- Loading state -->
+<div class="loading-state" *ngIf="loading()">
+    <h3 class="subtitle">Loading ingredients...</h3>
+    <p class="subtitle">Please wait while we fetch your ingredients.</p>
+</div>
+
+<!-- Empty state -->
+<div class="empty-state animate-empty-state-bounce" *ngIf="showEmptyState()">
+    <h3 class="subtitle">🥗 No ingredients found</h3>
+    <p class="subtitle">Start by adding your first ingredient to build your nutrition database.</p>
+    <button class="btn-full" (click)="onAddNew()">
+        Add Your First Ingredient
+    </button>
+</div>
+
+<div class="meals-grid" *ngIf="hasMeals()">
+    <!-- Ingredient rows -->
+    <app-meal-item *ngFor="let meal of meals()" [meal]="meal" (view)="onView($event)" (edit)="onEdit($event)"
+        (duplicate)="duplicateMeal.emit($event)" (delete)="onDelete($event)">
+    </app-meal-item>
+</div>

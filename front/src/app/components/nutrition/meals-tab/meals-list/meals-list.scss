@@ -1,0 +1,68 @@
+@use '../../../../../styles.scss' as styles;
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 styles.$space-base; // Add horizontal padding for mobile
+}
+
+.list-header {
+    @include styles.horizontal-container(styles.$space-base);
+    display: flex;
+    align-items: center;
+    margin-bottom: styles.$space-base;
+    flex-wrap: wrap; // Allow wrapping on smaller screens
+
+    .subtitle {
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        flex: 1; // Take available space
+        min-width: 200px; // Minimum width before wrapping
+    }
+
+    .btn-full {
+        width: 200px; // Fixed width instead of percentage
+        min-width: 150px; // Minimum width
+        flex-shrink: 0; // Don't shrink
+    }
+}
+
+.meals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); // Responsive grid
+    gap: styles.$space-base;
+    width: 100%;
+    justify-items: center; // Center items in their grid cells
+}
+
+.empty-state {
+    grid-column: 1 / -1; // Span all columns
+    text-align: center;
+    padding: styles.$space-big * 2;
+    color: styles.$color-text-secondary;
+
+    .empty-icon {
+        font-size: 4rem;
+        margin-bottom: styles.$space-base;
+        opacity: 0.6;
+    }
+
+    h3 {
+        margin: 0 0 styles.$space-small 0;
+        color: styles.$color-text;
+        font-size: styles.$font-size-title;
+    }
+
+    p {
+        margin: 0 0 styles.$space-base 0;
+        font-size: styles.$font-size-subtitle;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn-primary {
+        margin-top: styles.$space-base;
+    }
+}
