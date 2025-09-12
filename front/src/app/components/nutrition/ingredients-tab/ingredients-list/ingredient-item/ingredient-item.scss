@@ -8,6 +8,7 @@
     border-radius: styles.$radius-10;
     cursor: pointer;
     transition: all ease-in-out .1s;
+    user-select: none;
 
     &:hover {
         background-color: styles.$color-accent-hover-soft;

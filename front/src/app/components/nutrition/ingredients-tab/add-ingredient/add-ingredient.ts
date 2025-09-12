@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ɵnormalizeQueryParams } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IngredientService } from '../../services/ingredient.service';
@@ -83,7 +83,7 @@ export class AddIngredient implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/nutrition']);
+    this.router.navigate(['/nutrition'], { queryParams: { activeTab: 'INGREDIENTS' } });
   }
 
   onSave() {
@@ -111,7 +111,7 @@ export class AddIngredient implements OnInit {
     request.subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/nutrition']);
+        this.router.navigate(['/nutrition'], { queryParams: { activeTab: 'INGREDIENTS' } });
       },
       error: (error) => {
         console.error('Error saving ingredient:', error);

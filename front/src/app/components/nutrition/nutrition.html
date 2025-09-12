@@ -6,18 +6,18 @@
 
     <!-- Navigation Tabs -->
     <div class="nutrition-tabs card-base">
-        <button class="btn-ghost" [class.active]="activeTab() === 'ingredients'" (click)="activeTab.set('ingredients')">
+        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.INGREDIENTS)" (click)="setActiveTab(NutritionTabs.INGREDIENTS)">
             🥕 Ingredients
         </button>
-        <button class="btn-ghost" [class.active]="activeTab() === 'meals'" (click)="activeTab.set('meals')">
+        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.MEALS)" (click)="setActiveTab(NutritionTabs.MEALS)">
             🍽️ Meals
         </button>
-        <button class="btn-ghost" [class.active]="activeTab() === 'scheduling'" (click)="activeTab.set('scheduling')">
+        <button class="btn-ghost" [class.active]="isActiveTab(NutritionTabs.SCHEDULING)" (click)="setActiveTab(NutritionTabs.SCHEDULING)">
             📅 Planning
         </button>
     </div>
 
-    <app-ingredients-tab *ngIf="activeTab() === 'ingredients'"></app-ingredients-tab>
+    <app-ingredients-tab *ngIf="isActiveTab(NutritionTabs.INGREDIENTS)"></app-ingredients-tab>
 
     <!-- <div *ngIf="activeTab() === 'meals'" class="tab-content">
     <app-meals-list [meals]="meals()" [loading]="loading()" (duplicateMeal)="onDuplicateMeal($event)"
