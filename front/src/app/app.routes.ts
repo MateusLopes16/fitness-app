@@ -4,7 +4,7 @@ import { Dashboard } from './components/dashboard/dashboard';
 import { SubscriptionPlansComponent } from './subscription-plans/subscription-plans.component';
 import { Nutrition } from './components/nutrition/nutrition';
 import { AddIngredient } from './components/nutrition/ingredients-tab/add-ingredient/add-ingredient';
-// import { AddMealComponent } from './nutrition/components/meals-list/add-meal/add-meal.component';
+import { AddMeal } from './components/nutrition/meals-tab/add-meal/add-meal';
 // import { MealDetailComponent } from './nutrition/components/meals-list/meal-detail/meal-detail.component';
 import { Login } from './components/auth/login/login';
 import { Register } from './components/auth/register/register';
@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'nutrition', component: Nutrition, canActivate: [authGuard] },
   { path: 'nutrition/add-ingredient', component: AddIngredient, canActivate: [authGuard] },
   { path: 'nutrition/edit-ingredient/:id', component: AddIngredient, canActivate: [authGuard] },
-  // { path: 'nutrition/add-meal', component: AddMealComponent, canActivate: [authGuard] },
+  { path: 'nutrition/add-meal', component: AddMeal, canActivate: [authGuard] },
   // { path: 'nutrition/edit-meal/:id', component: AddMealComponent, canActivate: [authGuard] },
   // { path: 'nutrition/meal/:id', component: MealDetailComponent, canActivate: [authGuard] },
   { path: 'subscription-plans', component: SubscriptionPlansComponent },

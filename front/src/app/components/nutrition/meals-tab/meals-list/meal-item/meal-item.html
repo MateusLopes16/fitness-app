@@ -34,33 +34,17 @@
                 <span class="macro-label">fat</span>
             </div>
         </div>
-        <div class="right-side">
-            <div class="meal-badges">
-                <span class="badge admin-badge" *ngIf="meal.createdByType === 'admin'">
-                    <span class="badge-icon">👑 </span>Admin</span>
-                <span class="badge personal-badge" *ngIf="meal.createdByType === 'user'">
-                    <span class="badge-icon">👤 </span>Personal</span>
-                <span class="badge breakfast-badge" *ngIf="meal.mealType === 'BREAKFAST'">
-                    <span class="badge-icon">🌅 </span>Breakfast</span>
-                <span class="badge lunch-badge" *ngIf="meal.mealType === 'LUNCH'">
-                    <span class="badge-icon">☀️ </span>Lunch</span>
-                <span class="badge dinner-badge" *ngIf="meal.mealType === 'DINNER'">
-                    <span class="badge-icon">🌙 </span>Dinner</span>
-                <span class="badge snack-badge" *ngIf="meal.mealType === 'SNACK'">
-                    <span class="badge-icon">🍪 </span>Snack</span>
-            </div>
-            <div class="meal-actions" (click)="$event.stopPropagation()">
-                <button class="btn-outline" title="Duplicate" (click)="onDuplicate()">
-                    📋
-                </button>
-                <button class="btn-outline" title="Edit" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
-                    ✏️
-                </button>
-                <button class="btn-outline delete" title="Delete" (click)="onDelete()"
-                    *ngIf="meal.createdByType === 'user'">
-                    🗑️
-                </button>
-            </div>
+        <div class="meal-actions" (click)="$event.stopPropagation()">
+            <button class="btn-outline" title="Duplicate" (click)="onDuplicate()">
+                📋
+            </button>
+            <button class="btn-outline" title="Edit" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
+                ✏️
+            </button>
+            <button class="btn-outline delete" title="Delete" (click)="onDelete()"
+                *ngIf="meal.createdByType === 'user'">
+                🗑️
+            </button>
         </div>
     </div>
 

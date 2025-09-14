@@ -50,70 +50,71 @@
     }
 }
 
-// Small tablet / large mobile (600px and below)
-@media (max-width: 600px) {
-    .card-blur {
-        width: 100%;
-        padding: styles.$space-base;
-    }
+// // Small tablet / large mobile (600px and below)
+// @media (max-width: 600px) {
+//     .card-blur {
+//         width: 100%;
+//         padding: styles.$space-base;
+//     }
 
-    .meal-header {
-        margin-bottom: styles.$space-base;
+//     .meal-header {
+//         margin-bottom: styles.$space-base;
         
-        .meal-title {
-            .subtitle {
-                font-size: styles.$font-size-subtitle;
-            }
+//         .meal-title {
+//             .subtitle {
+//                 font-size: styles.$font-size-subtitle;
+//             }
 
-            .truncate {
-                max-width: 180px;
-            }
-        }
-    }
+//             .truncate {
+//                 max-width: 180px;
+//             }
+//         }
+//     }
 
-    .ingredients-count {
-        font-size: styles.$font-size-base;
-        padding-bottom: styles.$space-base;
-    }
+//     .ingredients-count {
+//         font-size: styles.$font-size-base;
+//         padding-bottom: styles.$space-base;
+//     }
 
-    .nutrition-summary {
-        grid-template-columns: repeat(2, 1fr);
-        gap: styles.$space-small;
-        width: fit-content;
+//     .nutrition-summary {
+//         grid-template-columns: repeat(2, 1fr);
+//         gap: styles.$space-small;
+//         width: fit-content;
 
-        .macro-item {
-            width: 70px;
-            height: 70px;
-            font-size: 0.75rem;
+//         .macro-item {
+//             width: 70px;
+//             height: 70px;
+//             font-size: 0.75rem;
 
-            .macro-value {
-                font-size: styles.$font-size-base;
-                font-weight: styles.$font-weight-subtitle;
-            }
+//             .macro-value {
+//                 font-size: styles.$font-size-base;
+//                 font-weight: styles.$font-weight-subtitle;
+//             }
 
-            .macro-label {
-                font-size: styles.$font-size-base;
-            }
-        }
-    }
+//             .macro-label {
+//                 font-size: styles.$font-size-base;
+//             }
+//         }
+//     }
 
-    .right-side {
-        flex-direction: column;
-        gap: styles.$space-base;
-        align-items: stretch;
-    }
+//     .right-side {
+//         flex-direction: column;
+//         gap: styles.$space-base;
+//         align-items: stretch;
+//     }
 
-    .meal-actions {
-        justify-content: center;
-        gap: styles.$space-small;
-    }
-}
+//     .meal-actions {
+//         justify-content: center;
+//         gap: styles.$space-small;
+//     }
+// }
 
 // Mobile styles (480px and below)
 @media (max-width: 480px) {
     .card-blur {
         padding: styles.$space-small;
         margin-bottom: styles.$space-small;
+        min-width: 100%;
     }
 
     .meal-header {
@@ -147,7 +148,7 @@
             height: 60px;
 
             .macro-value {
-                font-size: styles.$font-size-base;
+                font-size: .7rem;
                 font-weight: styles.$font-weight-subtitle;
             }
 

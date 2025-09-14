@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, signal, computed } from '@angular/core';
 import { IngredientItem } from './ingredient-item/ingredient-item';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Ingredient } from '../../interfaces/ingredient.interface';
@@ -12,8 +12,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './ingredients-list.html',
   styleUrls: ['./ingredients-list.scss']
 })
-export class IngredientsList implements OnInit {
+export class IngredientsList implements OnInit, OnChanges {
   @Input() filteredIngredients: Ingredient[] | undefined;
+  @Output() ingredientSelected = new EventEmitter<Ingredient>();
 
   ingredients = signal<Ingredient[]>([]);
   loading = signal<boolean>(false);
@@ -26,7 +27,20 @@ export class IngredientsList implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadIngredients();
+    // Only load ingredients if no filteredIngredients are provided initially
+    if (!this.filteredIngredients) {
+      this.loadIngredients();
+    } else {
+      // Set initial filtered ingredients
+      this.ingredients.set(this.filteredIngredients);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // React to changes in filteredIngredients
+    if (changes['filteredIngredients'] && this.filteredIngredients) {
+      this.ingredients.set(this.filteredIngredients);
+    }
   }
 
   onAddNew(): void {
@@ -38,15 +52,9 @@ export class IngredientsList implements OnInit {
   }
 
   loadIngredients() {
-    if (this.filteredIngredients) {
-      this.ingredients.set(this.filteredIngredients);
-      return;
-    }
-
     console.log('Loading ingredients...');
     this.loading.set(true);
     this.ingredients.set([]); // Clear existing data while loading
-    // this.error.set('');
 
     this.ingredientService.getIngredients().subscribe({
       next: (ingredients) => {
@@ -83,6 +91,10 @@ export class IngredientsList implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  onIngredientSelected(ingredient: Ingredient) {
+    this.ingredientSelected.emit(ingredient);
   }
 
 }

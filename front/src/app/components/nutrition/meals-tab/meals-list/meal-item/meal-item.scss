@@ -5,9 +5,6 @@
 }
 
 .card-blur {
-    width: 450px;
-    min-width: 450px;
-    max-width: 100%; // Ensure it doesn't overflow on smaller screens
     margin: 0 auto; // Center the card
 
     &:hover {
@@ -52,70 +49,17 @@
 
 }
 
-.meal-badges {
-    @include styles.horizontal-container(styles.$space-small);
-    width: fit-content;
-    align-items: center;
-    font-size: .7rem;
-    padding: 0;
-
-    .badge {
-        @include styles.horizontal-container(styles.$space-small);
-        justify-content: center;
-        align-items: center;
-        border-radius: styles.$radius-10;
-        width: 80px;
-        height: 30px;
-        margin: 0;
-        padding: 0;
-    }
-
-    .admin-badge {
-        background-color: styles.$color-accent-hover-soft;
-        border: 1px solid styles.$color-accent;
-    }
-
-    .personal-badge {
-        background-color: styles.$color-blue-softer;
-        border: 1px solid styles.$color-blue;
-    }
-
-    .breakfast-badge {
-        background-color: styles.$color-success-softer;
-        border: 1px solid styles.$color-success;
-    }
-
-    .lunch-badge {
-        background-color: styles.$color-warning-softer;
-        border: 1px solid styles.$color-warning;
-    }
-
-    .dinner-badge {
-        background-color: styles.$color-error-softer;
-        border: 1px solid styles.$color-error;
-    }
-
-    .snack-badge {
-        background-color: styles.$color-pink-softer;
-        border: 1px solid styles.$color-pink;
-    }
-
-
-}
-
 .main-content {
-    @include styles.horizontal-container(styles.$space-small);
+    @include styles.vertical-container(styles.$space-base);
     margin-bottom: styles.$space-small;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
-    height: 100%;
 }
 
 .nutrition-summary {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: styles.$space-small;
-    width: fit-content;
+    @include styles.horizontal-container(styles.$space-base);
+    justify-content: center;
+    width: 100%;
     font-size: 0.9rem;
 
     .macro-item {
@@ -171,16 +115,11 @@
 
 .meal-actions {
     @include styles.horizontal-container(styles.$space-small);
-    justify-content: flex-end;
-}
-
-.right-side {
-    @include styles.vertical-container(styles.$space-small);
-    justify-content: space-between;
-    min-height: 160px;
+    justify-content: center;
+    width: 100%;
 }
 
 .btn-outline {
-    max-width: 40px;
+    max-width: calc(100% / 3);
     border: none !important;
 }

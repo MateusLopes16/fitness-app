@@ -1,0 +1,134 @@
+@use '../../../../../styles.scss' as styles;
+
+.container {
+    @include styles.vertical-container(styles.$space-big);
+    padding: styles.$space-big styles.$space-small;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page-header {
+    padding: styles.$space-base;
+    position: relative;
+
+    .btn-ghost {
+        width: fit-content;
+        padding: styles.$space-small styles.$space-base;
+        @include styles.horizontal-container(styles.$space-small);
+        position: absolute;
+        top: styles.$space-big;
+        left: styles.$space-small;
+    }
+}
+
+.form-actions {
+    @include styles.horizontal-container(styles.$space-small);
+    justify-content: end;
+    margin-top: styles.$space-small;
+
+    .btn-full {
+        width: 25%;
+    }
+
+    .red {
+        background-color: styles.$color-error;
+
+        &:active:not(:disabled) {
+            background: styles.$color-error;
+        }
+    }
+}
+
+.form-row {
+    @include styles.horizontal-container(styles.$space-base);
+    width: 100%;
+}
+
+.form-group {
+    @include styles.vertical-container(styles.$space-small);
+    width: 100%;
+
+    label {
+        font-weight: styles.$font-weight-title;
+    }
+}
+
+.servings {
+    width: 35%;
+    margin: 0 auto;
+}
+
+.form-section,
+.meal-form {
+    @include styles.vertical-container(styles.$space-base);
+}
+
+.section-header {
+    position: relative;
+
+    .btn-full {
+        position: absolute;
+        width: fit-content;
+        padding: styles.$space-base;
+        right: 0;
+        top: 0;
+    }
+}
+
+.nutrition-grid {
+    .nutrition-item {
+        border-bottom: 1px solid styles.$color-border;
+        @include styles.horizontal-container(styles.$space-base);
+        justify-content: space-between;
+        padding: styles.$space-small styles.$space-big;
+
+        .value {
+            font-weight: styles.$font-weight-title;
+        }
+    }
+
+    .last {
+        border: none;
+    }
+}
+
+.ingredient-selector {
+    max-height: 400px;
+    min-height: 400px;
+    overflow: auto;
+    @include styles.vertical-container(styles.$space-small);
+}
+
+.ingredients-selected-list {
+    @include styles.horizontal-container(styles.$space-small);
+    flex-wrap: wrap;
+
+    .ingredient-item {
+        border: 1px solid styles.$color-border;
+        border-radius: styles.$radius-10;
+        padding: styles.$space-base;
+        @include styles.vertical-container(styles.$space-small);
+        align-items: center;
+        margin-bottom: styles.$space-small;
+
+        .ingredient-details {
+            @include styles.vertical-container(styles.$space-small);
+            align-items: center;
+
+        }
+
+        .ingredient-name {
+            font-weight: styles.$font-weight-title;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .ingredient-quantity {
+            @include styles.horizontal-container(styles.$space-small);
+            align-items: baseline;
+        }
+    }
+}

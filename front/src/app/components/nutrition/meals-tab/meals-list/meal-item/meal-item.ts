@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 })
 export class MealItem {
   @Input() meal!: Meal;
-  @Output() view = new EventEmitter<Meal>();
   @Output() edit = new EventEmitter<Meal>();
   @Output() duplicate = new EventEmitter<Meal>();
   @Output() delete = new EventEmitter<Meal>();
@@ -22,7 +21,7 @@ export class MealItem {
   private router = inject(Router);
 
   onView() {
-    this.view.emit(this.meal);
+    this.router.navigate(['/nutrition/meal', this.meal.id]);
   }
 
   onEdit() {

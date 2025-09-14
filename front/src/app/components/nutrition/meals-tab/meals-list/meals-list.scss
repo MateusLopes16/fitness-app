@@ -29,8 +29,8 @@
 }
 
 .meals-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); // Responsive grid
+    @include styles.horizontal-container(styles.$space-base);
+    flex-wrap: wrap;
     gap: styles.$space-base;
     width: 100%;
     justify-items: center; // Center items in their grid cells
