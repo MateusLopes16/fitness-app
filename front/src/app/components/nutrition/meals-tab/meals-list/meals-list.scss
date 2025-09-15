@@ -34,6 +34,11 @@
     gap: styles.$space-base;
     width: 100%;
     justify-items: center; // Center items in their grid cells
+    align-items: center;
+
+    .meal-item {
+        width: 100%;
+    }
 }
 
 .empty-state {

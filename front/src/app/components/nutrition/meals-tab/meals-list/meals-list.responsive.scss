@@ -7,10 +7,6 @@
         padding: 0 styles.$space-base;
     }
 
-    .meals-grid {
-        // grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-        gap: styles.$space-base;
-    }
 }
 
 // Small tablet styles (768px and below)
@@ -37,10 +33,6 @@
         }
     }
 
-    .meals-grid {
-        // grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-        gap: styles.$space-small;
-    }
 
     .empty-state {
         padding: styles.$space-big;
@@ -78,10 +70,7 @@
         }
     }
 
-    .meals-grid {
-        // grid-template-columns: 1fr; // Single column on mobile
-        gap: styles.$space-small;
-    }
+
 
     .empty-state {
         padding: styles.$space-base;
@@ -102,16 +91,16 @@
 
 // Small mobile styles (480px and below)
 @media (max-width: 480px) {
+
+    .meal-item {
+        width: 100%;
+    }
     .container {
         padding: 0 styles.$space-small;
         width: 100%;
         max-width: none;
     }
 
-    .meals-grid {
-        // grid-template-columns: 1fr;
-        width: 100%;
-    }
 
     .list-header {
         .subtitle {
@@ -127,10 +116,6 @@
                 margin-right: styles.$space-small;
             }
         }
-    }
-
-    .meals-grid {
-        gap: styles.$space-small;
     }
 
     .empty-state {

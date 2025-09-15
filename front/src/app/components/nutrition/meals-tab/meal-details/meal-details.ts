@@ -1,22 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Meal, MealType } from '../../../interfaces/meal.interface';
-import { MealService } from '../../../../components/nutrition/services/meal.service';
+import { Meal, MealType } from '../../interfaces/meal.interface';
+import { MealService } from '../../services/meal.service';
 
 @Component({
-  selector: 'app-meal-detail',
-  standalone: true,
+  selector: 'app-meal-details',
   imports: [CommonModule],
-  templateUrl: './meal-detail.component.html',
-    styleUrls: ['./meal-detail.component.scss']
-
+  templateUrl: './meal-details.html',
+  styleUrl: './meal-details.scss'
 })
-export class MealDetailComponent implements OnInit {
+export class MealDetails implements OnInit {
   meal: Meal | null = null;
   loading = true;
   error: string | null = null;
-  
+
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private mealService = inject(MealService);
@@ -59,8 +57,8 @@ export class MealDetailComponent implements OnInit {
   onDuplicate(): void {
     if (this.meal) {
       // Navigate to add meal with meal data for duplication
-      this.router.navigate(['/nutrition/add-meal'], { 
-        queryParams: { duplicate: this.meal.id } 
+      this.router.navigate(['/nutrition/add-meal'], {
+        queryParams: { duplicate: this.meal.id }
       });
     }
   }
@@ -83,3 +81,4 @@ export class MealDetailComponent implements OnInit {
     return recipe.split('\n').filter(step => step.trim().length > 0);
   }
 }
+

@@ -57,10 +57,6 @@ export class MealsList implements OnInit {
     this.router.navigate(['/nutrition/edit-meal', meal.id]);
   }
 
-  onView(meal: Meal): void {
-    this.router.navigate(['/nutrition/meal', meal.id]);
-  }
-
   onDelete(meal : Meal) {
     if (!meal) return;
 

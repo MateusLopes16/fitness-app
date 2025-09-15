@@ -1,0 +1,412 @@
+@use '../../../../../styles.scss' as styles;
+
+.container {
+    @include styles.vertical-container(styles.$space-big);
+    padding: styles.$space-big styles.$space-small;
+    max-width: 1200px;
+    margin: auto;
+}
+
+// Loading State
+.loading-state {
+    @include styles.vertical-container(styles.$space-base);
+    align-items: center;
+    justify-content: center;
+    padding: styles.$space-big * 2;
+    text-align: center;
+
+    .spinner {
+        width: 3rem;
+        height: 3rem;
+        border: 3px solid styles.$color-border;
+        border-top: 3px solid styles.$color-accent;
+        border-radius: styles.$radius-100;
+        animation: spin 1s linear infinite;
+        margin-bottom: styles.$space-base;
+    }
+
+    p {
+        color: styles.$color-text-secondary;
+        font-size: styles.$font-size-subtitle;
+        margin: 0;
+    }
+}
+
+// Error State
+.error-state {
+    @include styles.card-base;
+    background: styles.$color-surface;
+    border: 1px solid styles.$color-error;
+    @include styles.vertical-container(styles.$space-base);
+    align-items: center;
+    text-align: center;
+    padding: styles.$space-big * 2;
+
+    .error-icon {
+        font-size: 3rem;
+        margin-bottom: styles.$space-base;
+    }
+
+    h3 {
+        font-size: styles.$font-size-title;
+        font-weight: styles.$font-weight-title;
+        color: styles.$color-error;
+        margin: 0 0 styles.$space-small 0;
+    }
+
+    p {
+        color: styles.$color-text-secondary;
+        margin: 0 0 styles.$space-base 0;
+        max-width: 400px;
+    }
+
+    .btn-ghost {
+        width: fit-content;
+        padding: styles.$space-small styles.$space-base;
+    }
+}
+
+// Meal Content
+.meal-content {
+    @include styles.vertical-container(styles.$space-big);
+}
+
+// Page Header
+.page-header {
+    @include styles.horizontal-container(styles.$space-base);
+    align-items: center;
+    justify-content: space-between;
+    padding: styles.$space-base;
+    flex-wrap: wrap;
+
+    .btn-ghost {
+        width: fit-content;
+        padding: styles.$space-small styles.$space-base;
+        @include styles.horizontal-container(styles.$space-small);
+    }
+
+    .header-actions {
+        @include styles.horizontal-container(styles.$space-small);
+        
+        .btn-outline,
+        .btn-full {
+            width: fit-content;
+            padding: styles.$space-small styles.$space-base;
+            @include styles.horizontal-container(styles.$space-small);
+        }
+    }
+}
+
+// Meal Header
+.meal-header {
+    @include styles.card-base;
+    background: styles.$color-surface;
+    border: 1px solid styles.$color-border;
+    margin-bottom: styles.$space-big;
+
+    .title-section {
+        @include styles.vertical-container(styles.$space-base);
+
+        h1 {
+            font-size: styles.$font-size-title;
+            font-weight: styles.$font-weight-title;
+            color: styles.$color-text;
+            margin: 0;
+            text-align: center;
+        }
+
+        .meal-meta {
+            @include styles.horizontal-container(styles.$space-base);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            .meal-type,
+            .meal-date,
+            .servings {
+                padding: styles.$space-small styles.$space-base;
+                background: styles.$color-surface-light;
+                border-radius: styles.$radius-10;
+                font-size: 0.875rem;
+                color: styles.$color-text-secondary;
+                border: 1px solid styles.$color-border;
+            }
+
+            .badge {
+                padding: styles.$space-small styles.$space-base;
+                border-radius: styles.$radius-50;
+                font-size: 0.75rem;
+                font-weight: 600;
+
+                &.admin {
+                    background: styles.$color-accent-soft;
+                    color: styles.$color-text;
+                    border: 1px solid styles.$color-accent;
+                }
+            }
+        }
+    }
+}
+
+// Meal Body
+.meal-body {
+    @include styles.vertical-container(styles.$space-big);
+}
+
+// Section
+.section {
+    @include styles.card-base;
+    background: styles.$color-surface;
+    border: 1px solid styles.$color-border;
+    margin-bottom: styles.$space-big;
+
+    h3 {
+        font-size: styles.$font-size-subtitle;
+        font-weight: styles.$font-weight-title;
+        color: styles.$color-text;
+        margin: 0 0 styles.$space-base 0;
+        padding-bottom: styles.$space-base;
+        border-bottom: 1px solid styles.$color-border;
+    }
+
+    .description {
+        color: styles.$color-text;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+// Nutrition Grid
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: styles.$space-base;
+
+    .nutrition-card {
+        @include styles.vertical-container(styles.$space-small);
+        align-items: center;
+        text-align: center;
+        padding: styles.$space-base;
+        background: styles.$color-surface-light;
+        border: 1px solid styles.$color-border;
+        border-radius: styles.$radius-10;
+        @include styles.transition(all);
+
+        &:hover {
+            background: styles.$color-surface-lighter;
+            border-color: styles.$color-accent-soft;
+        }
+
+        .nutrition-value {
+            font-weight: styles.$font-weight-title;
+            font-size: styles.$font-size-subtitle;
+            color: styles.$color-accent;
+            margin: 0;
+        }
+
+        .nutrition-label {
+            font-size: 0.875rem;
+            color: styles.$color-text-secondary;
+            margin: 0;
+        }
+
+        &.primary {
+            border-color: styles.$color-accent;
+            background: styles.$color-accent-hover-soft;
+
+            .nutrition-value {
+                font-size: 1.5rem;
+                color: styles.$color-accent-active;
+            }
+
+            .nutrition-label {
+                color: styles.$color-text;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+// Ingredients List
+.ingredients-list {
+    @include styles.vertical-container(styles.$space-small);
+
+    .ingredient-item {
+        @include styles.horizontal-container(styles.$space-base);
+        align-items: center;
+        justify-content: space-between;
+        padding: styles.$space-base;
+        border: 1px solid styles.$color-border-softer;
+        border-radius: styles.$radius-10;
+        background: styles.$color-bg-secondary;
+        @include styles.transition(all);
+
+        &:hover {
+            background: styles.$color-surface-light;
+            border-color: styles.$color-border;
+        }
+
+        .ingredient-info {
+            @include styles.vertical-container(styles.$space-small);
+            flex: 1;
+
+            .ingredient-name {
+                font-weight: styles.$font-weight-subtitle;
+                color: styles.$color-text;
+                margin: 0;
+
+                .brand {
+                    font-weight: 400;
+                    color: styles.$color-text-secondary;
+                    font-size: 0.875rem;
+                }
+            }
+
+            .ingredient-quantity {
+                font-weight: styles.$font-weight-title;
+                color: styles.$color-accent;
+                font-size: 0.875rem;
+            }
+        }
+
+        .ingredient-nutrition {
+            @include styles.horizontal-container(styles.$space-small);
+            font-size: 0.75rem;
+            flex-wrap: wrap;
+
+            .cal,
+            .protein,
+            .carbs,
+            .fat {
+                padding: 2px 6px;
+                border-radius: 4px;
+                background: styles.$color-surface-light;
+                color: styles.$color-text-secondary;
+                border: 1px solid styles.$color-border;
+            }
+
+            .cal {
+                background: styles.$color-warning-softer;
+                color: styles.$color-text;
+            }
+
+            .protein {
+                background: styles.$color-blue-softer;
+                color: styles.$color-text;
+            }
+
+            .carbs {
+                background: styles.$color-accent-hover-soft;
+                color: styles.$color-text;
+            }
+
+            .fat {
+                background: styles.$color-pink-softer;
+                color: styles.$color-text;
+            }
+        }
+    }
+}
+
+// Recipe Content
+.recipe-content {
+    @include styles.vertical-container(styles.$space-base);
+
+    .recipe-step {
+        padding: styles.$space-base;
+        background: styles.$color-surface-light;
+        border: 1px solid styles.$color-border;
+        border-radius: styles.$radius-10;
+        line-height: 1.6;
+        color: styles.$color-text;
+        margin: 0;
+        position: relative;
+        padding-left: 3rem;
+
+        &::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: styles.$space-base;
+            top: styles.$space-base;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: styles.$color-accent;
+            color: styles.$color-text;
+            border-radius: styles.$radius-100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: styles.$font-weight-title;
+            font-size: 0.75rem;
+        }
+    }
+}
+
+.recipe-content {
+    counter-reset: step-counter;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .container {
+        padding: styles.$space-base styles.$space-small;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: styles.$space-base;
+
+        .header-actions {
+            justify-content: center;
+        }
+    }
+
+    .meal-header {
+        .title-section {
+            .meal-meta {
+                justify-content: center;
+                
+                .meal-type,
+                .meal-date,
+                .servings,
+                .badge {
+                    text-align: center;
+                    flex: 1;
+                    min-width: auto;
+                }
+            }
+        }
+    }
+
+    .nutrition-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ingredient-item {
+        flex-direction: column;
+        align-items: stretch !important;
+        text-align: center;
+
+        .ingredient-nutrition {
+            justify-content: center;
+            margin-top: styles.$space-small;
+        }
+    }
+
+    .recipe-step {
+        padding-left: styles.$space-base !important;
+
+        &::before {
+            position: static !important;
+            margin-bottom: styles.$space-small;
+            align-self: center;
+        }
+    }
+}

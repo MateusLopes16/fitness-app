@@ -16,6 +16,6 @@
 <div class="meals-grid" *ngIf="hasMeals()">
     <!-- Ingredient rows -->
     <app-meal-item *ngFor="let meal of meals()" [meal]="meal" (edit)="onEdit($event)"
-        (duplicate)="duplicateMeal.emit($event)" (delete)="onDelete($event)">
+        (duplicate)="duplicateMeal.emit($event)" (delete)="onDelete($event)" class="meal-item">
     </app-meal-item>
 </div>

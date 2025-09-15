@@ -5,10 +5,10 @@ import { SubscriptionPlansComponent } from './subscription-plans/subscription-pl
 import { Nutrition } from './components/nutrition/nutrition';
 import { AddIngredient } from './components/nutrition/ingredients-tab/add-ingredient/add-ingredient';
 import { AddMeal } from './components/nutrition/meals-tab/add-meal/add-meal';
-// import { MealDetailComponent } from './nutrition/components/meals-list/meal-detail/meal-detail.component';
 import { Login } from './components/auth/login/login';
 import { Register } from './components/auth/register/register';
 import { authGuard } from './components/auth/auth-guard';
+import { MealDetails } from './components/nutrition/meals-tab/meal-details/meal-details';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,8 +19,8 @@ export const routes: Routes = [
   { path: 'nutrition/add-ingredient', component: AddIngredient, canActivate: [authGuard] },
   { path: 'nutrition/edit-ingredient/:id', component: AddIngredient, canActivate: [authGuard] },
   { path: 'nutrition/add-meal', component: AddMeal, canActivate: [authGuard] },
-  // { path: 'nutrition/edit-meal/:id', component: AddMealComponent, canActivate: [authGuard] },
-  // { path: 'nutrition/meal/:id', component: MealDetailComponent, canActivate: [authGuard] },
+  { path: 'nutrition/edit-meal/:id', component: AddMeal, canActivate: [authGuard] },
+  { path: 'nutrition/meal/:id', component: MealDetails, canActivate: [authGuard] },
   { path: 'subscription-plans', component: SubscriptionPlansComponent },
   { path: '**', redirectTo: '' }
 ];
