@@ -17,11 +17,16 @@ export class MealItem {
   @Output() edit = new EventEmitter<Meal>();
   @Output() duplicate = new EventEmitter<Meal>();
   @Output() delete = new EventEmitter<Meal>();
+  @Output() select = new EventEmitter<Meal>();
 
   private router = inject(Router);
 
   onView() {
     this.router.navigate(['/nutrition/meal', this.meal.id]);
+  }
+
+  onSelect() {
+    this.select.emit(this.meal);
   }
 
   onEdit() {

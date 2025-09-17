@@ -1,1 +1,234 @@
-<p>daily works!</p>
+<div class="daily-container">
+  <!-- Header with date selector -->
+  <div class="daily-header">
+    <h2>Daily Meal Plan</h2>
+    <div class="date-selector">
+      <input 
+        type="date" 
+        [value]="selectedDate()" 
+        (change)="onDateChange($any($event.target).value)"
+        class="date-input">
+    </div>
+  </div>
+
+  <!-- Main content area -->
+  <div class="daily-content" [class.has-side-panel]="sidePanelState() !== SidePanelState.CLOSED">
+    
+    <!-- Day Schedule Section -->
+    <div class="day-section">
+      
+      <!-- Macros Summary Box -->
+      <div class="macros-summary card-blur">
+        <h3>Daily Totals</h3>
+        <div class="macros-grid">
+          <div class="macro-item calories">
+            <span class="macro-value">{{ macroSummary().calories.toFixed(0) }}</span>
+            <span class="macro-label">cal</span>
+          </div>
+          <div class="macro-item protein">
+            <span class="macro-value">{{ macroSummary().protein.toFixed(1) }}g</span>
+            <span class="macro-label">Protein</span>
+          </div>
+          <div class="macro-item carbs">
+            <span class="macro-value">{{ macroSummary().carbs.toFixed(1) }}g</span>
+            <span class="macro-label">Carbs</span>
+          </div>
+          <div class="macro-item fat">
+            <span class="macro-value">{{ macroSummary().fat.toFixed(1) }}g</span>
+            <span class="macro-label">Fat</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day Meals Box -->
+      <div class="day-meals-box card-blur">
+        <div class="day-meals-header">
+          <h3>Meals for {{ selectedDate() | date:'mediumDate' }}</h3>
+          <button class="btn-primary add-meals-btn" (click)="onAddMeals()">
+            ➕ Add Meals
+          </button>
+        </div>
+
+        <!-- Meals by type -->
+        <div class="meals-content">
+          <!-- Empty state -->
+          <div class="empty-meals" *ngIf="dayMeals().length === 0">
+            <p>No meals planned for this day</p>
+            <button class="btn-outline" (click)="onAddMeals()">Add your first meal</button>
+          </div>
+
+          <!-- Meals grouped by type -->
+          <div class="meal-type-groups" *ngIf="dayMeals().length > 0">
+            
+            <!-- Breakfast -->
+            <div class="meal-type-group" *ngIf="getMealsByType(MealType.BREAKFAST).length > 0">
+              <h4 class="meal-type-title">
+                🌅 Breakfast
+              </h4>
+              <div class="day-meal-items">
+                <div 
+                  *ngFor="let dayMeal of getMealsByType(MealType.BREAKFAST)" 
+                  class="day-meal-item"
+                  (click)="onViewMeal(dayMeal.meal)">
+                  
+                  <div class="meal-info">
+                    <span class="meal-name">{{ dayMeal.meal.name }}</span>
+                    <span class="meal-portion" *ngIf="dayMeal.portionMultiplier !== 1">
+                      ({{ dayMeal.portionMultiplier }}x portion)
+                    </span>
+                  </div>
+                  
+                  <div class="meal-macros">
+                    <span class="cal">{{ (dayMeal.meal.totalCalories * dayMeal.portionMultiplier).toFixed(0) }} cal</span>
+                  </div>
+                  
+                  <button 
+                    class="btn-ghost remove-btn" 
+                    (click)="onRemoveMealFromDay(dayMeal); $event.stopPropagation()"
+                    title="Remove meal">
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lunch -->
+            <div class="meal-type-group" *ngIf="getMealsByType(MealType.LUNCH).length > 0">
+              <h4 class="meal-type-title">
+                ☀️ Lunch
+              </h4>
+              <div class="day-meal-items">
+                <div 
+                  *ngFor="let dayMeal of getMealsByType(MealType.LUNCH)" 
+                  class="day-meal-item"
+                  (click)="onViewMeal(dayMeal.meal)">
+                  
+                  <div class="meal-info">
+                    <span class="meal-name">{{ dayMeal.meal.name }}</span>
+                    <span class="meal-portion" *ngIf="dayMeal.portionMultiplier !== 1">
+                      ({{ dayMeal.portionMultiplier }}x portion)
+                    </span>
+                  </div>
+                  
+                  <div class="meal-macros">
+                    <span class="cal">{{ (dayMeal.meal.totalCalories * dayMeal.portionMultiplier).toFixed(0) }} cal</span>
+                  </div>
+                  
+                  <button 
+                    class="btn-ghost remove-btn" 
+                    (click)="onRemoveMealFromDay(dayMeal); $event.stopPropagation()"
+                    title="Remove meal">
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dinner -->
+            <div class="meal-type-group" *ngIf="getMealsByType(MealType.DINNER).length > 0">
+              <h4 class="meal-type-title">
+                🌙 Dinner
+              </h4>
+              <div class="day-meal-items">
+                <div 
+                  *ngFor="let dayMeal of getMealsByType(MealType.DINNER)" 
+                  class="day-meal-item"
+                  (click)="onViewMeal(dayMeal.meal)">
+                  
+                  <div class="meal-info">
+                    <span class="meal-name">{{ dayMeal.meal.name }}</span>
+                    <span class="meal-portion" *ngIf="dayMeal.portionMultiplier !== 1">
+                      ({{ dayMeal.portionMultiplier }}x portion)
+                    </span>
+                  </div>
+                  
+                  <div class="meal-macros">
+                    <span class="cal">{{ (dayMeal.meal.totalCalories * dayMeal.portionMultiplier).toFixed(0) }} cal</span>
+                  </div>
+                  
+                  <button 
+                    class="btn-ghost remove-btn" 
+                    (click)="onRemoveMealFromDay(dayMeal); $event.stopPropagation()"
+                    title="Remove meal">
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Snacks -->
+            <div class="meal-type-group" *ngIf="getMealsByType(MealType.SNACK).length > 0">
+              <h4 class="meal-type-title">
+                🍪 Snacks
+              </h4>
+              <div class="day-meal-items">
+                <div 
+                  *ngFor="let dayMeal of getMealsByType(MealType.SNACK)" 
+                  class="day-meal-item"
+                  (click)="onViewMeal(dayMeal.meal)">
+                  
+                  <div class="meal-info">
+                    <span class="meal-name">{{ dayMeal.meal.name }}</span>
+                    <span class="meal-portion" *ngIf="dayMeal.portionMultiplier !== 1">
+                      ({{ dayMeal.portionMultiplier }}x portion)
+                    </span>
+                  </div>
+                  
+                  <div class="meal-macros">
+                    <span class="cal">{{ (dayMeal.meal.totalCalories * dayMeal.portionMultiplier).toFixed(0) }} cal</span>
+                  </div>
+                  
+                  <button 
+                    class="btn-ghost remove-btn" 
+                    (click)="onRemoveMealFromDay(dayMeal); $event.stopPropagation()"
+                    title="Remove meal">
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div 
+      class="side-panel" 
+      [class.open]="sidePanelState() !== SidePanelState.CLOSED"
+      [class.meals-list-panel]="sidePanelState() === SidePanelState.MEALS_LIST"
+      [class.meal-details-panel]="sidePanelState() === SidePanelState.MEAL_DETAILS">
+      
+      <!-- Panel Header -->
+      <div class="panel-header">
+        <h3 *ngIf="sidePanelState() === SidePanelState.MEALS_LIST">Select a Meal</h3>
+        <h3 *ngIf="sidePanelState() === SidePanelState.MEAL_DETAILS">Meal Details</h3>
+        <button class="btn-ghost close-panel-btn" (click)="closeSidePanel()">✕</button>
+      </div>
+
+      <!-- Panel Content -->
+      <div class="panel-content">
+        <!-- Meals List -->
+        <app-meals-list 
+          *ngIf="sidePanelState() === SidePanelState.MEALS_LIST"
+          (mealselected)="onMealSelected($event)">
+        </app-meals-list>
+
+        <!-- Meal Details -->
+        <app-meal-detail-panel 
+          *ngIf="sidePanelState() === SidePanelState.MEAL_DETAILS && selectedMeal()"
+          [meal]="selectedMeal()">
+        </app-meal-detail-panel>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div 
+      class="side-panel-overlay" 
+      *ngIf="sidePanelState() !== SidePanelState.CLOSED"
+      (click)="closeSidePanel()">
+    </div>
+
+  </div>
+</div>

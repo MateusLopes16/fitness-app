@@ -102,8 +102,8 @@
                             (input)="ingredientSearch.set(($any($event.target)).value)" class="input">
                     </div>
 
+                    <!-- TODO => transfer search result to ingredient list and added ingredients to update and delete from list -->
                     <app-ingredients-list 
-                        [filteredIngredients]="filteredIngredients"
                         (ingredientSelected)="selectIngredient($event)">
                     </app-ingredients-list>
                 </div>

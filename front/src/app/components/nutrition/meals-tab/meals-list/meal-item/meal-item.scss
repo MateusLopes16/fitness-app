@@ -1,125 +1,81 @@
 @use '../../../../../../styles.scss' as styles;
 
-.container {
-    padding: 0;
-}
-
-.card-blur {
-    margin: 0 auto; // Center the card
+.meal-item {
+    @include styles.horizontal-container(styles.$space-base);
+    align-items: center;
+    justify-content: space-between;
+    padding: styles.$space-base;
+    border: 1px solid styles.$color-border-softer;
+    border-radius: styles.$radius-10;
+    background: styles.$color-bg-secondary;
+    @include styles.transition(all);
 
     &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
-        transition: styles.$transition-fast;
-        cursor: pointer;
+        background: styles.$color-surface-light;
+        border-color: styles.$color-border;
     }
-}
 
-.admin {
-    border-left: 4px solid styles.$color-accent !important;
-}
+    .meal-info {
+        @include styles.vertical-container(styles.$space-small);
+        flex: 1;
 
-.personal {
-    border-left: 4px solid styles.$color-blue !important;
-}
-
-.meal-header {
-    @include styles.horizontal-container(styles.$space-small);
-    margin-bottom: styles.$space-big;
-
-    .meal-title {
-        @include styles.horizontal-container(styles.$space-small);
-        width: 100%;
-        justify-content: space-between;
-        align-items: center;
-
-        .subtitle {
+        .meal-name {
+            font-weight: styles.$font-weight-subtitle;
+            color: styles.$color-text;
             margin: 0;
+
+            .brand {
+                font-weight: 400;
+                color: styles.$color-text-secondary;
+                font-size: 0.875rem;
+            }
+        }
+
+        .meal-quantity {
             font-weight: styles.$font-weight-title;
+            color: styles.$color-accent;
+            font-size: 0.875rem;
         }
     }
 
-    .truncate {
-        max-width: 1000px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+    .meal-nutrition {
+        @include styles.horizontal-container(styles.$space-small);
+        font-size: 0.75rem;
+        flex-wrap: wrap;
 
-
-}
-
-.main-content {
-    @include styles.vertical-container(styles.$space-base);
-    margin-bottom: styles.$space-small;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.nutrition-summary {
-    @include styles.horizontal-container(styles.$space-base);
-    justify-content: center;
-    width: 100%;
-    font-size: 0.9rem;
-
-    .macro-item {
-        @include styles.horizontal-container(.1rem);
-        align-items: center;
-        justify-content: center;
-        border-radius: styles.$radius-10;
-        width: 80px;
-        height: 80px;
-        background-color: styles.$color-surface;
-        flex-direction: column; // Stack value and label vertically
-
-        .macro-value {
-            font-weight: styles.$font-weight-title;
-            line-height: 1;
+        .cal,
+        .protein,
+        .carbs,
+        .fat {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: styles.$color-surface-light;
+            color: styles.$color-text-secondary;
+            border: 1px solid styles.$color-border;
         }
 
-        .macro-label {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            line-height: 1;
+        .cal {
+            background: styles.$color-warning-softer;
+            color: styles.$color-text;
+        }
+
+        .protein {
+            background: styles.$color-blue-softer;
+            color: styles.$color-text;
+        }
+
+        .carbs {
+            background: styles.$color-accent-hover-soft;
+            color: styles.$color-text;
+        }
+
+        .fat {
+            background: styles.$color-pink-softer;
+            color: styles.$color-text;
         }
     }
-
-    .cal {
-        background-color: styles.$color-surface-lighter;
-        border: 1px solid styles.$color-text-secondary;
-    }
-
-    .prot {
-        background-color: styles.$color-error-softer;
-        border: 1px solid styles.$color-error;
-    }
-
-    .carbs {
-        background-color: styles.$color-blue-softer;
-        border: 1px solid styles.$color-blue;
-    }
-
-    .fat {
-        background-color: styles.$color-warning-softer;
-        border: 1px solid styles.$color-warning;
-    }
 }
-
-.ingredients-count {
-    width: 100%;
-    text-align: center;
-    font-weight: styles.$font-weight-title;
-    padding-bottom: styles.$space-big;
-}
-
 
 .meal-actions {
     @include styles.horizontal-container(styles.$space-small);
-    justify-content: center;
-    width: 100%;
-}
-
-.btn-outline {
-    max-width: calc(100% / 3);
-    border: none !important;
 }

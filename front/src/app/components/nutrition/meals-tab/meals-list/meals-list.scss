@@ -29,16 +29,15 @@
 }
 
 .meals-grid {
-    @include styles.horizontal-container(styles.$space-base);
+    @include styles.vertical-container(styles.$space-small);
     flex-wrap: wrap;
-    gap: styles.$space-base;
     width: 100%;
     justify-items: center; // Center items in their grid cells
     align-items: center;
 
     .meal-item {
         width: 100%;
-    }
+    }   
 }
 
 .empty-state {

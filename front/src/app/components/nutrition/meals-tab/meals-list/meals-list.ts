@@ -16,6 +16,7 @@ export class MealsList implements OnInit {
 
   duplicateMeal = output<Meal>();
   deleteMeal = output<Meal>();
+  mealselected = output<Meal>();
   loading = signal<boolean>(false);
 
   // Computed signals for better state management
@@ -48,6 +49,10 @@ export class MealsList implements OnInit {
 
   onAddNew(): void {
     this.router.navigate(['/nutrition/add-meal']);
+  }
+
+  onSelect(meal: Meal): void {
+    this.mealselected.emit(meal);
   }
 
   onEdit(meal: Meal): void {

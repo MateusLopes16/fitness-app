@@ -1,51 +1,22 @@
-<div class="card-blur" [class.admin]="meal.createdByType === 'admin'" [class.personal]="meal.createdByType === 'user'"
-    [class.breakfast]="meal.mealType === 'BREAKFAST'" [class.lunch]="meal.mealType === 'LUNCH'"
-    [class.dinner]="meal.mealType === 'DINNER'" [class.snack]="meal.mealType === 'SNACK'" (click)="onView()">
-
-    <div class="meal-header">
-        <div class="meal-title">
-            <h3 class="subtitle truncate">{{ meal.name }}</h3>
-            <div class="meal-meta">
-                <span class="servings">
-                    👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
-                </span>
-            </div>
+<div class="meal-item card-blur" [class.admin-meal]="meal.createdByType === 'admin'"
+    [class.user-meal]="meal.createdByType === 'user'" (click)="onSelect()">
+    <div class="meal-info">
+        <div class="meal-name">
+            {{ meal.name }}
+        </div>
+        <div class="meal-quantity">
+            👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
         </div>
     </div>
-    <div class="ingredients-count">
-        🥕 {{ meal.ingredients.length }} ingredient{{ meal.ingredients.length > 1 ? 's' : '' }}
+    <div class="meal-nutrition">
+        <span class="cal">{{ meal.totalCalories.toFixed(0) }} cal</span>
+        <span class="protein">P: {{ meal.totalProtein.toFixed(1) }}g</span>
+        <span class="carbs">C: {{ meal.totalCarbs.toFixed(1) }}g</span>
+        <span class="fat">F: {{ meal.totalFat.toFixed(1) }}g</span>
     </div>
-    <div class="main-content">
-        <div class="nutrition-summary">
-            <div class="macro-item cal">
-                <span class="macro-value">{{ meal.totalCalories.toFixed(0) }}</span>
-                <span class="macro-label">kcal</span>
-            </div>
-            <div class="macro-item prot">
-                <span class="macro-value">{{ meal.totalProtein.toFixed(1) }}g</span>
-                <span class="macro-label">prot</span>
-            </div>
-            <div class="macro-item carbs">
-                <span class="macro-value">{{ meal.totalCarbs.toFixed(1) }}g</span>
-                <span class="macro-label">carbs</span>
-            </div>
-            <div class="macro-item fat">
-                <span class="macro-value">{{ meal.totalFat.toFixed(1) }}g</span>
-                <span class="macro-label">fat</span>
-            </div>
-        </div>
-        <div class="meal-actions" (click)="$event.stopPropagation()">
-            <button class="btn-outline" title="Duplicate" (click)="onDuplicate()">
-                📋
-            </button>
-            <button class="btn-outline" title="Edit" (click)="onEdit()" *ngIf="meal.createdByType === 'user'">
-                ✏️
-            </button>
-            <button class="btn-outline delete" title="Delete" (click)="onDelete()"
-                *ngIf="meal.createdByType === 'user'">
-                🗑️
-            </button>
-        </div>
+    <div class="meal-actions">
+        <button class="btn-ghost" (click)="onView(); $event.stopPropagation()">👁️</button>
+        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost" (click)="onEdit(); $event.stopPropagation()">✏️</button>
+        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost" (click)="onDelete(); $event.stopPropagation()">🗑️</button>
     </div>
-
 </div>
