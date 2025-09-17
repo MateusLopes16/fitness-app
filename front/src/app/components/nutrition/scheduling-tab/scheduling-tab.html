@@ -1,1 +1,22 @@
-<p>scheduling-tab works!</p>
+<div class="container">
+
+    <header class="header">
+        <h2 class="subtitle">Meal Schedule</h2>
+
+        <div class="view-toggle">
+            <button class="btn-ghost" [class.active]="currentView === 'daily'" (click)="switchTab('daily')">
+                Daily
+            </button>
+            <button class="btn-ghost" [class.active]="currentView === 'weekly'" (click)="switchTab('weekly')">
+                Weekly
+            </button>
+        </div>
+    </header>
+
+    <!-- Content area for the selected view will go here -->
+    <div class="content">
+        <app-daily *ngIf="currentView === 'daily'"></app-daily>
+        <app-weekly *ngIf="currentView === 'weekly'"></app-weekly>
+
+    </div>
+</div>

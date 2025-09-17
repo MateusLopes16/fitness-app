@@ -108,8 +108,7 @@ export class AddMeal implements OnInit {
     if (!search) return this.ingredients();
 
     return this.ingredients().filter(ingredient =>
-      ingredient.name.toLowerCase().includes(search) ||
-      (ingredient.brand && ingredient.brand.toLowerCase().includes(search))
+      ingredient.name.toLowerCase().includes(search)
     );
   }
 

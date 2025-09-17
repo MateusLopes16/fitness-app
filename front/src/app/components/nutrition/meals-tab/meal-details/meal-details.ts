@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
 import { MealService } from '../../services/meal.service';
+import { IngredientsList } from "../../ingredients-tab/ingredients-list/ingredients-list";
 
 @Component({
   selector: 'app-meal-details',
-  imports: [CommonModule],
+  imports: [CommonModule, IngredientsList],
   templateUrl: './meal-details.html',
   styleUrl: './meal-details.scss'
 })
@@ -14,6 +15,7 @@ export class MealDetails implements OnInit {
   meal: Meal | null = null;
   loading = true;
   error: string | null = null;
+  showActions: boolean = false;
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);

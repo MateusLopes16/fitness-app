@@ -1,62 +1,82 @@
 @use '../../../../../../styles.scss' as styles;
 
+
 .ingredient-item {
     @include styles.horizontal-container(styles.$space-base);
-    display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding: styles.$space-base;
+    border: 1px solid styles.$color-border-softer;
     border-radius: styles.$radius-10;
-    cursor: pointer;
-    transition: all ease-in-out .1s;
-    user-select: none;
+    background: styles.$color-bg-secondary;
+    @include styles.transition(all);
 
     &:hover {
-        background-color: styles.$color-accent-hover-soft;
+        background: styles.$color-surface-light;
+        border-color: styles.$color-border;
     }
 
-    .col-name {
-        width: 100%;
+    .ingredient-info {
+        @include styles.vertical-container(styles.$space-small);
+        flex: 1;
+
+        .ingredient-name {
+            font-weight: styles.$font-weight-subtitle;
+            color: styles.$color-text;
+            margin: 0;
+
+            .brand {
+                font-weight: 400;
+                color: styles.$color-text-secondary;
+                font-size: 0.875rem;
+            }
+        }
+
+        .ingredient-quantity {
+            font-weight: styles.$font-weight-title;
+            color: styles.$color-accent;
+            font-size: 0.875rem;
+        }
     }
 
-    .ingredient-value {
-        width: 50%;
-        padding: styles.$space-base 0;
-        text-align: center;
-        font-weight: styles.$font-weight-title;
+    .ingredient-nutrition {
+        @include styles.horizontal-container(styles.$space-small);
+        font-size: 0.75rem;
+        flex-wrap: wrap;
+
+        .cal,
+        .protein,
+        .carbs,
+        .fat {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: styles.$color-surface-light;
+            color: styles.$color-text-secondary;
+            border: 1px solid styles.$color-border;
+        }
+
+        .cal {
+            background: styles.$color-warning-softer;
+            color: styles.$color-text;
+        }
+
+        .protein {
+            background: styles.$color-blue-softer;
+            color: styles.$color-text;
+        }
+
+        .carbs {
+            background: styles.$color-accent-hover-soft;
+            color: styles.$color-text;
+        }
+
+        .fat {
+            background: styles.$color-pink-softer;
+            color: styles.$color-text;
+        }
     }
-
-    .truncate {
-        max-width: 250px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .col-protein {
-        color: styles.$color-error;
-    }
-
-    .col-fat {
-        color: styles.$color-warning;
-    }
-
-    .col-fiber {
-        color: styles.$color-success;
-    }
-
-    .col-carbs {
-        color: styles.$color-blue;
-    }
-}
-
-.admin-ingredient {
-    border-left: 4px solid styles.$color-accent !important;
-}
-
-.user-ingredient {
-    border-left: 4px solid styles.$color-blue !important;
 }
 
 .ingredient-actions {
-    @include styles.horizontal-container(styles.$space-small)
+    @include styles.horizontal-container(styles.$space-small);
 }

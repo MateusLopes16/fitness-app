@@ -55,8 +55,6 @@ export class AddIngredient implements OnInit {
       next: (ingredient) => {
         this.ingredient.set({
           name: ingredient.name,
-          brand: ingredient.brand || '',
-          barcode: ingredient.barcode || '',
           caloriesPer100g: ingredient.caloriesPer100g.toString(),
           proteinPer100g: ingredient.proteinPer100g.toString(),
           carbsPer100g: ingredient.carbsPer100g.toString(),

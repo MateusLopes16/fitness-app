@@ -1,8 +1,6 @@
 export interface Ingredient {
   id: string;
   name: string;
-  brand?: string;
-  barcode?: string;
   caloriesPer100g: number;
   proteinPer100g: number;
   carbsPer100g: number;

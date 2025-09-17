@@ -23,16 +23,5 @@
   <app-ingredients-tab *ngIf="isActiveTab(NutritionTabs.INGREDIENTS)"></app-ingredients-tab>
 
   <app-meals-tab *ngIf="isActiveTab(NutritionTabs.MEALS)"></app-meals-tab>
-  <!--
-  <div *ngIf="activeTab() === 'scheduling'" class="tab-content">
-    <app-meal-scheduling></app-meal-scheduling>
-  </div>
-
-
-
-  <div class="error-message" *ngIf="error()">
-    <span class="error-icon">⚠️</span>
-    {{ error() }}
-    <button class="close-error" (click)="error.set('')">×</button>
-  </div> -->
+  <app-scheduling-tab *ngIf="isActiveTab(NutritionTabs.SCHEDULING)"></app-scheduling-tab>
 </div>

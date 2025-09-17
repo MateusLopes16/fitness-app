@@ -15,40 +15,12 @@
 
 <!-- Ingredients list -->
 <div class="ingredients-list" *ngIf="hasIngredients()">
-    <div class="column-details">
-        <div class="ingredient-item card-blur">
-            <div class="col-name truncate">
-                <span class="creator-badge">
-                    👑
-                </span>
-                <span class="ingredient-name">Name</span>
-            </div>
-
-            <div class="ingredient-value col-calories">
-                <span class="value">Calories</span>
-            </div>
-
-            <div class="ingredient-value col-protein">
-                <span class="value">Protein</span>
-            </div>
-
-            <div class="ingredient-value col-carbs">
-                <span class="value">Carbs</span>
-            </div>
-
-            <div class="ingredient-value col-fat">
-                <span class="value">Fat</span>
-            </div>
-
-            <div class="ingredient-value col-fiber">
-                <span class="value">Fiber</span>
-            </div>
-        </div>
-    </div>
     <!-- Ingredient rows -->
     <app-ingredient-item *ngFor="let ingredient of ingredients(); trackBy: trackByIngredientId"
         [ingredient]="ingredient" 
+        [quantityGrams]="getDisplayQuantity(ingredient)"
         (deleteIngredient)="onDelete($event)"
-        (selectedIngredient)="onIngredientSelected($event)">
+        (selectedIngredient)="onIngredientSelected($event)"
+        [showActions]="showActions">
     </app-ingredient-item>
 </div>

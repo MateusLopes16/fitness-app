@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ingredient } from '../../../interfaces/ingredient.interface';
 import { Router } from '@angular/router';
+import { IngredientWithQuantity } from '../ingredients-list';
 
 @Component({
   selector: 'app-ingredient-item',
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./ingredient-item.scss', './ingredient-item.responsive.scss']
 })
 export class IngredientItem {
-  @Input() ingredient: Ingredient | undefined;
-  @Output() deleteIngredient = new EventEmitter<Ingredient>();
-  @Output() selectedIngredient = new EventEmitter<Ingredient>();
+  @Input() ingredient: IngredientWithQuantity | undefined;
+  @Input() quantityGrams: number = 100;
+  @Input() showActions: boolean = true;
+  @Output() deleteIngredient = new EventEmitter<IngredientWithQuantity>();
+  @Output() selectedIngredient = new EventEmitter<IngredientWithQuantity>();
 
   private router = inject(Router);
 

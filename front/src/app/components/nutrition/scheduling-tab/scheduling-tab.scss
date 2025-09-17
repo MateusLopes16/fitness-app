@@ -1,0 +1,22 @@
+@use '../../../../styles.scss' as styles;
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  @include styles.horizontal-container(styles.$space-base);
+  margin-bottom: styles.$space-big;
+  justify-content: space-between;
+  align-items: center
+}
+
+.view-toggle {
+  @include styles.horizontal-container(styles.$space-base);
+}
+
+
+.content {
+  @include styles.vertical-container(styles.$space-base);
+}

@@ -96,31 +96,7 @@
             <!-- Ingredients -->
             <div class="section">
                 <h3>🥕 Ingredients ({{ meal.ingredients.length || 0 }})</h3>
-                <div class="ingredients-list">
-                    <div *ngFor="let ingredient of meal.ingredients" class="ingredient-item">
-                        <div class="ingredient-info">
-                            <div class="ingredient-name">
-                                {{ ingredient.ingredient.name }}
-                                <span class="brand" *ngIf="ingredient.ingredient.brand">
-                                    ({{ ingredient.ingredient.brand }})
-                                </span>
-                            </div>
-                            <div class="ingredient-quantity">
-                                {{ ingredient.quantityGrams }}g
-                            </div>
-                        </div>
-                        <div class="ingredient-nutrition">
-                            <span class="cal">{{ (ingredient.ingredient.caloriesPer100g * ingredient.quantityGrams /
-                                100).toFixed(0) }} cal</span>
-                            <span class="protein">P: {{ (ingredient.ingredient.proteinPer100g * ingredient.quantityGrams
-                                / 100).toFixed(1) }}g</span>
-                            <span class="carbs">C: {{ (ingredient.ingredient.carbsPer100g * ingredient.quantityGrams /
-                                100).toFixed(1) }}g</span>
-                            <span class="fat">F: {{ (ingredient.ingredient.fatPer100g * ingredient.quantityGrams /
-                                100).toFixed(1) }}g</span>
-                        </div>
-                    </div>
-                </div>
+                    <app-ingredients-list [filteredIngredients]="meal.ingredients" [showActions]="showActions"></app-ingredients-list>
             </div>
 
             <!-- Recipe -->
