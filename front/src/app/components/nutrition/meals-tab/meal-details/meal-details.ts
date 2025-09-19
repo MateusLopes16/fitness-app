@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meal, MealType } from '../../interfaces/meal.interface';
@@ -11,8 +11,10 @@ import { IngredientsList } from "../../ingredients-tab/ingredients-list/ingredie
   templateUrl: './meal-details.html',
   styleUrl: './meal-details.scss'
 })
-export class MealDetails implements OnInit {
-  meal: Meal | null = null;
+export class MealDetails implements OnInit, OnChanges {
+  @Input() meal: Meal | null = null; // For side panel mode
+  @Input() isInSidePanel: boolean = false; // To hide navigation elements
+  
   loading = true;
   error: string | null = null;
   showActions: boolean = false;
@@ -22,12 +24,28 @@ export class MealDetails implements OnInit {
   private mealService = inject(MealService);
 
   ngOnInit(): void {
+    // If meal is provided via input (side panel mode), use it directly
+    if (this.meal) {
+      this.loading = false;
+      return;
+    }
+
+    // Otherwise, load from route (full page mode)
     const mealId = this.route.snapshot.params['id'];
     if (mealId) {
       this.loadMeal(mealId);
     } else {
       this.error = 'No meal ID provided';
       this.loading = false;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Handle changes to meal input (for side panel mode)
+    if (changes['meal'] && changes['meal'].currentValue) {
+      this.meal = changes['meal'].currentValue;
+      this.loading = false;
+      this.error = null;
     }
   }
 

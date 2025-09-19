@@ -1,5 +1,8 @@
-<div class="ingredient-item card-blur" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
+<div class="card-blur" [class.ingredient-item-list]="viewType === 'list'" [class.ingredient-item-grid]="viewType === 'grid'" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
     [class.user-ingredient]="ingredient?.createdByType === 'user'" (click)="onSelect()">
+    <div class="ingredient-image" (click)="onImage($event)">
+        <img [src]="getImageUrl()" [alt]="ingredient?.name" class="ingredient-img">
+    </div>
     <div class="ingredient-info">
         <div class="ingredient-name">
             {{ ingredient?.name }}
@@ -19,7 +22,15 @@
             100).toFixed(1) }}g</span>
     </div>
     <div *ngIf="ingredient?.createdByType == 'user' && showActions" class="ingredient-actions">
-        <button class="btn-ghost" (click)="onEdit()">✏️</button>
-        <button class="btn-ghost" (click)="onDelete()">🗑️</button>
+        <button class="btn-ghost" (click)="onEdit($event)">✏️</button>
+        <button class="btn-ghost" (click)="onDelete($event)">🗑️</button>
     </div>
 </div>
+
+<!-- Image Modal -->
+<app-image-modal 
+    [imageUrl]="getImageUrl()"
+    [altText]="ingredient?.name || 'Ingredient'"
+    [isVisible]="isImageModalVisible"
+    (close)="onCloseImageModal()">
+</app-image-modal>

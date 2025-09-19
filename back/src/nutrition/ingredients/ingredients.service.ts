@@ -6,7 +6,7 @@ import { IngredientDto } from './dto/ingredient.dto';
 
 @Injectable()
 export class IngredientsService {
-  constructor(private database: DatabaseService) {}
+  constructor(private database: DatabaseService) { }
 
   async create(createIngredientDto: CreateIngredientDto, userId: string): Promise<IngredientDto> {
     const ingredient = await this.database.ingredient.create({
@@ -35,7 +35,6 @@ export class IngredientsService {
         {
           OR: [
             { name: { contains: search, mode: 'insensitive' } },
-            { brand: { contains: search, mode: 'insensitive' } },
           ],
         },
       ];
@@ -124,8 +123,6 @@ export class IngredientsService {
     return {
       id: ingredient.id,
       name: ingredient.name,
-      brand: ingredient.brand,
-      barcode: ingredient.barcode,
       caloriesPer100g: parseFloat(ingredient.caloriesPer100g.toString()),
       proteinPer100g: parseFloat(ingredient.proteinPer100g.toString()),
       carbsPer100g: parseFloat(ingredient.carbsPer100g.toString()),

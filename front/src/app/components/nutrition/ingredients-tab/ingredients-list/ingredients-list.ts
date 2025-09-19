@@ -5,7 +5,7 @@ import { Ingredient } from '../../interfaces/ingredient.interface';
 import { Router } from '@angular/router';
 import { IngredientService } from '../../services/ingredient.service';
 import { CommonModule } from '@angular/common';
-import { MealIngredient } from '../../interfaces/meal.interface';
+import { MealIngredient } from '../../interfaces/meal.interface'
 
 // Extended interface for ingredients with quantity information
 export interface IngredientWithQuantity extends Ingredient {
@@ -24,7 +24,8 @@ export class IngredientsList implements OnInit, OnChanges {
   @Output() ingredientSelected = new EventEmitter<Ingredient>();
 
   ingredients = signal<IngredientWithQuantity[]>([]);
-  loading = signal<boolean>(false); 
+  loading = signal<boolean>(false);
+  viewType = signal<string>('list');
 
   // Computed signals for better state management
   hasIngredients = computed(() => this.ingredients().length > 0);
@@ -146,6 +147,10 @@ export class IngredientsList implements OnInit, OnChanges {
       createdAt: ingredient.createdAt
     };
     this.ingredientSelected.emit(baseIngredient);
+  }
+
+  chooseView(value: string) {
+    this.viewType.set(value);
   }
 
 }

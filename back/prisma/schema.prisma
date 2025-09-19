@@ -78,7 +78,7 @@ model User {
   name            String
   height          Decimal?
   weight          Decimal?
-    dateOfBirth     DateTime?         // Optional date of birth field
+  dateOfBirth     DateTime?         // Optional date of birth field
   gender          Gender?
   activityLevel   ActivityLevel     @default(SEDENTARY) @map("activity_level")
   objective       FitnessObjective? @default(MAINTAIN)
@@ -104,8 +104,7 @@ model User {
 model Ingredient {
   id               String @id @default(uuid())
   name             String
-  brand            String?
-  barcode          String?
+  imageUrl         String? @map("image_url")
   caloriesPer100g  Decimal @map("calories_per_100g")
   proteinPer100g   Decimal @map("protein_per_100g")
   carbsPer100g     Decimal @map("carbs_per_100g")

@@ -6,13 +6,10 @@ export class CreateIngredientDto {
   @IsNotEmpty()
   name: string;
 
-  @IsString()
-  @IsOptional()
-  brand?: string;
 
   @IsString()
   @IsOptional()
-  barcode?: string;
+  imageUrl?: string;
 
   @Transform(({ value }) => parseFloat(value))
   @IsNumber()

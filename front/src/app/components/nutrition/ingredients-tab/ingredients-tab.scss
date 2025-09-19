@@ -3,7 +3,7 @@
 .container {
     max-width: 1400px;
     margin: 0 auto;
-    @include styles.vertical-container(styles.$space-small)
+    @include styles.vertical-container(styles.$space-small);
 }
 
 

@@ -15,12 +15,21 @@
 
 <!-- Ingredients list -->
 <div class="ingredients-list" *ngIf="hasIngredients()">
+    <div class="list-header">
+        <div class="filters">
+            <div class="filter-item">Breakfast</div>
+            <div class="filter-item">Lunch</div>
+            <div class="filter-item">Dinner</div>
+            <div class="filter-item">Snacks</div>
+        </div>
+        <div class="view-switch">
+            <button class="btn-ghost" (click)="chooseView('list')">list</button>
+            <button class="btn-ghost" (click)="chooseView('grid')">grid</button>
+        </div>
+    </div>
     <!-- Ingredient rows -->
     <app-ingredient-item *ngFor="let ingredient of ingredients(); trackBy: trackByIngredientId"
-        [ingredient]="ingredient" 
-        [quantityGrams]="getDisplayQuantity(ingredient)"
-        (deleteIngredient)="onDelete($event)"
-        (selectedIngredient)="onIngredientSelected($event)"
-        [showActions]="showActions">
+        [ingredient]="ingredient" [quantityGrams]="getDisplayQuantity(ingredient)" (deleteIngredient)="onDelete($event)"
+        (selectedIngredient)="onIngredientSelected($event)" [showActions]="showActions" [viewType]="viewType()">
     </app-ingredient-item>
 </div>

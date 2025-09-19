@@ -3,8 +3,7 @@ import { Ingredient as PrismaIngredient } from '@prisma/client';
 export class Ingredient implements PrismaIngredient {
   id: string;
   name: string;
-  brand: string | null;
-  barcode: string | null;
+  imageUrl: string | null;
   caloriesPer100g: any; // Decimal from Prisma
   proteinPer100g: any;
   carbsPer100g: any;

@@ -1,13 +1,30 @@
 <div class="daily-container">
   <!-- Header with date selector -->
   <div class="daily-header">
-    <h2>Daily Meal Plan</h2>
-    <div class="date-selector">
-      <input 
-        type="date" 
-        [value]="selectedDate()" 
-        (change)="onDateChange($any($event.target).value)"
-        class="date-input">
+    <div class="header-navigation">
+      <button class="btn-ghost" (click)="onBackToNutrition()">
+        ← Back to Nutrition
+      </button>
+      <h2 class="title">Daily Meal Plan</h2>
+    </div>
+    
+    <div class="date-navigation">
+      <button class="btn-ghost date-nav-btn" (click)="onNavigateToPreviousDay()" title="Previous Day">
+        ◀
+      </button>
+      <div class="date-selector">
+        <input 
+          type="date" 
+          [value]="selectedDate()" 
+          (change)="onDateChange($any($event.target).value)"
+          class="date-input">
+      </div>
+      <button class="btn-ghost date-nav-btn" (click)="onNavigateToNextDay()" title="Next Day">
+        ▶
+      </button>
+      <button class="btn-outline" (click)="onNavigateToToday()">
+        Today
+      </button>
     </div>
   </div>
 
@@ -216,10 +233,11 @@
         </app-meals-list>
 
         <!-- Meal Details -->
-        <app-meal-detail-panel 
+        <app-meal-details 
           *ngIf="sidePanelState() === SidePanelState.MEAL_DETAILS && selectedMeal()"
-          [meal]="selectedMeal()">
-        </app-meal-detail-panel>
+          [meal]="selectedMeal()"
+          [isInSidePanel]="true">
+        </app-meal-details>
       </div>
     </div>
 

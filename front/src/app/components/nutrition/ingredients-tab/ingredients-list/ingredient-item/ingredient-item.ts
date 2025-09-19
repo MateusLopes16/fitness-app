@@ -1,12 +1,13 @@
-import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ingredient } from '../../../interfaces/ingredient.interface';
 import { Router } from '@angular/router';
 import { IngredientWithQuantity } from '../ingredients-list';
+import { ImageModalComponent } from '../../../../shared/image-modal/image-modal.component';
 
 @Component({
   selector: 'app-ingredient-item',
-  imports: [CommonModule],
+  imports: [CommonModule, ImageModalComponent],
   templateUrl: './ingredient-item.html',
   styleUrls: ['./ingredient-item.scss', './ingredient-item.responsive.scss']
 })
@@ -16,10 +17,23 @@ export class IngredientItem {
   @Input() showActions: boolean = true;
   @Output() deleteIngredient = new EventEmitter<IngredientWithQuantity>();
   @Output() selectedIngredient = new EventEmitter<IngredientWithQuantity>();
+  @Input() viewType: string = 'list';
+
+
+  // Modal state
+  isImageModalVisible = false;
 
   private router = inject(Router);
 
-  onEdit() {
+  getImageUrl(): string {
+    const defaultImageUrl = 'https://digitad.ca/wp-content/uploads/2023/01/photo-unsplash-800x573.jpg';
+    return this.ingredient?.imageUrl || defaultImageUrl;
+  }
+
+  onEdit(event?: Event) {
+    if (event) {
+      event.stopPropagation(); // Prevent event bubbling
+    }
     if (this.ingredient === undefined || this.ingredient.createdByType === 'admin') {
       // TODO => notify cant delete with reason 
       return;
@@ -27,7 +41,10 @@ export class IngredientItem {
     this.router.navigate(['/nutrition/edit-ingredient', this.ingredient.id]);
   }
 
-  onDelete() {
+  onDelete(event?: Event) {
+    if (event) {
+      event.stopPropagation(); // Prevent event bubbling
+    }
     if (this.ingredient) {
       this.deleteIngredient.emit(this.ingredient);
     }
@@ -37,5 +54,15 @@ export class IngredientItem {
     if (this.ingredient) {
       this.selectedIngredient.emit(this.ingredient);
     }
+  }
+
+
+  onImage(event: Event) {
+    event.stopPropagation(); // Prevent event bubbling to parent container
+    this.isImageModalVisible = true;
+  }
+
+  onCloseImageModal() {
+    this.isImageModalVisible = false;
   }
 }

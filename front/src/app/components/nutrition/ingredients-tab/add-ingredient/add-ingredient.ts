@@ -22,8 +22,7 @@ export class AddIngredient implements OnInit {
 
   ingredient = signal<CreateIngredientDto>({
     name: '',
-    brand: '',
-    barcode: '',
+    imageUrl: '',
     caloriesPer100g: '0',
     proteinPer100g: '0',
     carbsPer100g: '0',
@@ -96,8 +95,6 @@ export class AddIngredient implements OnInit {
     const ingredientData = { ...this.ingredient() };
 
     // Remove empty strings and convert them to undefined for optional fields
-    if (!ingredientData.brand?.trim()) ingredientData.brand = undefined;
-    if (!ingredientData.barcode?.trim()) ingredientData.barcode = undefined;
     if (!ingredientData.fiberPer100g?.trim()) ingredientData.fiberPer100g = undefined;
     if (!ingredientData.sugarPer100g?.trim()) ingredientData.sugarPer100g = undefined;
     if (!ingredientData.sodiumPer100g?.trim()) ingredientData.sodiumPer100g = undefined;

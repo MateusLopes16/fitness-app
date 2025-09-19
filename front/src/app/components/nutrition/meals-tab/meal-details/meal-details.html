@@ -17,8 +17,8 @@
 
     <!-- Meal Content -->
     <div class="meal-content" *ngIf="meal && !loading && !error">
-        <!-- Header with Back Button -->
-        <div class="page-header">
+        <!-- Header with Back Button - Only show when not in side panel -->
+        <div class="page-header" *ngIf="!isInSidePanel">
             <button class="btn-ghost" (click)="onBack()">
                 ← Back to Nutrition
             </button>
@@ -52,11 +52,6 @@
         </div>
 
         <div class="meal-body">
-            <!-- Description -->
-            <div class="section" *ngIf="meal.description">
-                <h3>📝 Description</h3>
-                <p class="description">{{ meal.description }}</p>
-            </div>
 
             <!-- Nutrition Summary -->
             <div class="section">

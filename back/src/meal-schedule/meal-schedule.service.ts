@@ -419,7 +419,6 @@ export class MealScheduleService {
           ingredient: {
             id: ingredient.ingredient.id,
             name: ingredient.ingredient.name,
-            brand: ingredient.ingredient.brand,
             caloriesPer100g: Number(ingredient.ingredient.caloriesPer100g),
             proteinPer100g: Number(ingredient.ingredient.proteinPer100g),
             carbsPer100g: Number(ingredient.ingredient.carbsPer100g),

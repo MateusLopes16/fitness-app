@@ -1,37 +1,48 @@
+@use '../../../../../styles.scss' as styles;
+
 .daily-container {
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  @include styles.vertical-container(0);
 }
 
 .daily-header {
-  display: flex;
-  justify-content: space-between;
+  @include styles.horizontal-container(styles.$space-big);
   align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--background-color);
+  justify-content: space-between;
+  padding: styles.$space-big;
+  border-bottom: 1px solid styles.$color-border;
+  background: styles.$color-bg;
 
-  h2 {
-    margin: 0;
-    color: var(--text-color);
-    font-weight: 600;
+  .header-navigation {
+    @include styles.horizontal-container(styles.$space-base);
+    align-items: center;
+
+    h2 {
+      margin: 0;
+      color: styles.$color-text;
+      font-weight: styles.$font-weight-title;
+      font-size: styles.$font-size-title;
+    }
   }
 
-  .date-selector {
-    .date-input {
-      padding: 0.5rem 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: var(--card-background);
-      color: var(--text-color);
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
+  .date-navigation {
+    @include styles.horizontal-container(styles.$space-small);
+    align-items: center;
 
-      &:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px var(--primary-light);
+    .date-nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: styles.$radius-100;
+      padding: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .date-selector {
+      .date-input {
+        @extend .input;
+        width: auto;
+        min-width: 150px;
       }
     }
   }
@@ -39,9 +50,9 @@
 
 .daily-content {
   flex: 1;
-  display: flex;
+  @include styles.horizontal-container(0);
   overflow: hidden;
-  transition: all 0.3s ease;
+  @include styles.transition(all);
 
   &.has-side-panel {
     .day-section {
@@ -52,98 +63,99 @@
 
 .day-section {
   flex: 1;
-  padding: 2rem;
+  padding: styles.$space-big;
   overflow-y: auto;
-  transition: width 0.3s ease;
+  @include styles.transition(width);
 }
 
 /* Macros Summary */
 .macros-summary {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  border-radius: 12px;
+  @extend .card-blur;
+  margin-bottom: styles.$space-big;
 
   h3 {
-    margin: 0 0 1rem 0;
-    color: var(--text-color);
-    font-weight: 600;
+    margin: 0 0 styles.$space-base 0;
+    color: styles.$color-text;
+    font-weight: styles.$font-weight-subtitle;
+    font-size: styles.$font-size-subtitle;
   }
 
   .macros-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+    gap: styles.$space-base;
   }
 
   .macro-item {
-    display: flex;
-    flex-direction: column;
+    @include styles.vertical-container(styles.$space-small);
     align-items: center;
-    padding: 1rem;
-    background: var(--card-background);
-    border-radius: 8px;
-    border-left: 4px solid transparent;
-    transition: transform 0.2s ease;
+    padding: styles.$space-base;
+    background: styles.$color-bg-secondary;
+    border-radius: styles.$radius-10;
+    border: 1px solid styles.$color-border-softer;
+    @include styles.transition(all);
 
     &:hover {
-      transform: translateY(-2px);
+      background: styles.$color-surface-light;
+      border-color: styles.$color-border;
     }
 
     &.calories {
-      border-left-color: var(--primary-color);
+      border-left: 3px solid styles.$color-warning;
     }
 
     &.protein {
-      border-left-color: var(--success-color);
+      border-left: 3px solid styles.$color-blue;
     }
 
     &.carbs {
-      border-left-color: var(--warning-color);
+      border-left: 3px solid styles.$color-accent;
     }
 
     &.fat {
-      border-left-color: var(--info-color);
+      border-left: 3px solid styles.$color-pink;
     }
 
     .macro-value {
       font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-color);
+      font-weight: styles.$font-weight-title;
+      color: styles.$color-text;
     }
 
     .macro-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      font-size: 0.75rem;
+      color: styles.$color-text-secondary;
       text-transform: uppercase;
-      margin-top: 0.25rem;
+      font-weight: 500;
     }
   }
 }
 
 /* Day Meals Box */
 .day-meals-box {
-  padding: 1.5rem;
-  border-radius: 12px;
+  @extend .card-blur;
   min-height: 500px;
 
   .day-meals-header {
-    display: flex;
-    justify-content: space-between;
+    @include styles.horizontal-container(styles.$space-base);
     align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
+    justify-content: space-between;
+    margin-bottom: styles.$space-big;
+    padding-bottom: styles.$space-base;
+    border-bottom: 1px solid styles.$color-border;
 
     h3 {
       margin: 0;
-      color: var(--text-color);
-      font-weight: 600;
+      color: styles.$color-text;
+      font-weight: styles.$font-weight-subtitle;
+      font-size: styles.$font-size-subtitle;
     }
 
     .add-meals-btn {
-      display: flex;
+      @extend .btn-full;
+      width: auto;
+      @include styles.horizontal-container(styles.$space-small);
       align-items: center;
-      gap: 0.5rem;
       font-size: 0.9rem;
       white-space: nowrap;
     }
@@ -152,102 +164,95 @@
 
 /* Empty state */
 .empty-meals {
+  @include styles.vertical-container(styles.$space-big);
+  align-items: center;
   text-align: center;
-  padding: 3rem 1rem;
-  color: var(--text-muted);
+  padding: styles.$space-big * 2;
+  color: styles.$color-text-secondary;
 
   p {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
+    margin: 0;
+    font-size: styles.$font-size-subtitle;
   }
 }
 
 /* Meal type groups */
 .meal-type-groups {
+  @include styles.vertical-container(styles.$space-big);
+
   .meal-type-group {
-    margin-bottom: 2rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
     .meal-type-title {
-      margin: 0 0 1rem 0;
-      color: var(--text-color);
-      font-weight: 600;
-      font-size: 1.1rem;
-      display: flex;
+      margin: 0 0 styles.$space-base 0;
+      color: styles.$color-text;
+      font-weight: styles.$font-weight-subtitle;
+      font-size: styles.$font-size-subtitle;
+      @include styles.horizontal-container(styles.$space-small);
       align-items: center;
-      gap: 0.5rem;
     }
   }
 }
 
 /* Day meal items */
 .day-meal-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  @include styles.vertical-container(styles.$space-base);
 }
 
 .day-meal-item {
-  display: flex;
+  @include styles.horizontal-container(styles.$space-base);
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  background: var(--card-background);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  padding: styles.$space-base;
+  background: styles.$color-bg-secondary;
+  border: 1px solid styles.$color-border-softer;
+  border-radius: styles.$radius-10;
   cursor: pointer;
-  transition: all 0.2s ease;
+  @include styles.transition(all);
 
   &:hover {
-    border-color: var(--primary-color);
+    background: styles.$color-surface-light;
+    border-color: styles.$color-border;
     transform: translateX(4px);
-    box-shadow: 0 2px 8px var(--shadow-color);
+    box-shadow: styles.$shadow-soft;
   }
 
   .meal-info {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    @include styles.vertical-container(styles.$space-small);
 
     .meal-name {
-      font-weight: 500;
-      color: var(--text-color);
+      font-weight: styles.$font-weight-subtitle;
+      color: styles.$color-text;
     }
 
     .meal-portion {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: styles.$color-text-secondary;
       font-style: italic;
     }
   }
 
   .meal-macros {
-    margin-right: 1rem;
+    margin-right: styles.$space-base;
 
     .cal {
-      font-weight: 600;
-      color: var(--primary-color);
+      font-weight: styles.$font-weight-subtitle;
+      color: styles.$color-accent;
       font-size: 0.9rem;
     }
   }
 
   .remove-btn {
+    @extend .btn-ghost;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
-    border: none;
-    background: var(--danger-light);
-    color: var(--danger-color);
-    cursor: pointer;
-    transition: all 0.2s ease;
+    border-radius: styles.$radius-100;
+    padding: 0;
+    background: styles.$color-error-softer;
+    color: styles.$color-error;
 
     &:hover {
-      background: var(--danger-color);
-      color: white;
+      background: styles.$color-error;
+      color: styles.$color-text;
       transform: scale(1.1);
     }
   }
@@ -256,48 +261,44 @@
 /* Side Panel */
 .side-panel {
   width: 0;
-  background: var(--card-background);
-  border-left: 1px solid var(--border-color);
+  background: styles.$color-surface;
+  border-left: 1px solid styles.$color-border;
   overflow: hidden;
-  transition: width 0.3s ease;
-  display: flex;
-  flex-direction: column;
+  @include styles.transition(width);
+  @include styles.vertical-container(0);
 
   &.open {
     width: 40%;
   }
 
   .panel-header {
-    display: flex;
-    justify-content: between;
+    @include styles.horizontal-container(styles.$space-base);
     align-items: center;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--background-color);
+    justify-content: space-between;
+    padding: styles.$space-base styles.$space-big;
+    border-bottom: 1px solid styles.$color-border;
+    background: styles.$color-bg;
 
     h3 {
       margin: 0;
-      color: var(--text-color);
-      font-weight: 600;
+      color: styles.$color-text;
+      font-weight: styles.$font-weight-subtitle;
+      font-size: styles.$font-size-subtitle;
       flex: 1;
     }
 
     .close-panel-btn {
+      @extend .btn-ghost;
       width: 32px;
       height: 32px;
-      border: none;
-      background: var(--danger-light);
-      color: var(--danger-color);
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
+      padding: 0;
+      border-radius: styles.$radius-100;
+      background: styles.$color-error-softer;
+      color: styles.$color-error;
 
       &:hover {
-        background: var(--danger-color);
-        color: white;
+        background: styles.$color-error;
+        color: styles.$color-text;
         transform: scale(1.1);
       }
     }
@@ -305,20 +306,145 @@
 
   .panel-content {
     flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    max-height: calc(100vh - 200px); /* Reserve space for header and some padding */
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include styles.vertical-container(0);
 
     app-meals-list {
       flex: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      @include styles.vertical-container(0);
     }
 
-    app-meal-detail-panel {
+    app-meal-details {
       flex: 1;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}
+
+/* Overlay - Only for mobile */
+.side-panel-overlay {
+  display: none; /* Hidden by default on desktop */
+}
+
+@media (max-width: 768px) {
+  .side-panel-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .daily-content.has-side-panel {
+    .day-section {
+      width: 50%;
+    }
+
+    .side-panel.open {
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .daily-header {
+    padding: styles.$space-base;
+    @include styles.vertical-container(styles.$space-base);
+    align-items: stretch;
+
+    .header-navigation {
+      justify-content: center;
+      
+      h2 {
+        width: 100%;
+      }
+    }
+
+    .date-navigation {
+      justify-content: center;
+      
+      .date-selector {
+        flex: 1;
+        max-width: 200px;
+      }
+    }
+  }
+
+  .day-section {
+    padding: styles.$space-base;
+  }
+
+  .macros-summary {
+    .macros-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .daily-content.has-side-panel {
+    .day-section {
+      display: none;
+    }
+
+    .side-panel.open {
+      width: 100%;
+    }
+  }
+
+  .day-meals-header {
+    @include styles.vertical-container(styles.$space-base);
+    align-items: stretch;
+
+    .add-meals-btn {
+      justify-content: center;
+    }
+  }
+
+  .day-meal-item {
+    padding: styles.$space-base * 0.75;
+
+    .meal-macros {
+      margin-right: styles.$space-small;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .macros-summary {
+    .macros-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .day-meal-item {
+    @include styles.vertical-container(styles.$space-base);
+    align-items: stretch;
+
+    .meal-macros {
+      margin-right: 0;
+      text-align: center;
+    }
+
+    .remove-btn {
+      align-self: center;
     }
   }
 }

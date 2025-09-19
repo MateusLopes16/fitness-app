@@ -9,6 +9,7 @@ import { Login } from './components/auth/login/login';
 import { Register } from './components/auth/register/register';
 import { authGuard } from './components/auth/auth-guard';
 import { MealDetails } from './components/nutrition/meals-tab/meal-details/meal-details';
+import { Daily } from './components/nutrition/scheduling-tab/daily/daily';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -21,6 +22,8 @@ export const routes: Routes = [
   { path: 'nutrition/add-meal', component: AddMeal, canActivate: [authGuard] },
   { path: 'nutrition/edit-meal/:id', component: AddMeal, canActivate: [authGuard] },
   { path: 'nutrition/meal/:id', component: MealDetails, canActivate: [authGuard] },
+  { path: 'nutrition/daily', component: Daily, canActivate: [authGuard] },
+  { path: 'nutrition/daily/:date', component: Daily, canActivate: [authGuard] },
   { path: 'subscription-plans', component: SubscriptionPlansComponent },
   { path: '**', redirectTo: '' }
 ];

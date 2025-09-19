@@ -12,7 +12,6 @@ export interface MealIngredient {
   ingredient: {
     id: string;
     name: string;
-    brand?: string;
     caloriesPer100g: number;
     proteinPer100g: number;
     carbsPer100g: number;

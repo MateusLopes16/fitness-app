@@ -223,7 +223,6 @@ export class MealsService {
         ingredient: {
           id: ingredient.id,
           name: ingredient.name,
-          brand: ingredient.brand,
           caloriesPer100g: parseFloat(ingredient.caloriesPer100g.toString()),
           proteinPer100g: parseFloat(ingredient.proteinPer100g.toString()),
           carbsPer100g: parseFloat(ingredient.carbsPer100g.toString()),

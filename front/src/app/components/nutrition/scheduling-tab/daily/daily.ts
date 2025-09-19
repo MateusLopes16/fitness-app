@@ -1,17 +1,22 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DaySchedule, DayMeal, MacroSummary, SidePanelState } from '../../interfaces/day-schedule.interface';
 import { Meal, MealType } from '../../interfaces/meal.interface';
 import { MealsList } from '../../meals-tab/meals-list/meals-list';
-import { MealDetailPanel } from './meal-detail-panel';
+import { MealDetails } from '../../meals-tab/meal-details/meal-details';
 
 @Component({
   selector: 'app-daily',
-  imports: [CommonModule, MealsList, MealDetailPanel],
+  imports: [CommonModule, MealsList, MealDetails],
   templateUrl: './daily.html',
   styleUrl: './daily.scss'
 })
 export class Daily implements OnInit {
+  // Services
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   // State management
   selectedDate = signal<string>(new Date().toISOString().split('T')[0]); // Today in YYYY-MM-DD
   daySchedule = signal<DaySchedule | null>(null);
@@ -41,6 +46,18 @@ export class Daily implements OnInit {
   MealType = MealType;
 
   ngOnInit() {
+    // Get date from route parameters or query params
+    const routeDate = this.route.snapshot.params['date'];
+    const queryDate = this.route.snapshot.queryParams['date'];
+    
+    if (routeDate) {
+      // Date from URL path parameter (e.g., /nutrition/daily/2025-09-17)
+      this.selectedDate.set(routeDate);
+    } else if (queryDate) {
+      // Date from query parameter (e.g., /nutrition/daily?date=2025-09-17)
+      this.selectedDate.set(queryDate);
+    }
+    
     this.loadDaySchedule();
   }
 
@@ -62,6 +79,11 @@ export class Daily implements OnInit {
     if (date) {
       this.selectedDate.set(date);
       this.loadDaySchedule();
+      
+      // Update URL to reflect the new date
+      this.router.navigate(['/nutrition/daily', date], { 
+        replaceUrl: true 
+      });
     }
   }
 
@@ -168,5 +190,33 @@ export class Daily implements OnInit {
       case MealType.SNACK: return '🍪';
       default: return '🍽️';
     }
+  }
+
+  // Navigation methods
+  onNavigateToDate(date: string) {
+    this.router.navigate(['/nutrition/daily', date]);
+  }
+
+  onNavigateToToday() {
+    const today = new Date().toISOString().split('T')[0];
+    this.router.navigate(['/nutrition/daily', today]);
+  }
+
+  onNavigateToPreviousDay() {
+    const currentDate = new Date(this.selectedDate());
+    currentDate.setDate(currentDate.getDate() - 1);
+    const previousDay = currentDate.toISOString().split('T')[0];
+    this.router.navigate(['/nutrition/daily', previousDay]);
+  }
+
+  onNavigateToNextDay() {
+    const currentDate = new Date(this.selectedDate());
+    currentDate.setDate(currentDate.getDate() + 1);
+    const nextDay = currentDate.toISOString().split('T')[0];
+    this.router.navigate(['/nutrition/daily', nextDay]);
+  }
+
+  onBackToNutrition() {
+    this.router.navigate(['/nutrition']);
   }
 }
