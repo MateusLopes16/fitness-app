@@ -13,9 +13,4 @@ import { IngredientsList } from './ingredients-list/ingredients-list';
 })
 export class IngredientsTab {
   constructor(private router: Router) { }
-
-  onAddNew(): void {
-    this.router.navigate(['/nutrition/add-ingredient']);
-  }
-
 }

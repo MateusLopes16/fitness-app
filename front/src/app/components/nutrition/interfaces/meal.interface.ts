@@ -1,3 +1,5 @@
+import { IngredientTag } from '../enums/ingredient-tag.enum';
+
 export enum MealType {
   BREAKFAST = 'BREAKFAST',
   LUNCH = 'LUNCH',
@@ -12,6 +14,7 @@ export interface MealIngredient {
   ingredient: {
     id: string;
     name: string;
+    tag: IngredientTag;
     caloriesPer100g: number;
     proteinPer100g: number;
     carbsPer100g: number;

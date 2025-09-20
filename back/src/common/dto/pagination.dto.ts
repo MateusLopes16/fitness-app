@@ -27,3 +27,15 @@ export class PaginationDto {
   @Transform(({ value }) => value && value.toLowerCase())
   sortOrder?: 'asc' | 'desc' = 'desc';
 }
+
+export interface PaginatedResponseDto<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrevious: boolean;
+  };
+}

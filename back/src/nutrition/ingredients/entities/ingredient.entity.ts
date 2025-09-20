@@ -4,6 +4,7 @@ export class Ingredient implements PrismaIngredient {
   id: string;
   name: string;
   imageUrl: string | null;
+  tag: any; // IngredientTag enum from Prisma
   caloriesPer100g: any; // Decimal from Prisma
   proteinPer100g: any;
   carbsPer100g: any;

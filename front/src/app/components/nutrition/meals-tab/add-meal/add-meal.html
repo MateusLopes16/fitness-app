@@ -97,12 +97,6 @@
                 </div>
                 <!-- Add Ingredient Selector -->
                 <div class="ingredient-selector animate-dropdown-appear" *ngIf="showIngredientSelector()">
-                    <div class="ingredient-search">
-                        <input type="text" placeholder="Search ingredients..." [value]="ingredientSearch()"
-                            (input)="ingredientSearch.set(($any($event.target)).value)" class="input">
-                    </div>
-
-                    <!-- TODO => transfer search result to ingredient list and added ingredients to update and delete from list -->
                     <app-ingredients-list 
                         (ingredientSelected)="selectIngredient($event)">
                     </app-ingredients-list>

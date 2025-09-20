@@ -1,3 +1,25 @@
+<div class="ingredients-list-header">
+
+    <div class="search">
+        <input type="text" class="input" placeholder="🔍 Search ingredients..." [value]="ingredientSearch()"
+            (input)="onSearchChange(($any($event.target)).value)" />
+    </div>
+
+    <div class="filters">
+        <div class="filter-item">Protein</div>
+        <div class="filter-item">Carbs</div>
+        <div class="filter-item">Fat</div>
+        <div class="filter-item">Fiber</div>
+    </div>
+    <div class="header-actions">
+        <button class="btn-ghost" (click)="onAddNew()">➕</button>
+        <div class="view-switch">
+            <button class="btn-ghost view-toggle" (click)="chooseView('grid')" [class.active]="viewType() === 'grid'">⚏</button>
+            <button class="btn-ghost view-toggle" (click)="chooseView('list')" [class.active]="viewType() === 'list'">☰</button>
+        </div>
+    </div>
+</div>
+
 <!-- Loading state -->
 <div class="loading-state" *ngIf="loading()">
     <h3 class="subtitle">Loading ingredients...</h3>
@@ -7,29 +29,15 @@
 <!-- Empty state -->
 <div class="empty-state animate-empty-state-bounce" *ngIf="showEmptyState()">
     <h3 class="subtitle">🥗 No ingredients found</h3>
-    <p class="subtitle">Start by adding your first ingredient to build your nutrition database.</p>
-    <button class="btn-full" (click)="onAddNew()">
-        Add Your First Ingredient
-    </button>
 </div>
 
 <!-- Ingredients list -->
-<div class="ingredients-list" *ngIf="hasIngredients()">
-    <div class="list-header">
-        <div class="filters">
-            <div class="filter-item">Breakfast</div>
-            <div class="filter-item">Lunch</div>
-            <div class="filter-item">Dinner</div>
-            <div class="filter-item">Snacks</div>
-        </div>
-        <div class="view-switch">
-            <button class="btn-ghost" (click)="chooseView('list')">list</button>
-            <button class="btn-ghost" (click)="chooseView('grid')">grid</button>
-        </div>
+<div class="ingredients-container" *ngIf="hasIngredients()">
+    <div [class.ingredients-list]="viewType() === 'list'" [class.ingredients-grid]="viewType() === 'grid'">
+        <!-- Ingredient rows -->
+        <app-ingredient-item *ngFor="let ingredient of filteredIngredientsComputed(); trackBy: trackByIngredientId"
+            [ingredient]="ingredient" [quantityGrams]="getDisplayQuantity(ingredient)" (deleteIngredient)="onDelete($event)"
+            (selectedIngredient)="onIngredientSelected($event)" [showActions]="showActions" [viewType]="viewType()">
+        </app-ingredient-item>
     </div>
-    <!-- Ingredient rows -->
-    <app-ingredient-item *ngFor="let ingredient of ingredients(); trackBy: trackByIngredientId"
-        [ingredient]="ingredient" [quantityGrams]="getDisplayQuantity(ingredient)" (deleteIngredient)="onDelete($event)"
-        (selectedIngredient)="onIngredientSelected($event)" [showActions]="showActions" [viewType]="viewType()">
-    </app-ingredient-item>
 </div>

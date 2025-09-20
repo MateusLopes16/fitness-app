@@ -1,54 +1,86 @@
 @use '../../../../../styles.scss' as styles;
 
+.ingredients-list-header {
+    @include styles.horizontal-container(styles.$space-base);
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: styles.$space-base;
+}
 
-.ingredients-list {
-    @include styles.vertical-container(styles.$space-small);
+.search, .filters {
+    @include styles.horizontal-container(styles.$space-small);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
 
-    .column-details {
+.header-actions {
+    @include styles.horizontal-container(styles.$space-small);
+    align-items: center;
+    justify-content: center;
 
-        .ingredient-item {
-            @include styles.horizontal-container(styles.$space-base);
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            border-radius: styles.$radius-10;
-            border: 1px solid styles.$color-accent !important;
+    .view-switch {
+        @include styles.horizontal-container(styles.$space-small);
+        border: 1px solid styles.$color-border;
+        border-radius: styles.$radius-10;
+        background-color: styles.$color-bg-secondary;
+        padding: 0;
 
-            .col-name {
-                width: 100%;
+        .view-toggle {
+            border: none;
+            background: none;
+            padding: styles.$space-small;
+            cursor: pointer;
+            font-size: styles.$font-size-base;
+            color: styles.$color-text;
+
+            &:hover {
+                background-color: styles.$color-surface-light;
             }
 
-            .ingredient-value {
-                width: 50%;
-                padding: 0;
-                text-align: center;
-                font-weight: styles.$font-weight-title;
-            }
-
-            .truncate {
-                max-width: 250px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .col-protein {
-                color: styles.$color-error;
-            }
-
-            .col-fat {
-                color: styles.$color-warning;
-            }
-
-            .col-fiber {
-                color: styles.$color-success;
-            }
-
-            .col-carbs {
-                color: styles.$color-blue;
+            &.active {
+                background-color: styles.$color-accent;
+                color: styles.$color-bg;
             }
         }
     }
+}
+
+.filters {
+    flex-wrap: wrap;
+    .filter-item {
+        padding: styles.$space-small styles.$space-base;
+        border: 1px solid styles.$color-border;
+        border-radius: styles.$radius-10;
+        cursor: pointer;
+        font-weight: 600;
+        color: styles.$color-text;
+        background-color: styles.$color-bg-secondary;
+
+        &:hover {
+            background-color: styles.$color-surface-light;
+        }
+    }
+}
+
+.ingredients-list {
+    @include styles.vertical-container(styles.$space-small);
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: styles.$space-base;
+    width: 100%;
+}
+
+.ingredients-container {
+    width: 100%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
@@ -56,5 +88,3 @@
         display: none;
     }
 }
-
-

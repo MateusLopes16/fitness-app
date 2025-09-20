@@ -1,15 +1,18 @@
-import { IsString, IsOptional, IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsString, IsOptional, IsNotEmpty, IsNumber, Min, IsEnum } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IngredientTag } from '../../../common/enums/ingredient-tag.enum';
 
 export class CreateIngredientDto {
   @IsString()
   @IsNotEmpty()
   name: string;
 
-
   @IsString()
   @IsOptional()
   imageUrl?: string;
+
+  @IsEnum(IngredientTag)
+  tag: IngredientTag;
 
   @Transform(({ value }) => parseFloat(value))
   @IsNumber()

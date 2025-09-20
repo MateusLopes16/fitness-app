@@ -23,7 +23,6 @@ export class AddMeal implements OnInit {
   mealId = signal<string | null>(null);
   ingredients = signal<Ingredient[]>([]);
   showIngredientSelector = signal<boolean>(false);
-  ingredientSearch = signal<string>('');
 
   formData = signal<CreateMealDto>({
     name: '',
@@ -103,15 +102,6 @@ export class AddMeal implements OnInit {
     }));
   }
 
-  get filteredIngredients() {
-    const search = this.ingredientSearch().toLowerCase();
-    if (!search) return this.ingredients();
-
-    return this.ingredients().filter(ingredient =>
-      ingredient.name.toLowerCase().includes(search)
-    );
-  }
-
   selectIngredient(ingredient: Ingredient) {
     const currentIngredients = this.formData().ingredients;
 
@@ -130,7 +120,6 @@ export class AddMeal implements OnInit {
     }));
 
     this.showIngredientSelector.set(false);
-    this.ingredientSearch.set('');
   }
 
   removeIngredient(index: number) {

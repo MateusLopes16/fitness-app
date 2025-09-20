@@ -70,6 +70,13 @@ enum Gender {
   FEMALE
 }
 
+enum IngredientTag {
+  PROTEIN
+  CARBS
+  FAT
+  FIBER
+}
+
 // USERS & AUTH
 model User {
   id              String            @id @default(uuid())
@@ -105,6 +112,7 @@ model Ingredient {
   id               String @id @default(uuid())
   name             String
   imageUrl         String? @map("image_url")
+  tag              IngredientTag @default(PROTEIN)
   caloriesPer100g  Decimal @map("calories_per_100g")
   proteinPer100g   Decimal @map("protein_per_100g")
   carbsPer100g     Decimal @map("carbs_per_100g")

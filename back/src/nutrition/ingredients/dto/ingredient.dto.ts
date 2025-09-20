@@ -1,7 +1,10 @@
+import { IngredientTag } from '../../../common/enums/ingredient-tag.enum';
+
 export class IngredientDto {
   id: string;
   name: string;
   imageUrl?: string;
+  tag: IngredientTag;
   caloriesPer100g: number;
   proteinPer100g: number;
   carbsPer100g: number;

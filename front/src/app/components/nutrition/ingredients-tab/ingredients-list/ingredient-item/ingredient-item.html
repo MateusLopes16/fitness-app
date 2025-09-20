@@ -1,25 +1,58 @@
-<div class="card-blur" [class.ingredient-item-list]="viewType === 'list'" [class.ingredient-item-grid]="viewType === 'grid'" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
+<div class="card-blur" [class.ingredient-item-list]="viewType === 'list'"
+    [class.ingredient-item-grid]="viewType === 'grid'" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
     [class.user-ingredient]="ingredient?.createdByType === 'user'" (click)="onSelect()">
-    <div class="ingredient-image" (click)="onImage($event)">
-        <img [src]="getImageUrl()" [alt]="ingredient?.name" class="ingredient-img">
-    </div>
-    <div class="ingredient-info">
-        <div class="ingredient-name">
-            {{ ingredient?.name }}
+    <div class="ingredient-header">
+        <div class="ingredient-image">
+            <img [src]="getImageUrl()" [alt]="ingredient?.name" class="ingredient-img">
         </div>
-        <div class="ingredient-quantity">
-            {{ quantityGrams }}g
+        <div class="ingredient-info">
+            <div class="ingredient-name">
+                {{ ingredient?.name }}
+            </div>
+            <div class="ingredient-quantity">
+                {{ quantityGrams }}g
+            </div>
+            <div class="ingredient-tag" [class]="(ingredient?.tag?.toLowerCase() || 'protein')">
+                {{ ingredient?.tag || 'protein' }}
+            </div>
         </div>
     </div>
     <div class="ingredient-nutrition">
-        <span class="cal">{{ ((ingredient?.caloriesPer100g ?? 0) * (quantityGrams) /
-            100).toFixed(0) }} cal</span>
-        <span class="protein">P: {{ ((ingredient?.proteinPer100g ?? 0) * (quantityGrams)
-            / 100).toFixed(1) }}g</span>
-        <span class="carbs">C: {{ ((ingredient?.carbsPer100g ?? 0) * (quantityGrams) /
-            100).toFixed(1) }}g</span>
-        <span class="fat">F: {{ ((ingredient?.fatPer100g ?? 0) * (quantityGrams) /
-            100).toFixed(1) }}g</span>
+        <!-- List view - compact format -->
+        <ng-container *ngIf="viewType === 'list'">
+            <span class="cal">{{ ((ingredient?.caloriesPer100g ?? 0) * (quantityGrams) /
+                100).toFixed(0) }} cal</span>
+            <span class="protein">P: {{ ((ingredient?.proteinPer100g ?? 0) * (quantityGrams)
+                / 100).toFixed(1) }}g</span>
+            <span class="carbs">C: {{ ((ingredient?.carbsPer100g ?? 0) * (quantityGrams) /
+                100).toFixed(1) }}g</span>
+            <span class="fat">F: {{ ((ingredient?.fatPer100g ?? 0) * (quantityGrams) /
+                100).toFixed(1) }}g</span>
+        </ng-container>
+
+        <!-- Grid view - detailed format -->
+        <ng-container *ngIf="viewType === 'grid'">
+            <span class="nutritional-info">
+                <span class="label">Calories:</span>
+                <span class="value cal">{{ ((ingredient?.caloriesPer100g ?? 0) * (quantityGrams) /
+                    100).toFixed(0) }}</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Protein:</span>
+                <span class="value protein">{{ ((ingredient?.proteinPer100g ?? 0) * (quantityGrams)
+                    / 100).toFixed(1) }}g</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Carbs:</span>
+                <span class="value carbs">{{ ((ingredient?.carbsPer100g ?? 0) * (quantityGrams) /
+                    100).toFixed(1) }}g</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Fat:</span>
+                <span class="value fat">{{ ((ingredient?.fatPer100g ?? 0) * (quantityGrams) /
+                    100).toFixed(1) }}g</span>
+            </span>
+        </ng-container>
     </div>
     <div *ngIf="ingredient?.createdByType == 'user' && showActions" class="ingredient-actions">
         <button class="btn-ghost" (click)="onEdit($event)">✏️</button>
@@ -28,9 +61,6 @@
 </div>
 
 <!-- Image Modal -->
-<app-image-modal 
-    [imageUrl]="getImageUrl()"
-    [altText]="ingredient?.name || 'Ingredient'"
-    [isVisible]="isImageModalVisible"
-    (close)="onCloseImageModal()">
+<app-image-modal [imageUrl]="getImageUrl()" [altText]="ingredient?.name || 'Ingredient'"
+    [isVisible]="isImageModalVisible" (close)="onCloseImageModal()">
 </app-image-modal>

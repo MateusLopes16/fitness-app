@@ -1,7 +1,10 @@
+import { IngredientTag } from '../enums/ingredient-tag.enum';
+
 export interface Ingredient {
   id: string;
   name: string;
   imageUrl?: string;
+  tag: IngredientTag;
   caloriesPer100g: number;
   proteinPer100g: number;
   carbsPer100g: number;
@@ -17,6 +20,7 @@ export interface Ingredient {
 export interface CreateIngredientDto {
   name: string;
   imageUrl?: string;
+  tag: IngredientTag;
   caloriesPer100g: string;
   proteinPer100g: string;
   carbsPer100g: string;

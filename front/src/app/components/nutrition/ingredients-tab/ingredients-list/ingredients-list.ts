@@ -5,7 +5,9 @@ import { Ingredient } from '../../interfaces/ingredient.interface';
 import { Router } from '@angular/router';
 import { IngredientService } from '../../services/ingredient.service';
 import { CommonModule } from '@angular/common';
-import { MealIngredient } from '../../interfaces/meal.interface'
+import { MealIngredient } from '../../interfaces/meal.interface';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 // Extended interface for ingredients with quantity information
 export interface IngredientWithQuantity extends Ingredient {
@@ -27,15 +29,56 @@ export class IngredientsList implements OnInit, OnChanges {
   loading = signal<boolean>(false);
   viewType = signal<string>('list');
 
+  // Search handling
+  private searchSubject = new Subject<string>();
+  ingredientSearch = signal<string>('');
+
   // Computed signals for better state management
-  hasIngredients = computed(() => this.ingredients().length > 0);
+  hasIngredients = computed(() => {
+    const ingredients = this.filteredIngredientsComputed();
+    return ingredients && ingredients.length > 0;
+  });
   showEmptyState = computed(() => !this.loading() && !this.hasIngredients());
-  
+
   // Check if we're displaying meal ingredients (with quantities)
   isMealIngredientMode = computed(() => !!this.filteredIngredients);
 
-  constructor(private router: Router, private ingredientService: IngredientService,
-  ) { }
+  // Filtered ingredients based on search term (client-side filtering for loaded items)
+  filteredIngredientsComputed = computed(() => {
+    const searchTerm = this.ingredientSearch().toLowerCase().trim();
+    const allIngredients = this.ingredients() || [];
+
+    if (!searchTerm) {
+      return allIngredients;
+    }
+
+    return allIngredients.filter(ingredient =>
+      ingredient && ingredient.name && ingredient.name.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  constructor(private router: Router, private ingredientService: IngredientService) {
+    // Set up search debouncing
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(searchTerm => {
+        this.ingredients.set([]);
+        this.loading.set(true);
+        return this.ingredientService.getIngredients(searchTerm);
+      })
+    ).subscribe({
+      next: (ingredients) => {
+        this.ingredients.set(ingredients || []);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading ingredients:', error);
+        this.ingredients.set([]);
+        this.loading.set(false);
+      }
+    });
+  }
 
   /**
    * Transform MealIngredient to IngredientWithQuantity, preserving quantityGrams
@@ -73,6 +116,31 @@ export class IngredientsList implements OnInit, OnChanges {
     }
   }
 
+  private loadIngredientsInternal(searchTerm?: string) {
+    this.loading.set(true);
+    this.ingredientService.getIngredients(searchTerm).subscribe({
+      next: (ingredients) => {
+        console.log('Ingredients loaded:', ingredients);
+        this.ingredients.set(ingredients || []);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading ingredients:', error);
+        this.ingredients.set([]);
+        this.loading.set(false);
+      }
+    });
+  }
+
+  loadIngredients() {
+    this.loadIngredientsInternal();
+  }
+
+  onSearchChange(value: string) {
+    this.ingredientSearch.set(value);
+    this.searchSubject.next(value);
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     // React to changes in filteredIngredients
     if (changes['filteredIngredients'] && this.filteredIngredients) {
@@ -86,26 +154,6 @@ export class IngredientsList implements OnInit, OnChanges {
 
   trackByIngredientId(index: number, ingredient: IngredientWithQuantity): string {
     return ingredient.id;
-  }
-
-  loadIngredients() {
-    console.log('Loading ingredients...');
-    this.loading.set(true);
-    this.ingredients.set([]); // Clear existing data while loading
-
-    this.ingredientService.getIngredients().subscribe({
-      next: (ingredients) => {
-        console.log('Ingredients loaded:', ingredients);
-        this.ingredients.set(ingredients || []);
-        this.loading.set(false);
-      },
-      error: (error) => {
-        console.error('Error loading ingredients:', error);
-        this.ingredients.set([]); // Ensure empty array on error
-        // this.error.set('Failed to load ingredients');
-        this.loading.set(false);
-      }
-    });
   }
 
   onDelete(ingredient: IngredientWithQuantity) {
@@ -135,6 +183,7 @@ export class IngredientsList implements OnInit, OnChanges {
     const baseIngredient: Ingredient = {
       id: ingredient.id,
       name: ingredient.name,
+      tag: ingredient.tag,
       caloriesPer100g: ingredient.caloriesPer100g,
       proteinPer100g: ingredient.proteinPer100g,
       carbsPer100g: ingredient.carbsPer100g,

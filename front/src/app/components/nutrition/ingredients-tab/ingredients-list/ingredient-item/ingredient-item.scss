@@ -11,61 +11,35 @@
     background: styles.$color-bg-secondary;
     @include styles.transition(all);
 
+    .ingredient-header {
+        @include styles.horizontal-container(styles.$space-base);
+        align-items: center;
+        flex: 1;
+        cursor: pointer;
+
+        .ingredient-tag {
+            display: none;
+        }
+    }
+
     &:hover {
         background: styles.$color-surface-light;
         border-color: styles.$color-border;
     }
 
-    .ingredient-image {
-        margin-right: styles.$space-base;
-        flex-shrink: 0;
-        cursor: pointer;
-        border-radius: styles.$radius-10;
-        transition: all styles.$transition;
-        position: relative;
-        overflow: hidden;
 
-        &::before {
-            content: '🔍';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 16px;
-            opacity: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: inherit;
-            transition: opacity styles.$transition;
-            pointer-events: none;
-        }
+    .ingredient-img {
+        width: 48px;
+        height: 48px;
+        border-radius: styles.$radius-10;
+        object-fit: cover;
+        border: 1px solid styles.$color-border-softer;
+        background: styles.$color-surface-light;
+        transition: filter styles.$transition;
 
         &:hover {
             transform: scale(1.05);
             box-shadow: styles.$shadow-soft;
-
-            &::before {
-                opacity: 1;
-            }
-
-            .ingredient-img {
-                filter: brightness(0.8);
-            }
-        }
-
-        .ingredient-img {
-            width: 48px;
-            height: 48px;
-            border-radius: styles.$radius-10;
-            object-fit: cover;
-            border: 1px solid styles.$color-border-softer;
-            background: styles.$color-surface-light;
-            transition: filter styles.$transition;
         }
     }
 
@@ -132,4 +106,144 @@
 
 .ingredient-actions {
     @include styles.horizontal-container(styles.$space-small);
+}
+
+
+// GRIDDDD
+
+
+
+.ingredient-item-grid {
+    cursor: pointer;
+    @include styles.transition(all);
+
+
+    .ingredient-header {
+        @include styles.vertical-container(styles.$space-base);
+        flex-direction: column-reverse;
+
+        .ingredient-info {
+            @include styles.horizontal-container(styles.$space-small);
+            justify-content: space-between;
+            width: 100%;
+            padding: styles.$space-small;
+
+            .ingredient-name {
+                @extend .subtitle;
+            }
+
+            .ingredient-quantity {
+                display: none;
+            }
+
+            .ingredient-tag {
+                @include styles.horizontal-container(styles.$space-small);
+                align-items: center;
+                justify-content: center;
+                height: fit-content;
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 2px 6px;
+                border-radius: 4px;
+                text-align: center;
+
+
+                &.protein {
+                    background: styles.$color-blue-softer;
+                    color: styles.$color-blue;
+                    border: 1px solid styles.$color-blue-soft;
+                }
+
+                &.fat {
+                    background: styles.$color-pink-softer;
+                    color: styles.$color-pink;
+                    border: 1px solid styles.$color-pink-soft;
+                }
+
+                &.carbs {
+                    background: styles.$color-accent-soft;
+                    color: styles.$color-accent;
+                    border: 1px solid styles.$color-accent-soft;
+                }
+
+                &.fiber {
+                    background: styles.$color-warning-softer;
+                    color: styles.$color-warning;
+                    border: 1px solid styles.$color-warning-soft;
+                }
+            }
+        }
+
+        .ingredient-image {
+            @include styles.transition(all);
+            margin: 0;
+            width: 100%;
+            height: 140px;
+            border-radius: styles.$radius-10;
+            object-fit: cover;
+            overflow: hidden; 
+
+            .ingredient-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                @include styles.transition(all);
+            }
+        }
+
+
+    }
+
+    .ingredient-nutrition {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: styles.$space-big;
+        width: 100%;
+        margin: styles.$space-big 0;
+
+        .nutritional-info {
+            @include styles.horizontal-container(styles.$space-base);
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            .label {
+
+                width: 100%;
+                color: styles.$color-text-secondary;
+            }
+
+            .value {
+                font-weight: styles.$font-weight-title;
+                width: 100%;
+                text-align: right;
+            }
+
+            .cal {
+                color: styles.$color-warning;
+            }
+
+            .protein {
+                color: styles.$color-blue;
+            }
+
+            .carbs {
+                color: styles.$color-accent-hover;
+            }
+
+            .fat {
+                color: styles.$color-pink;
+            }
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px styles.$color-accent;
+        transform: scale(1.01);
+
+        .ingredient-img {
+            box-shadow: styles.$shadow-soft;
+            transform: scale(1.10);
+        }
+    }
 }

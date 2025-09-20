@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IngredientService } from '../../services/ingredient.service';
 import { Ingredient, CreateIngredientDto } from '../../interfaces/ingredient.interface';
+import { IngredientTag } from '../../enums/ingredient-tag.enum';
 
 @Component({
   selector: 'app-add-ingredient',
@@ -20,9 +21,13 @@ export class AddIngredient implements OnInit {
   isEditing = signal<boolean>(false);
   ingredientId = signal<string | null>(null);
 
+  // Available tag options
+  tagOptions = Object.values(IngredientTag);
+
   ingredient = signal<CreateIngredientDto>({
     name: '',
     imageUrl: '',
+    tag: IngredientTag.PROTEIN,
     caloriesPer100g: '0',
     proteinPer100g: '0',
     carbsPer100g: '0',
@@ -54,6 +59,8 @@ export class AddIngredient implements OnInit {
       next: (ingredient) => {
         this.ingredient.set({
           name: ingredient.name,
+          imageUrl: ingredient.imageUrl,
+          tag: ingredient.tag,
           caloriesPer100g: ingredient.caloriesPer100g.toString(),
           proteinPer100g: ingredient.proteinPer100g.toString(),
           carbsPer100g: ingredient.carbsPer100g.toString(),
@@ -123,6 +130,7 @@ export class AddIngredient implements OnInit {
     const ing = this.ingredient();
     return !!(
       ing.name?.trim() &&
+      ing.tag &&
       ing.caloriesPer100g && parseFloat(ing.caloriesPer100g) >= 0 &&
       ing.proteinPer100g && parseFloat(ing.proteinPer100g) >= 0 &&
       ing.carbsPer100g && parseFloat(ing.carbsPer100g) >= 0 &&
