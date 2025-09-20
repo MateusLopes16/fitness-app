@@ -6,16 +6,26 @@
     </div>
 
     <div class="filters">
-        <div class="filter-item">Protein</div>
-        <div class="filter-item">Carbs</div>
-        <div class="filter-item">Fat</div>
-        <div class="filter-item">Fiber</div>
+        <div class="filter-item" (click)="toggleFilter('protein')" [class.active]="activeFilters().has('protein')">
+            Protein
+        </div>
+        <div class="filter-item" (click)="toggleFilter('carbs')" [class.active]="activeFilters().has('carbs')">
+            Carbs
+        </div>
+        <div class="filter-item" (click)="toggleFilter('fat')" [class.active]="activeFilters().has('fat')">
+            Fat
+        </div>
+        <div class="filter-item" (click)="toggleFilter('fiber')" [class.active]="activeFilters().has('fiber')">
+            Fiber
+        </div>
     </div>
     <div class="header-actions">
         <button class="btn-ghost" (click)="onAddNew()">➕</button>
         <div class="view-switch">
-            <button class="btn-ghost view-toggle" (click)="chooseView('grid')" [class.active]="viewType() === 'grid'">⚏</button>
-            <button class="btn-ghost view-toggle" (click)="chooseView('list')" [class.active]="viewType() === 'list'">☰</button>
+            <button class="btn-ghost view-toggle" (click)="chooseView('grid')"
+                [class.active]="viewType() === 'grid'">⚏</button>
+            <button class="btn-ghost view-toggle" (click)="chooseView('list')"
+                [class.active]="viewType() === 'list'">☰</button>
         </div>
     </div>
 </div>
@@ -36,8 +46,9 @@
     <div [class.ingredients-list]="viewType() === 'list'" [class.ingredients-grid]="viewType() === 'grid'">
         <!-- Ingredient rows -->
         <app-ingredient-item *ngFor="let ingredient of filteredIngredientsComputed(); trackBy: trackByIngredientId"
-            [ingredient]="ingredient" [quantityGrams]="getDisplayQuantity(ingredient)" (deleteIngredient)="onDelete($event)"
-            (selectedIngredient)="onIngredientSelected($event)" [showActions]="showActions" [viewType]="viewType()">
+            [ingredient]="ingredient" [quantityGrams]="getDisplayQuantity(ingredient)"
+            (deleteIngredient)="onDelete($event)" (selectedIngredient)="onIngredientSelected($event)"
+            [showActions]="showActions" [viewType]="viewType()">
         </app-ingredient-item>
     </div>
 </div>

@@ -60,6 +60,11 @@
         &:hover {
             background-color: styles.$color-surface-light;
         }
+
+        &.active {
+            background-color: styles.$color-accent;
+            color: styles.$color-bg;
+        }
     }
 }
 

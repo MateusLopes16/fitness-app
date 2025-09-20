@@ -1,4 +1,4 @@
-<div class="card-blur" [class.ingredient-item-list]="viewType === 'list'"
+<div class="card-base" [class.ingredient-item-list]="viewType === 'list'"
     [class.ingredient-item-grid]="viewType === 'grid'" [class.admin-ingredient]="ingredient?.createdByType === 'admin'"
     [class.user-ingredient]="ingredient?.createdByType === 'user'" (click)="onSelect()">
     <div class="ingredient-header">

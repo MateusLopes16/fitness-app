@@ -1,12 +1,7 @@
-import { PrismaClient, MealType, IngredientTag, UserRole } from '@prisma/client';
-import * as bcrypt from 'bcryptjs';
-
-const prisma = new PrismaClient();
-
 const adminIngredients = [
   {
-    name: 'Pasta',
-    imageUrl: 'https://tse1.explicit.bing.net/th/id/OIP.v1jAJxr6XVYnNayJ143mKAHaE7?rs=1&pid=ImgDetMain&o=7&rm=3',
+    name: 'Pates ',
+    imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 350.0,
     proteinPer100g: 12.0,
@@ -17,7 +12,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Rice',
+    name: 'Riz',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 350.0,
@@ -28,9 +23,8 @@ const adminIngredients = [
     sugarPer100g: 0,
     sodiumPer100g: 0,
   },
-
   {
-    name: 'Potatoes',
+    name: 'Pommes de terre',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 80.0,
@@ -42,7 +36,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Oats',
+    name: 'Avoine',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 370.0,
@@ -54,19 +48,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Oats',
-    imageUrl: '',
-    tag: IngredientTag.CARBS,
-    caloriesPer100g: 370.0,
-    proteinPer100g: 14.0,
-    carbsPer100g: 59.0,
-    fatPer100g: 0.0,
-    fiberPer100g: 10.0,
-    sugarPer100g: 0,
-    sodiumPer100g: 0,
-  },
-  {
-    name: 'Semolina',
+    name: 'Semoule',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 350.0,
@@ -77,9 +59,8 @@ const adminIngredients = [
     sugarPer100g: 0,
     sodiumPer100g: 0,
   },
-
   {
-    name: 'Whole Wheat Bread',
+    name: 'Pain complet',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 224.0,
@@ -90,7 +71,6 @@ const adminIngredients = [
     sugarPer100g: 0,
     sodiumPer100g: 0,
   },
-
   {
     name: 'Quinoa',
     imageUrl: '',
@@ -104,9 +84,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Lentils',
+    name: 'Lentilles',
     imageUrl: '',
-    tag: IngredientTag.CARBS,
+    tag: '',
     caloriesPer100g: 327.0,
     proteinPer100g: 25.0,
     carbsPer100g: 45.0,
@@ -116,7 +96,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Corn',
+    name: 'Maïs',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 82.0,
@@ -128,7 +108,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Honey',
+    name: 'Miel',
     imageUrl: '',
     tag: IngredientTag.FAT,
     caloriesPer100g: 320.0,
@@ -140,7 +120,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Chicken',
+    name: 'Poulet',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 106.0,
@@ -152,7 +132,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Tuna',
+    name: 'Thon',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 197.0,
@@ -164,7 +144,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Salmon',
+    name: 'Saumon',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 207.0,
@@ -176,7 +156,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Cod',
+    name: 'Cabillaut',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 78.0,
@@ -188,7 +168,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Hake',
+    name: 'Colin',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 73.0,
@@ -200,7 +180,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Beef',
+    name: 'Boeuf',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 215.0,
@@ -212,7 +192,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Eggs',
+    name: 'Oeufs',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 140.0,
@@ -224,7 +204,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Olive Oil',
+    name: 'Huile d'olive',
     imageUrl: '',
     tag: IngredientTag.FAT,
     caloriesPer100g: 822.0,
@@ -236,9 +216,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Peanut Butter',
+    name: 'Beurre de cacahuete',
     imageUrl: '',
-    tag: IngredientTag.FAT,
+    tag: '',
     caloriesPer100g: 613.0,
     proteinPer100g: 30.0,
     carbsPer100g: 12.0,
@@ -248,9 +228,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Almonds',
+    name: 'Amandes',
     imageUrl: '',
-    tag: IngredientTag.FAT,
+    tag: '',
     caloriesPer100g: 638.0,
     proteinPer100g: 24.0,
     carbsPer100g: 0.0,
@@ -260,9 +240,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Cashews',
+    name: 'Cajou',
     imageUrl: '',
-    tag: IngredientTag.FAT,
+    tag: '',
     caloriesPer100g: 550.0,
     proteinPer100g: 20.0,
     carbsPer100g: 30.0,
@@ -272,9 +252,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Walnuts',
+    name: 'Noix',
     imageUrl: '',
-    tag: IngredientTag.FAT,
+    tag: '',
     caloriesPer100g: 724.0,
     proteinPer100g: 17.0,
     carbsPer100g: 8.0,
@@ -284,7 +264,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Chia Seeds',
+    name: 'graines de chia',
     imageUrl: '',
     tag: IngredientTag.FAT,
     caloriesPer100g: 453.0,
@@ -296,7 +276,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Flax Seeds',
+    name: 'graines de lin',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 498.0,
@@ -308,7 +288,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Banana',
+    name: 'Banane',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 100.0,
@@ -319,9 +299,20 @@ const adminIngredients = [
     sugarPer100g: 0,
     sodiumPer100g: 0,
   },
-
   {
-    name: 'Milk',
+    name: 'Rien',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: 0.0,
+    proteinPer100g: 0.0,
+    carbsPer100g: 0.0,
+    fatPer100g: 0.0,
+    fiberPer100g: 0.0,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'Lait',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 182.0,
@@ -333,7 +324,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Maple Syrup',
+    name: 'sirop erable',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 272.0,
@@ -345,7 +336,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Ham',
+    name: 'jambon',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 45.0,
@@ -357,7 +348,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Emmental Cheese',
+    name: 'emmental',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 380.0,
@@ -369,7 +360,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Parmesan',
+    name: 'parmesan',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 400.0,
@@ -381,9 +372,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Onion',
+    name: 'Oignon',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -393,9 +384,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Bell Pepper',
+    name: 'Poivron',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 27.0,
     proteinPer100g: 0.0,
     carbsPer100g: 5.0,
@@ -405,9 +396,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Garlic',
+    name: 'Ail',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -417,7 +408,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Yogurt',
+    name: 'Yaourt',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 128.0,
@@ -429,9 +420,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Lemon',
+    name: 'Ciron',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 30.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -441,7 +432,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Almond Powder',
+    name: 'Poudre Amandes',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 657.0,
@@ -453,7 +444,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Chocolate',
+    name: 'chocolat',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 507.0,
@@ -465,9 +456,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Ice Cubes',
+    name: 'Glacons',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -477,7 +468,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Cocoa',
+    name: 'Cacao',
     imageUrl: '',
     tag: IngredientTag.CARBS,
     caloriesPer100g: 386.0,
@@ -489,7 +480,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Red Beans',
+    name: 'Haricots rouges',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 101.0,
@@ -501,7 +492,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Green Beans',
+    name: 'Haricots verts',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 24.0,
@@ -513,7 +504,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Carrot',
+    name: 'Carotte',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 17.0,
@@ -537,9 +528,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Water',
+    name: 'eau',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -549,7 +540,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Peas',
+    name: 'petit poids',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 80.0,
@@ -561,7 +552,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Chickpeas',
+    name: 'poid chiche',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 118.0,
@@ -573,7 +564,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Broccoli',
+    name: 'brocoli',
     imageUrl: '',
     tag: IngredientTag.FIBER,
     caloriesPer100g: 40.0,
@@ -585,9 +576,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Tomato Sauce',
+    name: 'sauce tomate',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -597,7 +588,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Shrimps',
+    name: 'Crevettes',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 80.0,
@@ -609,7 +600,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Mussels',
+    name: 'Moules',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 100.0,
@@ -621,7 +612,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Mayonnaise',
+    name: 'Mayo',
     imageUrl: '',
     tag: IngredientTag.FAT,
     caloriesPer100g: 290.0,
@@ -633,9 +624,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Zucchini',
+    name: 'Courgettes',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 0.0,
     proteinPer100g: 0.0,
     carbsPer100g: 0.0,
@@ -645,9 +636,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Asparagus',
+    name: 'Asperges',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 20.0,
     proteinPer100g: 2.0,
     carbsPer100g: 4.0,
@@ -657,9 +648,9 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Mushrooms',
+    name: 'Champignons',
     imageUrl: '',
-    tag: IngredientTag.FIBER,
+    tag: '',
     caloriesPer100g: 22.0,
     proteinPer100g: 3.0,
     carbsPer100g: 3.0,
@@ -669,7 +660,7 @@ const adminIngredients = [
     sodiumPer100g: 0,
   },
   {
-    name: 'Cod',
+    name: 'Cabillaut',
     imageUrl: '',
     tag: IngredientTag.PROTEIN,
     caloriesPer100g: 105.0,
@@ -680,237 +671,304 @@ const adminIngredients = [
     sugarPer100g: 0,
     sodiumPer100g: 0,
   },
+  {
+    name: 'tsunami pancakes',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: 371.0,
+    proteinPer100g: 40.0,
+    carbsPer100g: 40.0,
+    fatPer100g: 5.0,
+    fiberPer100g: 0.0,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
+  {
+    name: 'nan',
+    imageUrl: '',
+    tag: '',
+    caloriesPer100g: nan,
+    proteinPer100g: nan,
+    carbsPer100g: nan,
+    fatPer100g: nan,
+    fiberPer100g: nan,
+    sugarPer100g: 0,
+    sodiumPer100g: 0,
+  },
 ];
-
-interface AdminMealIngredient {
-  ingredientName: string;
-  quantityGrams: number;
-}
-
-interface AdminMeal {
-  name: string;
-  description: string;
-  recipe: string;
-  mealType: MealType;
-  servings: number;
-  ingredients: AdminMealIngredient[];
-}
-
-const adminMeals: AdminMeal[] = [
-  // {
-  //   name: 'High Protein Breakfast Bowl',
-  //   description: 'A nutritious breakfast bowl packed with protein and healthy fats',
-  //   recipe: '1. Cook oats with water or milk until creamy\n2. Top with Greek yogurt\n3. Add sliced banana and almonds\n4. Drizzle with a small amount of honey if desired\n5. Serve immediately',
-  //   mealType: MealType.BREAKFAST,
-  //   servings: 1,
-  //   ingredients: [
-  //     { ingredientName: 'Oats (Rolled, Dry)', quantityGrams: 50 },
-  //     { ingredientName: 'Greek Yogurt (Plain, Non-Fat)', quantityGrams: 150 },
-  //     { ingredientName: 'Banana', quantityGrams: 100 },
-  //     { ingredientName: 'Almonds (Raw)', quantityGrams: 20 },
-  //   ],
-  // },
-];
-
-async function seedAdmin() {
-  console.log('👑 Seeding admin user...');
-  
-  try {
-    // Check if admin user already exists
-    const existingAdmin = await prisma.user.findUnique({
-      where: { email: 'admin@fittracker.com' }
-    });
-
-    if (existingAdmin) {
-      console.log('👑 Admin user already exists, skipping creation');
-      return;
-    }
-
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash('admin1234', saltRounds);
-
-    // Create admin user
-    const adminUser = await prisma.user.create({
-      data: {
-        email: 'admin@fittracker.com',
-        passwordHash: hashedPassword,
-        name: 'Admin',
-        role: UserRole.ADMIN,
-      }
-    });
-
-    console.log(`✅ Created admin user: ${adminUser.email}`);
-    console.log(`👤 Admin ID: ${adminUser.id}`);
-  } catch (error) {
-    console.error('❌ Error seeding admin user:', error);
-    throw error;
-  }
-}
-
-async function seedIngredients() {
-  console.log('🌱 Seeding admin ingredients...');
-
-  try {
-    // Delete existing admin ingredients (where createdBy is null)
-    await prisma.ingredient.deleteMany({
-      where: {
-        createdBy: null,
-      },
-    });
-
-    console.log('🗑️ Cleared existing admin ingredients');
-
-    // Create new admin ingredients
-    const createdIngredients = await prisma.ingredient.createMany({
-      data: adminIngredients.map((ingredient) => {
-        // Only set tag if it's a valid IngredientTag, otherwise undefined
-        const tag = Object.values(IngredientTag).includes(ingredient.tag as IngredientTag)
-          ? (ingredient.tag as IngredientTag)
-          : undefined;
-        return {
-          ...ingredient,
-          tag,
-          caloriesPer100g: ingredient.caloriesPer100g,
-          proteinPer100g: ingredient.proteinPer100g,
-          carbsPer100g: ingredient.carbsPer100g,
-          fatPer100g: ingredient.fatPer100g,
-          fiberPer100g: ingredient.fiberPer100g || null,
-          sugarPer100g: ingredient.sugarPer100g || null,
-          sodiumPer100g: ingredient.sodiumPer100g || null,
-          createdBy: null, // null indicates admin-created ingredient
-        };
-      }),
-    });
-
-    console.log(`✅ Created ${createdIngredients.count} admin ingredients`);
-
-    // Display the created ingredients
-    const ingredients = await prisma.ingredient.findMany({
-      where: {
-        createdBy: null,
-      },
-      orderBy: {
-        name: 'asc',
-      },
-    });
-
-    console.log('\n📋 Admin ingredients in database:');
-    ingredients.forEach((ingredient, index) => {
-      console.log(`${index + 1}. ${ingredient.name} - ${ingredient.caloriesPer100g} kcal/100g`);
-    });
-
-    console.log('\n🎉 Seeding completed successfully!');
-  } catch (error) {
-    console.error('❌ Error seeding ingredients:', error);
-    throw error;
-  }
-}
-
-async function seedMeals() {
-  console.log('\n🍽️ Seeding admin meals...');
-
-  try {
-    // Delete existing admin meals (where userId is null)
-    const existingMeals = await prisma.meal.findMany({
-      where: {
-        userId: undefined,
-      },
-    });
-
-    if (existingMeals.length > 0) {
-      await prisma.meal.deleteMany({
-        where: {
-          id: {
-            in: existingMeals.map(meal => meal.id),
-          },
-        },
-      });
-    }
-
-    console.log('🗑️ Cleared existing admin meals');
-
-    // Get all admin ingredients to map names to IDs
-    const ingredients = await prisma.ingredient.findMany({
-      where: {
-        createdBy: null,
-      },
-    });
-
-    const ingredientMap = new Map(
-      ingredients.map(ingredient => [ingredient.name, ingredient.id])
-    );
-
-    // Create admin meals
-    for (const mealData of adminMeals) {
-      try {
-        const meal = await prisma.meal.create({
-          data: {
-            name: mealData.name,
-            description: mealData.description,
-            recipe: mealData.recipe,
-            mealType: mealData.mealType,
-            servings: mealData.servings,
-          } as any,
-        });
-
-        // Create meal ingredients
-        const mealIngredients = mealData.ingredients.map(ingredient => {
-          const ingredientId = ingredientMap.get(ingredient.ingredientName);
-          if (!ingredientId) {
-            console.warn(`⚠️ Ingredient not found: ${ingredient.ingredientName}`);
-            return null;
-          }
-          return {
-            mealId: meal.id,
-            ingredientId,
-            quantityGrams: ingredient.quantityGrams,
-          };
-        }).filter(Boolean);
-
-        if (mealIngredients.length > 0) {
-          await prisma.mealIngredient.createMany({
-            data: mealIngredients as any,
-          });
-        }
-
-        console.log(`✅ Created meal: ${meal.name}`);
-      } catch (error) {
-        console.error(`❌ Error creating meal ${mealData.name}:`, error);
-      }
-    }
-
-    // Display the created meals
-    const allMeals = await prisma.meal.findMany({
-      orderBy: {
-        mealType: 'asc',
-      },
-    });
-
-    console.log('\n📋 Admin meals in database:');
-    allMeals.forEach((meal, index) => {
-      console.log(`${index + 1}. ${meal.name} (${meal.mealType})`);
-    });
-
-    console.log('\n🎉 Meal seeding completed successfully!');
-  } catch (error) {
-    console.error('❌ Error seeding meals:', error);
-    throw error;
-  }
-}
-
-async function main() {
-  await seedAdmin();
-  await seedIngredients();
-  await seedMeals();
-}
-
-// Run the seeding function
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });

@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, signal, computed } from '@
 import { IngredientItem } from './ingredient-item/ingredient-item';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Ingredient } from '../../interfaces/ingredient.interface';
+import { IngredientTag } from '../../enums/ingredient-tag.enum';
 import { Router } from '@angular/router';
 import { IngredientService } from '../../services/ingredient.service';
 import { CommonModule } from '@angular/common';
@@ -45,16 +46,21 @@ export class IngredientsList implements OnInit, OnChanges {
 
   // Filtered ingredients based on search term (client-side filtering for loaded items)
   filteredIngredientsComputed = computed(() => {
-    const searchTerm = this.ingredientSearch().toLowerCase().trim();
-    const allIngredients = this.ingredients() || [];
+    const search = this.ingredientSearch().toLowerCase();
+    const filters = this.activeFilters();
 
-    if (!searchTerm) {
-      return allIngredients;
-    }
+    return this.ingredients().filter(ingredient => {
+      // Search filter
+      const matchesSearch = ingredient.name.toLowerCase().includes(search);
 
-    return allIngredients.filter(ingredient =>
-      ingredient && ingredient.name && ingredient.name.toLowerCase().includes(searchTerm)
-    );
+      // Tag filter
+      const matchesFilters = filters.size === 0 ||
+        Array.from(filters).some(filter =>
+          this.matchesIngredientTag(ingredient, filter)
+        );
+
+      return matchesSearch && matchesFilters;
+    });
   });
 
   constructor(private router: Router, private ingredientService: IngredientService) {
@@ -200,6 +206,35 @@ export class IngredientsList implements OnInit, OnChanges {
 
   chooseView(value: string) {
     this.viewType.set(value);
+  }
+
+  activeFilters = signal<Set<string>>(new Set());
+
+  // Method to toggle filters
+  toggleFilter(filterType: string): void {
+    const currentFilters = new Set(this.activeFilters());
+
+    if (currentFilters.has(filterType)) {
+      // If clicking on an active filter, reset all filters
+      currentFilters.clear();
+    } else {
+      // If clicking on an inactive filter, set only this filter as active
+      currentFilters.clear();
+      currentFilters.add(filterType);
+    }
+
+    this.activeFilters.set(currentFilters);
+  }
+
+  // Helper method to check if ingredient matches a tag filter
+  private matchesIngredientTag(ingredient: IngredientWithQuantity, filterTag: string): boolean {
+    // Only match ingredients with the exact tag enum value
+    const ingredientTagValue = ingredient.tag;
+    const filterTagUpper = filterTag.toUpperCase();
+    
+    // Direct tag match using enum values - this is the ONLY criteria
+    return ingredientTagValue === filterTagUpper || 
+           ingredientTagValue === IngredientTag[filterTagUpper as keyof typeof IngredientTag];
   }
 
 }
