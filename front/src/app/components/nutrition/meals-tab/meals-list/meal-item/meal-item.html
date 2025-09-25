@@ -1,22 +1,56 @@
-<div class="meal-item card-blur" [class.admin-meal]="meal.createdByType === 'admin'"
+<div class="meal-item card-base" [class.admin-meal]="meal.createdByType === 'admin'"
+    [class.meal-item-list]="viewType === 'list'" [class.meal-item-grid]="viewType === 'grid'"
     [class.user-meal]="meal.createdByType === 'user'" (click)="onSelect()">
-    <div class="meal-info">
-        <div class="meal-name">
-            {{ meal.name }}
+    <div class="meal-header">
+        <div class="meal-image">
+            <img [src]="getImageUrl()" [alt]="meal.name" class="meal-img">
         </div>
-        <div class="meal-quantity">
-            👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
+        <div class="meal-info">
+            <div class="meal-name">
+                {{ meal.name }}
+            </div>
+            <div class="meal-quantity">
+                👥 {{ meal.servings }} serving{{ meal.servings > 1 ? 's' : '' }}
+            </div>
+            <div class="meal-tag" [class]="(meal.mealType?.toLowerCase() || 'lunch')">
+                {{ meal.mealType || 'lunch' }}
+            </div>
         </div>
     </div>
     <div class="meal-nutrition">
-        <span class="cal">{{ meal.totalCalories.toFixed(0) }} cal</span>
-        <span class="protein">P: {{ meal.totalProtein.toFixed(1) }}g</span>
-        <span class="carbs">C: {{ meal.totalCarbs.toFixed(1) }}g</span>
-        <span class="fat">F: {{ meal.totalFat.toFixed(1) }}g</span>
+        <!-- List view - compact format -->
+        <ng-container *ngIf="viewType === 'list'">
+            <span class="cal">{{ meal.totalCalories }} cal</span>
+            <span class="protein">P: {{ meal.totalProtein }}g</span>
+            <span class="carbs">C: {{ meal.totalCarbs }}g</span>
+            <span class="fat">F: {{ meal.totalFat }}g</span>
+        </ng-container>
+
+        <!-- Grid view - detailed format -->
+        <ng-container *ngIf="viewType === 'grid'">
+            <span class="nutritional-info">
+                <span class="label">Calories:</span>
+                <span class="value cal">{{ meal.totalCalories }}</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Protein:</span>
+                <span class="value protein">{{ meal.totalProtein }}g</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Carbs:</span>
+                <span class="value carbs">{{ meal.totalCarbs }}g</span>
+            </span>
+            <span class="nutritional-info">
+                <span class="label">Fat:</span>
+                <span class="value fat">{{ meal.totalFat }}g</span>
+            </span>
+        </ng-container>
     </div>
     <div class="meal-actions">
         <button class="btn-ghost" (click)="onView(); $event.stopPropagation()">👁️</button>
-        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost" (click)="onEdit(); $event.stopPropagation()">✏️</button>
-        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost" (click)="onDelete(); $event.stopPropagation()">🗑️</button>
+        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost"
+            (click)="onEdit(); $event.stopPropagation()">✏️</button>
+        <button *ngIf="meal.createdByType == 'user'" class="btn-ghost"
+            (click)="onDelete(); $event.stopPropagation()">🗑️</button>
     </div>
 </div>

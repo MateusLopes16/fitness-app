@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Ingredient } from '../../../interfaces/ingredient.interface';
 import { Router } from '@angular/router';
 import { IngredientWithQuantity } from '../ingredients-list';
 import { ImageModalComponent } from '../../../../shared/image-modal/image-modal.component';

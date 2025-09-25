@@ -18,11 +18,17 @@ export class MealItem {
   @Output() duplicate = new EventEmitter<Meal>();
   @Output() delete = new EventEmitter<Meal>();
   @Output() select = new EventEmitter<Meal>();
+  @Input() viewType: string = 'list';
 
   private router = inject(Router);
 
   onView() {
     this.router.navigate(['/nutrition/meal', this.meal.id]);
+  }
+
+  getImageUrl(): string {
+    const defaultImageUrl = 'https://digitad.ca/wp-content/uploads/2023/01/photo-unsplash-800x573.jpg';
+    return /* this.meal?.imageUrl || */ defaultImageUrl;
   }
 
   onSelect() {

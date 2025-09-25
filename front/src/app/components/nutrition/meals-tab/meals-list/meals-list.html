@@ -1,21 +1,57 @@
+<div class="meals-list-header">
+
+    <div class="search">
+        <input type="text" class="input" placeholder="🔍 Search meals..." [value]="mealSearch()"
+            (input)="onSearchChange(($any($event.target)).value)" />
+    </div>
+
+    <div class="filters">
+        <div class="filter-item" (click)="toggleFilter('breakfast')" [class.active]="activeFilters().has('breakfast')">
+            Breakfast
+        </div>
+        <div class="filter-item" (click)="toggleFilter('lunch')" [class.active]="activeFilters().has('lunch')">
+            Lunch
+        </div>
+        <div class="filter-item" (click)="toggleFilter('snack')" [class.active]="activeFilters().has('snack')">
+            Snack
+        </div>
+        <div class="filter-item" (click)="toggleFilter('dinner')" [class.active]="activeFilters().has('dinner')">
+            Dinner
+        </div>
+    </div>
+    <div class="header-actions">
+        <button class="btn-ghost" (click)="onAddNew()">➕</button>
+        <div class="view-switch">
+            <button class="btn-ghost view-toggle" (click)="chooseView('grid')"
+                [class.active]="viewType() === 'grid'">⚏</button>
+            <button class="btn-ghost view-toggle" (click)="chooseView('list')"
+                [class.active]="viewType() === 'list'">☰</button>
+        </div>
+    </div>
+</div>
+
 <!-- Loading state -->
 <div class="loading-state" *ngIf="loading()">
-    <h3 class="subtitle">Loading ingredients...</h3>
-    <p class="subtitle">Please wait while we fetch your ingredients.</p>
+    <h3 class="subtitle">Loading meals...</h3>
+    <p class="subtitle">Please wait while we fetch your meals.</p>
 </div>
 
 <!-- Empty state -->
 <div class="empty-state animate-empty-state-bounce" *ngIf="showEmptyState()">
-    <h3 class="subtitle">🥗 No ingredients found</h3>
-    <p class="subtitle">Start by adding your first ingredient to build your nutrition database.</p>
+    <h3 class="subtitle">🥗 No meals found</h3>
+    <p class="subtitle">Start by adding your first meal to build your nutrition database.</p>
     <button class="btn-full" (click)="onAddNew()">
-        Add Your First Ingredient
+        Add Your First meal
     </button>
 </div>
 
-<div class="meals-grid" *ngIf="hasMeals()">
-    <!-- Ingredient rows -->
-    <app-meal-item *ngFor="let meal of meals()" [meal]="meal" (edit)="onEdit($event)"
-        (duplicate)="duplicateMeal.emit($event)" (delete)="onDelete($event)" (select)="onSelect($event)" class="meal-item">
-    </app-meal-item>
+<!-- Meals list -->
+<div class="meals-container" *ngIf="hasMeals()">
+    <div [class.meals-list]="viewType() === 'list'" [class.meals-grid]="viewType() === 'grid'">
+        <!-- Meal rows -->
+        <app-meal-item *ngFor="let meal of filteredMealsComputed(); trackBy: trackByMealId" [meal]="meal" 
+            (edit)="onEdit($event)" (duplicate)="duplicateMeal.emit($event)" (delete)="onDelete($event)" 
+            (select)="onSelect($event)" [viewType]="viewType()" class="meal-item">
+        </app-meal-item>
+    </div>
 </div>

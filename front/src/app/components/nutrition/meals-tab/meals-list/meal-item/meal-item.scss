@@ -1,6 +1,7 @@
 @use '../../../../../../styles.scss' as styles;
 
-.meal-item {
+
+.meal-item-list {
     @include styles.horizontal-container(styles.$space-base);
     align-items: center;
     justify-content: space-between;
@@ -10,9 +11,36 @@
     background: styles.$color-bg-secondary;
     @include styles.transition(all);
 
+    .meal-header {
+        @include styles.horizontal-container(styles.$space-base);
+        align-items: center;
+        flex: 1;
+        cursor: pointer;
+
+        .meal-tag {
+            display: none;
+        }
+    }
+
     &:hover {
         background: styles.$color-surface-light;
         border-color: styles.$color-border;
+    }
+
+
+    .meal-img {
+        width: 48px;
+        height: 48px;
+        border-radius: styles.$radius-10;
+        object-fit: cover;
+        border: 1px solid styles.$color-border-softer;
+        background: styles.$color-surface-light;
+        transition: filter styles.$transition;
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: styles.$shadow-soft;
+        }
     }
 
     .meal-info {
@@ -45,8 +73,8 @@
 
         .cal,
         .protein,
-        .carbs,
-        .fat {
+        .fat,
+        .carbs {
             padding: 2px 6px;
             border-radius: 4px;
             background: styles.$color-surface-light;
@@ -78,4 +106,143 @@
 
 .meal-actions {
     @include styles.horizontal-container(styles.$space-small);
+}
+
+
+// GRIDDDD
+
+
+
+.meal-item-grid {
+    cursor: pointer;
+    @include styles.transition(all);
+
+
+    .meal-header {
+        @include styles.vertical-container(styles.$space-base);
+        flex-direction: column-reverse;
+
+        .meal-info {
+            @include styles.horizontal-container(styles.$space-small);
+            justify-content: space-between;
+            width: 100%;
+            padding: styles.$space-small;
+
+            .meal-name {
+                @extend .subtitle;
+            }
+
+            .meal-quantity {
+                display: none;
+            }
+
+            .meal-tag {
+                @include styles.horizontal-container(styles.$space-small);
+                align-items: center;
+                justify-content: center;
+                height: fit-content;
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 2px 6px;
+                border-radius: 4px;
+                text-align: center;
+
+
+                &.lunch {
+                    background: styles.$color-blue-softer;
+                    color: styles.$color-blue;
+                    border: 1px solid styles.$color-blue-soft;
+                }
+
+                &.snack {
+                    background: styles.$color-pink-softer;
+                    color: styles.$color-pink;
+                    border: 1px solid styles.$color-pink-soft;
+                }
+
+                &.dinner {
+                    background: styles.$color-accent-soft;
+                    color: styles.$color-accent;
+                    border: 1px solid styles.$color-accent-soft;
+                }
+
+                &.breakfast {
+                    background: styles.$color-warning-softer;
+                    color: styles.$color-warning;
+                    border: 1px solid styles.$color-warning-soft;
+                }
+            }
+        }
+
+        .meal-image {
+            @include styles.transition(all);
+            margin: 0;
+            width: 100%;
+            height: 140px;
+            border-radius: styles.$radius-10;
+            object-fit: cover;
+            overflow: hidden;
+
+            .meal-img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                @include styles.transition(all);
+            }
+        }
+
+
+    }
+
+    .meal-nutrition {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: styles.$space-big;
+        width: 100%;
+        margin: styles.$space-big 0;
+
+        .nutritional-info {
+            @include styles.horizontal-container(styles.$space-base);
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            .label {
+                width: 100%;
+                color: styles.$color-text-secondary;
+            }
+
+            .value {
+                font-weight: styles.$font-weight-title;
+                width: 100%;
+                text-align: right;
+            }
+
+            .cal {
+                color: styles.$color-warning;
+            }
+
+            .protein {
+                color: styles.$color-blue;
+            }
+
+            .carbs {
+                color: styles.$color-accent-hover;
+            }
+
+            .fat {
+                color: styles.$color-pink;
+            }
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px styles.$color-accent;
+        transform: scale(1.01);
+
+        .meal-img {
+            box-shadow: styles.$shadow-soft;
+            transform: scale(1.10);
+        }
+    }
 }
